@@ -1,5 +1,5 @@
 /* 求道量子 · 主题 / 杂志动效
- * 主题切换、Logo 适配、is-ready 入场、滚动揭示、文章阅读进度。 */
+ * 顶栏品牌 Logo、主题切换、入场、滚动揭示、阅读进度。 */
 (function () {
   'use strict';
 
@@ -12,11 +12,16 @@
     return v === 'light' ? 'light' : 'dark';
   }
 
+  function logoSrc(dark) {
+    return dark ? '/static/logo.png' : '/static/logo-light.png';
+  }
+
   function applyLogo(dark) {
-    var img = document.querySelector('.mq-img.brand-logo img');
-    if (!img) return;
-    var want = dark ? '/static/logo.png' : '/static/logo-light.png';
-    if (img.getAttribute('src') !== want) img.src = want;
+    var src = logoSrc(dark);
+    var nodes = document.querySelectorAll('.mq-img.brand-logo img, .nav-brand-logo');
+    Array.prototype.forEach.call(nodes, function (img) {
+      if (img.getAttribute('src') !== src) img.src = src;
+    });
   }
 
   function apply(theme, opts) {
@@ -53,6 +58,77 @@
 
   function markReady() {
     if (document.body) document.body.classList.add('is-ready');
+  }
+
+  /* 首页刊头：徽标 + 刊名 lockup（标语落在刊名下方，避免整图 Logo 与标题抢行） */
+  function mountMasthead() {
+    var intro = document.querySelector('main.main > .main-intro');
+    var fig = document.querySelector('main.main > .mq-images .mq-img.brand-logo');
+    if (!intro || !fig || intro.querySelector('.masthead-lockup')) return;
+
+    var h1 = null;
+    var lede = null;
+    var kids = intro.children;
+    for (var i = 0; i < kids.length; i++) {
+      if (!h1 && kids[i].tagName === 'H1') h1 = kids[i];
+      else if (!lede && kids[i].tagName === 'P' && kids[i].classList.contains('lede')) lede = kids[i];
+    }
+    if (!h1) return;
+
+    var wrap = fig.parentNode;
+    var lockup = document.createElement('div');
+    lockup.className = 'masthead-lockup';
+
+    var copy = document.createElement('div');
+    copy.className = 'masthead-copy';
+    copy.appendChild(h1);
+    if (lede) copy.appendChild(lede);
+
+    lockup.appendChild(fig);
+    lockup.appendChild(copy);
+
+    var kicker = intro.querySelector('.kicker');
+    if (kicker) {
+      if (kicker.nextSibling) intro.insertBefore(lockup, kicker.nextSibling);
+      else intro.appendChild(lockup);
+    } else {
+      intro.insertBefore(lockup, intro.firstChild);
+    }
+
+    if (wrap && wrap.classList.contains('mq-images') && !wrap.firstElementChild) {
+      wrap.parentNode.removeChild(wrap);
+    }
+  }
+
+  function mountBrand() {
+    var nav = document.querySelector('header.topnav');
+    if (!nav || document.getElementById('nav-brand')) return;
+
+    var dark = document.documentElement.getAttribute('data-theme') !== 'light';
+    var brand = document.createElement('a');
+    brand.id = 'nav-brand';
+    brand.className = 'nav-brand';
+    brand.href = '/';
+    brand.setAttribute('aria-label', '求道量子');
+
+    var img = document.createElement('img');
+    img.className = 'nav-brand-logo';
+    img.src = logoSrc(dark);
+    img.alt = '求道量子';
+    img.width = 36;
+    img.height = 36;
+    img.decoding = 'async';
+
+    var text = document.createElement('span');
+    text.className = 'nav-brand-text';
+    text.textContent = '求道量子';
+
+    brand.appendChild(img);
+    brand.appendChild(text);
+
+    var list = nav.querySelector('ul.nav');
+    if (list) nav.insertBefore(brand, list);
+    else nav.insertBefore(brand, nav.firstChild);
   }
 
   function mountToggle() {
@@ -123,7 +199,9 @@
   }
 
   function boot() {
+    mountBrand();
     mountToggle();
+    mountMasthead();
     markReady();
     mountProgress();
     mountReveal();

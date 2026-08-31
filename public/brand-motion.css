@@ -2,6 +2,84 @@
  * 注意：不要用 body:not(.is-ready){opacity:0} 预藏内容，脚本未执行时会导致白屏。
  * 入场动画仅在 .is-ready 后播放；未就绪时内容保持可见。 */
 
+/*
+ * 刊头 lockup（Nature / Quanta 式）：
+ * 方形徽标高度 = 刊名字号，顶对齐；标语只落在刊名正下方。
+ */
+.masthead-lockup {
+  --mark-size: clamp(2.65rem, 7.5vw, 3.2rem);
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 0;
+  max-width: 36rem;
+}
+
+.masthead-lockup .mq-img.brand-logo {
+  flex: 0 0 var(--mark-size);
+  width: var(--mark-size);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  line-height: 0;
+}
+
+.masthead-lockup .mq-img.brand-logo a {
+  display: block;
+  line-height: 0;
+}
+
+.masthead-lockup .mq-img.brand-logo img {
+  width: var(--mark-size);
+  height: var(--mark-size);
+  object-fit: cover;
+  object-position: 50% 38%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.masthead-lockup .masthead-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-top: 0.06em;
+}
+
+.masthead-lockup .masthead-copy h1 {
+  margin: 0;
+  font-size: var(--mark-size);
+  line-height: 1;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+}
+
+.masthead-lockup .masthead-copy .lede {
+  margin: 0.6rem 0 0;
+  max-width: 22rem;
+}
+
+/* 脚本重组前：先把全图压成徽标尺寸，减轻错位感 */
+main.main:has(> .mq-images .mq-img.brand-logo):has(> .main-intro):not(:has(.masthead-lockup)) > .mq-images {
+  margin: 0 0 0.85rem;
+}
+
+main.main:has(> .mq-images .mq-img.brand-logo):has(> .main-intro):not(:has(.masthead-lockup)) .mq-img.brand-logo img {
+  width: 3.1rem;
+  height: 3.1rem;
+  object-fit: cover;
+  object-position: 50% 38%;
+  margin: 0;
+  border: 0;
+}
+
+@media (max-width: 560px) {
+  .masthead-lockup {
+    --mark-size: clamp(2.35rem, 11vw, 2.75rem);
+    column-gap: 0.8rem;
+  }
+}
+
 @keyframes qd-rise {
   from {
     opacity: 0;
@@ -36,7 +114,7 @@
   }
   to {
     opacity: 1;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.24em;
     transform: translateY(0);
   }
 }
@@ -76,8 +154,20 @@ ul.nav li:first-child a::after {
     animation: qd-grid-drift 32s linear infinite;
   }
 
+  body.is-ready .nav-brand {
+    animation: qd-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  body.is-ready .masthead-lockup {
+    animation: qd-masthead 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+  }
+
   body.is-ready .mq-img.brand-logo {
     animation: qd-rise 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  body.is-ready .masthead-lockup .mq-img.brand-logo {
+    animation: none;
   }
 
   body.is-ready .main-intro .kicker {
@@ -88,8 +178,16 @@ ul.nav li:first-child a::after {
     animation: qd-masthead 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
   }
 
+  body.is-ready .masthead-lockup h1 {
+    animation: none;
+  }
+
   body.is-ready .main-intro .lede {
     animation: qd-rise 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+  }
+
+  body.is-ready .masthead-lockup .lede {
+    animation: qd-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
   }
 
   body.is-ready .main-intro {
@@ -185,6 +283,7 @@ ul.nav li:first-child a::after {
   .main-intro .kicker,
   .main-intro h1,
   .main-intro .lede,
+  .masthead-lockup,
   .mq-img.brand-logo,
   .content.cards .card,
   .article-title,

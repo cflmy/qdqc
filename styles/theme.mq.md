@@ -41,11 +41,11 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 | html[data-theme="dark"] | --card | #12171f |
 | html[data-theme="dark"] | --card-2 | #1a202a |
 | html[data-theme="dark"] | --code-bg | #07090d |
-| html[data-theme="dark"] | --line | rgba(210, 220, 235, .12) |
-| html[data-theme="dark"] | --ink | #e9eef5 |
-| html[data-theme="dark"] | --ink-soft | #c5ced9 |
-| html[data-theme="dark"] | --muted | #8b97a8 |
-| html[data-theme="dark"] | --faint | #5f6b7a |
+| html[data-theme="dark"] | --line | rgba(255, 255, 255, .28) |
+| html[data-theme="dark"] | --ink | #f4f7fb |
+| html[data-theme="dark"] | --ink-soft | #d5dde8 |
+| html[data-theme="dark"] | --muted | #a8b4c4 |
+| html[data-theme="dark"] | --faint | #8b97a8 |
 | html[data-theme="dark"] | --accent | #3dcdc4 |
 | html[data-theme="dark"] | --accent-2 | #7ee0d9 |
 | html[data-theme="dark"] | --accent-3 | #a8efe9 |
@@ -91,6 +91,8 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 
 ## 顶栏
 
+左侧品牌标（Logo + 刊名），中部栏目，右侧主题切换。
+
 `顶栏` =
 
 | 选择器 | 属性 | 值 |
@@ -100,37 +102,55 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 | header.topnav | top | 0 |
 | header.topnav | z-index | 30 |
 | header.topnav | background | var(--glass) |
-| header.topnav | backdrop-filter | blur(12px) |
-| header.topnav | -webkit-backdrop-filter | blur(12px) |
+| header.topnav | backdrop-filter | blur(14px) |
+| header.topnav | -webkit-backdrop-filter | blur(14px) |
 | header.topnav | border-bottom | 1px solid var(--line) |
-| header.topnav | padding | .85rem clamp(1rem, 4vw, 2.75rem) |
+| header.topnav | padding | .7rem clamp(1rem, 4vw, 2.5rem) |
 | header.topnav | display | flex |
 | header.topnav | align-items | center |
-| header.topnav | justify-content | space-between |
-| header.topnav | gap | 1rem |
+| header.topnav | justify-content | flex-start |
+| header.topnav | gap | 1.35rem |
+| .nav-brand | display | inline-flex |
+| .nav-brand | align-items | center |
+| .nav-brand | gap | .7rem |
+| .nav-brand | flex-shrink | 0 |
+| .nav-brand | margin-right | .35rem |
+| .nav-brand | color | var(--ink) |
+| .nav-brand | text-decoration | none |
+| .nav-brand | transition | opacity .2s ease |
+| .nav-brand:hover | color | var(--ink) |
+| .nav-brand:hover | opacity | .86 |
+| .nav-brand-logo | display | block |
+| .nav-brand-logo | width | 2.15rem |
+| .nav-brand-logo | height | 2.15rem |
+| .nav-brand-logo | object-fit | cover |
+| .nav-brand-logo | border | 1px solid var(--line) |
+| .nav-brand-logo | border-radius | 2px |
+| .nav-brand-text | font-family | var(--serif) |
+| .nav-brand-text | font-weight | 700 |
+| .nav-brand-text | font-size | 1.05rem |
+| .nav-brand-text | letter-spacing | .16em |
+| .nav-brand-text | line-height | 1 |
 | ul.nav | list-style | none |
 | ul.nav | margin | 0 |
 | ul.nav | padding | 0 |
 | ul.nav | display | flex |
-| ul.nav | align-items | baseline |
-| ul.nav | gap | .2rem 1.35rem |
+| ul.nav | align-items | center |
+| ul.nav | gap | .15rem 1.4rem |
 | ul.nav | flex-wrap | wrap |
+| ul.nav | flex | 1 |
+| ul.nav | min-width | 0 |
 | ul.nav li | margin | 0 |
 | ul.nav a | position | relative |
 | ul.nav a | display | inline-block |
-| ul.nav a | padding | .25rem 0 |
+| ul.nav a | padding | .3rem 0 |
 | ul.nav a | color | var(--muted) |
-| ul.nav a | font-size | .88rem |
-| ul.nav a | letter-spacing | .04em |
+| ul.nav a | font-size | .9rem |
+| ul.nav a | letter-spacing | .06em |
 | ul.nav a | transition | color .2s ease |
 | ul.nav a:hover | color | var(--ink) |
 | ul.nav a:hover | background | transparent |
-| ul.nav li:first-child a | font-family | var(--serif) |
-| ul.nav li:first-child a | font-weight | 700 |
-| ul.nav li:first-child a | font-size | 1.08rem |
-| ul.nav li:first-child a | letter-spacing | .16em |
-| ul.nav li:first-child a | color | var(--ink) |
-| ul.nav li:first-child a:hover | color | var(--accent-2) |
+| button.theme-toggle | margin-left | auto |
 | button.theme-toggle | padding | .28rem .65rem |
 | button.theme-toggle | border | 1px solid var(--line) |
 | button.theme-toggle | border-radius | 0 |
@@ -141,7 +161,8 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 | button.theme-toggle | letter-spacing | .12em |
 | button.theme-toggle | text-transform | uppercase |
 | button.theme-toggle | cursor | pointer |
-| button.theme-toggle | transition | color .2s ease, border-color .2s ease, background-color .2s ease |
+| button.theme-toggle | flex-shrink | 0 |
+| button.theme-toggle | transition | color .2s ease, border-color .2s ease |
 | button.theme-toggle:hover | color | var(--ink) |
 | button.theme-toggle:hover | border-color | var(--ink) |
 
@@ -186,48 +207,55 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 
 ## 主体
 
-刊头区：等宽 kicker、大标题、副文发丝底线。
+刊头：标语为主视觉，标题与口号分层。
 
 `主体` =
 
 | 选择器 | 属性 | 值 |
 |--------|------|-----|
 | main.main | grid-area | main |
-| main.main | padding | clamp(1.6rem, 4vw, 3rem) clamp(1rem, 4vw, 3rem) 4.5rem |
+| main.main | padding | clamp(1.75rem, 4.5vw, 3.25rem) clamp(1.1rem, 4vw, 3rem) 4.5rem |
 | main.main | min-width | 0 |
-| main.main | max-width | 54rem |
+| main.main | max-width | 52rem |
 | main.main h1 | font-family | var(--serif) |
-| main.main h1 | margin | 0 0 .7rem |
+| main.main h1 | margin | 0 0 .85rem |
 | main.main p | margin | .45rem 0 |
-| .main-intro | margin-bottom | 2.5rem |
-| .main-intro | max-width | 44rem |
-| .main-intro | padding-bottom | 1.85rem |
+| .main-intro | margin-bottom | 2.75rem |
+| .main-intro | max-width | 42rem |
+| .main-intro | padding-bottom | 2rem |
 | .main-intro | border-bottom | 0 |
-| .main-intro .kicker | margin | 0 0 .7rem |
+| .main-intro .kicker | margin | 0 0 1.1rem |
 | .main-intro .kicker | font-family | var(--mono) |
-| .main-intro .kicker | font-size | .72rem |
-| .main-intro .kicker | letter-spacing | .2em |
+| .main-intro .kicker | font-size | .68rem |
+| .main-intro .kicker | letter-spacing | .24em |
 | .main-intro .kicker | text-transform | uppercase |
 | .main-intro .kicker | color | var(--mark) |
-| .main-intro h1 | font-size | clamp(2.4rem, 6vw, 3.6rem) |
+| .main-intro h1 | font-size | clamp(2.35rem, 5.5vw, 3.25rem) |
 | .main-intro h1 | font-weight | 700 |
-| .main-intro h1 | letter-spacing | .01em |
-| .main-intro h1 | line-height | 1.12 |
+| .main-intro h1 | letter-spacing | .12em |
+| .main-intro h1 | line-height | 1 |
 | .main-intro h1 | text-wrap | balance |
 | .main-intro h1 | color | var(--ink) |
-| .main-intro p.lede | font-size | clamp(1.05rem, 1.8vw, 1.25rem) |
+| .main-intro p.lede | font-size | clamp(1.02rem, 1.8vw, 1.18rem) |
 | .main-intro p.lede | line-height | 1.7 |
 | .main-intro p.lede | color | var(--ink-soft) |
-| .main-intro p.lede | max-width | 34rem |
-| .main-intro p.lede | margin-top | .75rem |
+| .main-intro p.lede | max-width | 28rem |
+| .main-intro p.lede | margin-top | .7rem |
+| .main-intro p.lede.slogan | font-family | var(--serif) |
+| .main-intro p.lede.slogan | font-size | clamp(1.05rem, 2vw, 1.22rem) |
+| .main-intro p.lede.slogan | letter-spacing | .03em |
+| .main-intro p.lede.slogan | max-width | 24rem |
 | .main-intro p | color | var(--muted) |
 | .main-intro p | max-width | 36rem |
 | .mq-img.brand-logo | margin | 0 |
+| .mq-img.brand-logo | line-height | 0 |
 | .mq-img.brand-logo img | display | block |
-| .mq-img.brand-logo img | width | 5.75rem |
-| .mq-img.brand-logo img | height | auto |
-| .mq-img.brand-logo img | margin | 0 0 1.35rem |
-| .mq-img.brand-logo img | border | 1px solid var(--line) |
+| .mq-img.brand-logo img | width | 3.1rem |
+| .mq-img.brand-logo img | height | 3.1rem |
+| .mq-img.brand-logo img | object-fit | cover |
+| .mq-img.brand-logo img | object-position | 50% 40% |
+| .mq-img.brand-logo img | margin | 0 |
+| .mq-img.brand-logo img | border | 0 |
 | .mq-img.brand-logo img | border-radius | 0 |
 | .mq-img.brand-logo img | filter | none |
 
@@ -522,7 +550,8 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 | (max-width: 860px) | main.main | padding | 1.25rem 1.05rem 3rem |
 | (max-width: 860px) | .content.cards .card | grid-template-columns | 2.4rem 1fr |
 | (max-width: 860px) | .content.cards .card:hover a.card-link | transform | none |
-| (max-width: 560px) | .main-intro h1 | font-size | clamp(2rem, 9vw, 2.6rem) |
+| (max-width: 560px) | .main-intro h1 | font-size | clamp(2rem, 8.5vw, 2.55rem) |
+| (max-width: 560px) | .nav-brand-text | display | none |
 | (max-width: 560px) | .article .article-body.md > p:first-of-type::first-letter | font-size | 2.7rem |
 | (prefers-reduced-motion: reduce) | * | transition | none |
 | (prefers-reduced-motion: reduce) | * | animation | none |

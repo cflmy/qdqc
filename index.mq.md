@@ -1,6 +1,6 @@
 ---
 title: 求道量子
-description: 求道量子 · 专注量子技术科普与分享：博客文章、标签归档与登录门禁后台。
+description: 求道量子，以求道之心，探量子之密。
 导入 网页:ext/web/网页.mq.md
 import theme:styles/theme.mq.md
 import nav:components/nav.mq.md
@@ -82,15 +82,15 @@ import db:db/index.mq.md
 
 | 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
 |------|------|------|------|------|------|------|
-| stylesheet | "/static/brand-motion.css?v=6" | | | | | |
-| script | "/static/theme.js?v=6" | | | | | |
+| stylesheet | "/static/brand-motion.css?v=9" | | | | | |
+| script | "/static/theme.js?v=9" | | | | | |
 
 `发资源` =
 
 | 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
 |------|------|------|------|------|------|------|
-| stylesheet | "/static/brand-motion.css?v=6" | | | | | |
-| script | "/static/theme.js?v=6" | | | | | |
+| stylesheet | "/static/brand-motion.css?v=9" | | | | | |
+| script | "/static/theme.js?v=9" | | | | | |
 | stylesheet | "/static/editor.css?v=14" | | | | | |
 | script | "/static/editor.js?v=14" | | | | | |
 
@@ -118,7 +118,7 @@ import db:db/index.mq.md
 
 *首页CSS = > theme.全局*
 
-*page = > 网页.页面 标题="求道量子" 引言="<p class='kicker'>// quantum journal · vol.01</p><h1>求道量子</h1><p class='lede'>一份面向公众的量子技术读物：把叠加、纠缠与算法写清楚。</p>"*
+*page = > 网页.页面 标题="求道量子" 引言="<p class='kicker'>// Journal</p><h1>求道量子</h1><p class='lede slogan'>以求道之心，探量子之密。</p>"*
 *page = > page.组件装配 组件=`首页`*
 *page = > page.主体装配 主体=`列表`*
 *page = > page.排序 排序="-created_at"*
@@ -126,7 +126,7 @@ import db:db/index.mq.md
 *page = > page.头装配 表=`头资源`*
 *page = > page.图片装配 表=`品牌图`*
 
-*about = > 网页.页面 标题="关于" 引言="<p class='kicker'>// about</p><h1>关于本刊</h1><p class='lede'>求道量子是一份科技杂志式的量子科普读物。</p><p>我们关注可核对的概念、可复述的直觉，以及算法与硬件之间正在发生的事。文章按期刊目录编排，正文采用论文阅读栏的版式，方便慢慢读。</p>"*
+*about = > 网页.页面 标题="关于" 引言="<p class='kicker'>// about</p><h1>关于本刊</h1><p class='lede slogan'>求道量子，以求道之心，探量子之密。</p><p>我们关注可核对的概念、可复述的直觉，以及算法与硬件之间正在发生的事。文章按期刊目录编排，正文采用论文阅读栏的版式。</p>"*
 *about = > about.组件装配 组件=`首页`*
 *about = > about.样式 样式=`首页CSS`*
 *about = > about.头装配 表=`头资源`*
