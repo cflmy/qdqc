@@ -2,6 +2,8 @@
 
 本站基于 [Marqdo](https://github.com/cflmy/marqdo) `ext/web`。官方 Release 目前只有 Windows 包，镜像会在构建阶段编译 Linux 版 `marqdo` 与 `libweb.so`（首次构建较慢，约需数分钟到十几分钟，取决于网络与机器）。
 
+构建使用 **Rust ≥ 1.85**（`rust:1.85-bookworm`）。勿使用 1.81：部分依赖需要 edition 2024，旧工具链会报 `exit code: 101`。
+
 ## 前置
 
 - 已安装 [Docker Desktop](https://www.docker.com/products/docker-desktop/)（或兼容的 Docker Engine + Compose）
