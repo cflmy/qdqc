@@ -82,22 +82,39 @@ import db:db/index.mq.md
 
 | 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
 |------|------|------|------|------|------|------|
-| stylesheet | "/static/brand-motion.css?v=9" | | | | | |
-| script | "/static/theme.js?v=9" | | | | | |
+| stylesheet | "/static/katex/katex.min.css" | | | | | |
+| script | "/static/katex/katex.min.js" | | | | | |
+| script | "/static/katex/auto-render.min.js" | | | | | |
+| stylesheet | "/static/brand-motion.css?v=10" | | | | | |
+| script | "/static/theme.js?v=11" | | | | | |
 
 `发资源` =
 
 | 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
 |------|------|------|------|------|------|------|
-| stylesheet | "/static/brand-motion.css?v=9" | | | | | |
-| script | "/static/theme.js?v=9" | | | | | |
-| stylesheet | "/static/editor.css?v=14" | | | | | |
-| script | "/static/editor.js?v=14" | | | | | |
+| stylesheet | "/static/katex/katex.min.css" | | | | | |
+| script | "/static/katex/katex.min.js" | | | | | |
+| script | "/static/katex/auto-render.min.js" | | | | | |
+| stylesheet | "/static/brand-motion.css?v=10" | | | | | |
+| script | "/static/theme.js?v=11" | | | | | |
+| stylesheet | "/static/editor.css?v=20" | | | | | |
+| script | "/static/editor.js?v=20" | | | | | |
 
 `发布字段` =
 
 | 字段 | 标签 | 类型 | 必填 | 默认 |
 |------|------|------|------|------|
+| title | 标题 | text | true | |
+| slug | 链接标识 | text | false | |
+| tag | 标签 | text | false | |
+| summary | 摘要 | textarea | false | |
+| content | 正文 | textarea | true | |
+
+`编辑字段` =
+
+| 字段 | 标签 | 类型 | 必填 | 默认 |
+|------|------|------|------|------|
+| id | 文章编号 | text | true | |
 | title | 标题 | text | true | |
 | slug | 链接标识 | text | false | |
 | tag | 标签 | text | false | |
@@ -113,6 +130,27 @@ import db:db/index.mq.md
 | slug | max:80 | 链接标识最长 80 字符 |
 | tag | max:32 | 标签最长 32 字符 |
 | content | required | 请填写正文 |
+
+`编辑规则` =
+
+| 字段 | 规则 | 消息 |
+|------|------|------|
+| id | required | 缺少文章编号 |
+| title | required | 请填写标题 |
+| title | max:200 | 标题请控制在 200 字以内 |
+| slug | max:80 | 链接标识最长 80 字符 |
+| tag | max:32 | 标签最长 32 字符 |
+| content | required | 请填写正文 |
+
+`管理列表` =
+
+| 属性 | 值 | 样式 |
+|------|-----|------|
+| title | posts.title | |
+| body | posts.summary | |
+| meta | posts.updated_at | |
+| tag | posts.tag | |
+| href | posts.id | |
 
 *store = > db.打开*
 
@@ -158,11 +196,24 @@ import db:db/index.mq.md
 *post_form = > post_form.字段 字段=`发布字段`*
 *post_form = > post_form.规则 规则=`发布规则`*
 
-*publish = > 网页.页面 标题="发布文章" 引言="<h1>写作台</h1><p class='lede'>左侧编辑、右侧预览；发布后出现在首页顶部。</p>"*
+*edit_form = > 网页.表单 表="posts" 动作="更新"*
+*edit_form = > edit_form.字段 字段=`编辑字段`*
+*edit_form = > edit_form.规则 规则=`编辑规则`*
+
+*publish = > 网页.页面 标题="写作台" 引言="<h1>写作台</h1><p class='lede'>查看已发布文章，或发布一篇新稿。</p>"*
 *publish = > publish.组件装配 组件=`首页`*
 *publish = > publish.表单装配 表单=`post_form` id="post"*
+*publish = > publish.主体装配 主体=`管理列表`*
+*publish = > publish.排序 排序="-updated_at"*
+*publish = > publish.链接前缀 前缀="/admin-publish?id="*
 *publish = > publish.样式 样式=`首页CSS`*
 *publish = > publish.头装配 表=`发资源`*
+
+*edit = > 网页.页面 标题="编辑文章" 引言="<h1>编辑文章</h1><p class='lede'>正在打开写作台…</p>"*
+*edit = > edit.组件装配 组件=`首页`*
+*edit = > edit.表单装配 表单=`edit_form` id="post-edit"*
+*edit = > edit.样式 样式=`首页CSS`*
+*edit = > edit.头装配 表=`发资源`*
 
 *app = > 网页.应用 页面=page 数据库=store 后台=True 主机="127.0.0.1" 端口=18085*
 *app = > app.路由 路径="/about" 页面=about*
@@ -170,8 +221,11 @@ import db:db/index.mq.md
 *app = > app.路由 路径="/tags" 页面=tags*
 *app = > app.路由 路径="/tag/{slug}" 页面=tagged*
 *app = > app.路由 路径="/admin-publish" 页面=publish*
+*app = > app.路由 路径="/admin-edit" 页面=edit*
+*app = > app.挂载表单 id="post-edit" 表单=`edit_form`*
 *app = > app.静态 目录="public" 挂载="/static"*
 *app = > app.图标 表=`站点图标`*
 *app = > app.鉴权 用户表=`管理员` 会话时长=3600*
 *app = > app.门禁 路径="/_form/post" 角色="admin"*
+*app = > app.门禁 路径="/_form/post-edit" 角色="admin"*
 > `app`.监听

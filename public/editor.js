@@ -321,6 +321,20 @@
       pr.innerHTML = render(src.value);
       renderLineNumbers();
       updateStatus();
+      if (typeof renderMathInElement === 'function') {
+        try {
+          renderMathInElement(pr, {
+            delimiters: [
+              { left: '$$', right: '$$', display: true },
+              { left: '\\[', right: '\\]', display: true },
+              { left: '$', right: '$', display: false },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });
+        } catch (e) { /* ignore */ }
+      }
     }
     function debounceRefresh() {
       ta.value = src.value;
@@ -470,7 +484,7 @@
         lab.classList.add('pub-col');
         row2.appendChild(lab);
         hasRow2 = true;
-        inp.setAttribute('placeholder', n === 'slug' ? '链接标识（可选）' : '标签（可选）');
+        inp.setAttribute('placeholder', n === 'slug' ? '链接标识（留空自动生成）' : '标签（可选）');
       } else if (n === 'summary') {
         summary = lab;
         lab.classList.add('pub-summary');
@@ -492,22 +506,379 @@
     }
   }
 
+  /* ---------- 链接标识：空 slug 会导致文章无法打开、列表排版错乱 ---------- */
+
+  function pad2(n) {
+    return (n < 10 ? '0' : '') + n;
+  }
+
+  function slugifyTitle(title) {
+    var s = String(title || '').trim().toLowerCase();
+    var ascii = s
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60);
+    if (ascii.length >= 2) return ascii;
+    var d = new Date();
+    return (
+      'post-' +
+      d.getFullYear() +
+      pad2(d.getMonth() + 1) +
+      pad2(d.getDate()) +
+      '-' +
+      pad2(d.getHours()) +
+      pad2(d.getMinutes()) +
+      pad2(d.getSeconds())
+    );
+  }
+
+  function ensureSlug(form) {
+    var slug = form.querySelector('[name="slug"]');
+    var title = form.querySelector('[name="title"]');
+    if (!slug) return '';
+    var cur = String(slug.value || '').trim();
+    if (cur) {
+      slug.value = cur;
+      return cur;
+    }
+    var next = slugifyTitle(title ? title.value : '');
+    slug.value = next;
+    return next;
+  }
+
+  function bindSlugAssist(form) {
+    var title = form.querySelector('[name="title"]');
+    var slug = form.querySelector('[name="slug"]');
+    if (!title || !slug || slug.dataset.slugAssist === '1') return;
+    slug.dataset.slugAssist = '1';
+    title.addEventListener('blur', function () {
+      if (String(slug.value || '').trim()) return;
+      if (!String(title.value || '').trim()) return;
+      slug.value = slugifyTitle(title.value);
+      slug.classList.add('slug-autogen');
+    });
+  }
+
+  /* ---------- 编辑已发布文章（写作台 ?id= / 旧 /admin-edit 入口） ---------- */
+
+  function queryId() {
+    try {
+      var q = new URLSearchParams(window.location.search || '');
+      var id = (q.get('id') || '').trim();
+      return /^\d+$/.test(id) ? id : '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function isEditPath() {
+    return /^\/admin-edit\/?$/.test(window.location.pathname || '');
+  }
+
+  function isPublishPath() {
+    return /^\/admin-publish\/?$/.test(window.location.pathname || '');
+  }
+
+  function resolveForm(shell) {
+    if (!shell) return null;
+    if (shell.tagName === 'FORM') return shell;
+    return shell.querySelector('form');
+  }
+
+  function setField(form, name, value) {
+    var el = form.querySelector('[name="' + name + '"]');
+    if (!el) return;
+    el.value = value == null ? '' : String(value);
+  }
+
+  function ensureIdField(form, id) {
+    var h = form.querySelector('input[name="id"]');
+    if (!h) {
+      h = document.createElement('input');
+      h.type = 'hidden';
+      h.name = 'id';
+      form.insertBefore(h, form.firstChild);
+    } else {
+      h.type = 'hidden';
+      var lab = h.closest('label');
+      if (lab) lab.classList.add('pub-id-hidden');
+    }
+    h.value = String(id);
+    h.setAttribute('required', '');
+    return h;
+  }
+
+  function normalizeNewlines(text) {
+    return String(text == null ? '' : text).replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  }
+
+  function applyContent(form, text) {
+    text = normalizeNewlines(text);
+    var ta = form.querySelector('textarea[name="content"]');
+    if (ta) ta.value = text || '';
+    var src = form.querySelector('.md-source');
+    if (src) {
+      src.value = text || '';
+      src.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  }
+
+  function parseAdminEdit(html) {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var srcForm = doc.querySelector('form');
+    if (!srcForm) return null;
+    var data = {};
+    ['title', 'slug', 'tag', 'summary', 'content', 'id'].forEach(function (name) {
+      var el = srcForm.querySelector('[name="' + name + '"]');
+      if (!el) return;
+      data[name] = el.value || '';
+    });
+    return data;
+  }
+
+  function statusBanner(text, kind) {
+    var banner = document.querySelector('.edit-status');
+    if (!banner) {
+      banner = document.createElement('p');
+      banner.className = 'edit-status';
+      var intro = document.querySelector('.main-intro');
+      if (intro) intro.appendChild(banner);
+      else {
+        var form = document.querySelector('.site-form');
+        if (form && form.parentNode) form.parentNode.insertBefore(banner, form);
+      }
+    }
+    banner.className = 'edit-status' + (kind ? ' ' + kind : '');
+    banner.innerHTML = text;
+    return banner;
+  }
+
+  function loadPostForEdit(form, id) {
+    statusBanner('正在加载文章 #' + id + '…', '');
+    var submit = form.querySelector('.actions button');
+    if (submit) submit.disabled = true;
+
+    return fetch('/admin/posts/' + encodeURIComponent(id) + '/edit', {
+      credentials: 'same-origin',
+      headers: { Accept: 'text/html' }
+    }).then(function (res) {
+      if (res.redirected && /login/i.test(res.url || '')) {
+        window.location.href = '/admin/login';
+        return null;
+      }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.text();
+    }).then(function (html) {
+      if (html == null) return;
+      var data = parseAdminEdit(html);
+      if (!data) throw new Error('无法解析文章内容');
+      ensureIdField(form, data.id || id);
+      setField(form, 'title', data.title);
+      setField(form, 'slug', data.slug);
+      setField(form, 'tag', data.tag);
+      setField(form, 'summary', data.summary);
+      applyContent(form, data.content);
+      var title = data.title || ('#' + id);
+      statusBanner('正在编辑：<strong>' + title.replace(/</g, '&lt;') + '</strong>（保存后立即生效）', 'is-ready');
+      var h1 = document.querySelector('.main-intro h1');
+      if (h1) h1.textContent = '编辑 · ' + (data.title || ('文章 #' + id));
+      if (submit) submit.disabled = false;
+    }).catch(function (err) {
+      statusBanner(
+        '加载失败：' + (err && err.message ? err.message : '未知错误') +
+          '。请确认已登录。文章编号已就绪，仍可尝试保存；或<a href="/admin-publish">返回新建</a>。',
+        'is-error'
+      );
+      if (submit) submit.disabled = false;
+    });
+  }
+
+  function enterEditMode(shell, form, id) {
+    shell.classList.add('is-editing');
+    form.classList.add('is-editing');
+    ensureIdField(form, id);
+    form.setAttribute('action', '/_form/post-edit');
+    form.setAttribute('data-edit-id', id);
+
+    var submit = form.querySelector('.actions button');
+    var cancel = form.querySelector('.actions a');
+    if (submit) submit.textContent = '保存修改';
+    if (cancel) {
+      cancel.textContent = '返回列表';
+      cancel.setAttribute('href', '/admin-publish');
+    }
+
+    form.addEventListener('submit', function (e) {
+      ensureIdField(form, id);
+      form.setAttribute('action', '/_form/post-edit');
+      var h = form.querySelector('input[name="id"]');
+      if (!h || !String(h.value || '').trim()) {
+        e.preventDefault();
+        statusBanner('缺少文章编号，无法保存。请从下方列表重新进入编辑。', 'is-error');
+        return;
+      }
+      if (!ensureSlug(form)) {
+        e.preventDefault();
+        statusBanner('请填写链接标识（slug），否则文章无法打开。', 'is-error');
+        return;
+      }
+      // 提交前把编辑器正文（含换行）写回 textarea
+      var src = form.querySelector('.md-source');
+      var ta = form.querySelector('textarea[name="content"]');
+      if (src && ta) ta.value = normalizeNewlines(src.value);
+    });
+
+    bindSlugAssist(form);
+    loadPostForEdit(form, id);
+    highlightActiveCard(id);
+  }
+
+  function highlightActiveCard(id) {
+    var cards = document.querySelectorAll('.content.cards.pub-list .card-link');
+    Array.prototype.forEach.call(cards, function (a) {
+      var href = a.getAttribute('href') || '';
+      var on = href.indexOf('id=' + id) !== -1;
+      a.classList.toggle('is-active-edit', on);
+      var tip = a.querySelector('.pub-edit-tip');
+      if (tip) tip.textContent = on ? '编辑中' : '编辑';
+    });
+  }
+
+  function setIntro(title, ledeHtml) {
+    var intro = document.querySelector('.main-intro');
+    if (!intro) return;
+    var h1 = intro.querySelector('h1');
+    if (h1) h1.textContent = title;
+    var lede = intro.querySelector('.lede') || intro.querySelector('p');
+    if (lede) lede.innerHTML = ledeHtml;
+  }
+
+  function mountListChrome() {
+    setIntro('写作台', '管理已发布内容；点击条目进入编辑，或发布一篇新稿。');
+
+    if (document.querySelector('.pub-compose-bar')) return;
+    var bar = document.createElement('div');
+    bar.className = 'pub-compose-bar';
+    bar.innerHTML =
+      '<a class="pub-new-btn" href="/admin-publish?new=1">发布新帖子</a>' +
+      '<p class="pub-compose-hint">新稿将出现在首页顶部；编辑已有文章不会新增条目。</p>';
+
+    var cards = document.querySelector('main.main > .content.cards');
+    var head = document.querySelector('.pub-list-head');
+    if (head) head.parentNode.insertBefore(bar, head);
+    else if (cards) cards.parentNode.insertBefore(bar, cards);
+    else {
+      var main = document.querySelector('main.main');
+      if (main) main.appendChild(bar);
+    }
+  }
+
+  function decoratePublishList(activeId) {
+    var cards = document.querySelector('main.main > .content.cards');
+    if (!cards) return;
+    if (!document.querySelector('.pub-list-head')) {
+      var head = document.createElement('div');
+      head.className = 'pub-list-head';
+      head.id = 'published';
+      head.innerHTML = '<h2>已发布文章</h2><p>点击一条即可进入编辑界面。</p>';
+      cards.parentNode.insertBefore(head, cards);
+    }
+    cards.classList.add('pub-list');
+    Array.prototype.forEach.call(cards.querySelectorAll('.card-link'), function (a) {
+      if (a.querySelector('.pub-edit-tip')) return;
+      var tip = document.createElement('span');
+      tip.className = 'pub-edit-tip';
+      tip.textContent = '编辑';
+      a.appendChild(tip);
+    });
+    if (!cards.querySelector('.card') && !cards.querySelector('.pub-empty')) {
+      var empty = document.createElement('p');
+      empty.className = 'pub-empty';
+      empty.textContent = '还没有文章。点击上方「发布新帖子」开始第一篇。';
+      cards.appendChild(empty);
+    }
+    if (activeId) highlightActiveCard(activeId);
+  }
+
+  function deskMode() {
+    if (!isPublishPath()) return '';
+    if (queryId()) return 'edit';
+    try {
+      var q = new URLSearchParams(window.location.search || '');
+      if (q.get('new') === '1') return 'compose';
+    } catch (e) { /* ignore */ }
+    return 'list';
+  }
+
+  function markWriting() {
+    var main = document.querySelector('main.main');
+    if (main) main.classList.add('desk-writing');
+    document.body.classList.add('desk-writing');
+  }
+
   /* ---------- 挂载 ---------- */
 
   function init() {
-    var form = document.querySelector('.site-form');
-    if (!form || form.querySelector('.md-editor')) return;
+    // 旧编辑页统一跳进写作台，避免两套入口
+    if (isEditPath()) {
+      var rid = queryId();
+      window.location.replace(rid ? ('/admin-publish?id=' + encodeURIComponent(rid)) : '/admin-publish');
+      return;
+    }
+
+    if (!isPublishPath()) return;
+
+    var mode = deskMode();
+    var shell = document.querySelector('.site-form');
+    var cards = document.querySelector('main.main > .content.cards');
+
+    // 列表模式：只展示已发布文章 + 发布按钮
+    if (mode === 'list') {
+      document.body.classList.add('desk-list');
+      if (shell) shell.classList.add('editor-skin', 'is-list-only');
+      decoratePublishList('');
+      mountListChrome();
+      return;
+    }
+
+    if (!shell || shell.querySelector('.md-editor')) return;
+    var form = resolveForm(shell);
+    if (!form) return;
     var ta = form.querySelector('textarea[name="content"]');
     if (!ta) return;
-    form.classList.add('editor-skin');
-    buildEditor(form, ta);
-    composeMeta(form);
 
-    // 中文文案微调（只改文案，不改插件源码）
+    markWriting();
+    shell.classList.add('editor-skin');
+    buildEditor(shell, ta);
+    composeMeta(shell);
+
     var submit = form.querySelector('.actions button');
-    if (submit) submit.textContent = '发布文章';
     var cancel = form.querySelector('.actions a');
-    if (cancel) cancel.textContent = '取消';
+    if (cancel) {
+      cancel.textContent = '返回列表';
+      cancel.setAttribute('href', '/admin-publish');
+    }
+
+    if (mode === 'edit') {
+      var editId = queryId();
+      setIntro('编辑文章', '修改后保存即可更新已发布内容。<a href="/admin-publish">返回列表</a>');
+      if (cards) decoratePublishList(editId);
+      enterEditMode(shell, form, editId);
+      if (cancel) cancel.textContent = '返回列表';
+    } else {
+      setIntro('发布新帖子', '填写标题与正文后发布。<a href="/admin-publish">返回列表</a>');
+      if (submit) submit.textContent = '发布文章';
+      bindSlugAssist(form);
+      form.addEventListener('submit', function (e) {
+        var src = form.querySelector('.md-source');
+        var content = form.querySelector('textarea[name="content"]');
+        if (src && content) content.value = normalizeNewlines(src.value);
+        if (!ensureSlug(form)) {
+          e.preventDefault();
+          statusBanner('请填写链接标识（slug），否则文章无法打开。', 'is-error');
+        }
+      });
+    }
   }
 
   if (document.readyState === 'loading') {

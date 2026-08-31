@@ -296,6 +296,10 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 | .content.cards .card:hover | background | transparent |
 | .content.cards .card:hover | transform | none |
 | .content.cards .card:hover::before | color | var(--mark) |
+| .content.cards .card > .card-meta | grid-column | 2 |
+| .content.cards .card > h2 | grid-column | 2 |
+| .content.cards .card > .card-tag | grid-column | 2 |
+| .content.cards .card > p | grid-column | 2 |
 | .content.cards a.card-link | grid-column | 2 |
 | .content.cards a.card-link | color | inherit |
 | .content.cards a.card-link | text-decoration | none |
@@ -356,12 +360,13 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 | .article-meta | text-transform | uppercase |
 | .article-title | margin | .85rem 0 .8rem |
 | .article-title | font-family | var(--serif) |
-| .article-title | font-size | clamp(1.85rem, 4.2vw, 2.75rem) |
+| .article-title | font-size | clamp(1.7rem, 3.4vw, 2.35rem) |
 | .article-title | font-weight | 700 |
-| .article-title | line-height | 1.2 |
-| .article-title | letter-spacing | .005em |
+| .article-title | line-height | 1.28 |
+| .article-title | letter-spacing | .01em |
 | .article-title | color | var(--ink) |
-| .article-title | text-wrap | balance |
+| .article-title | max-width | none |
+| .article-title | text-wrap | pretty |
 | .article-tags | display | inline-block |
 | .article-tags | margin | .2rem 0 1.6rem |
 | .article-tags | padding | 0 0 .95rem |
@@ -376,13 +381,15 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 | .article-tags | border-radius | 0 |
 | .article .article-body.md | counter-reset | qd-sec |
 | .article .article-body.md | padding-top | .35rem |
-| .article .article-body.md > p:first-of-type::first-letter | float | left |
-| .article .article-body.md > p:first-of-type::first-letter | font-family | var(--serif) |
-| .article .article-body.md > p:first-of-type::first-letter | font-size | 3.4rem |
-| .article .article-body.md > p:first-of-type::first-letter | font-weight | 700 |
-| .article .article-body.md > p:first-of-type::first-letter | line-height | .82 |
-| .article .article-body.md > p:first-of-type::first-letter | padding | .12rem .45rem .05rem 0 |
-| .article .article-body.md > p:first-of-type::first-letter | color | var(--accent) |
+| .article .article-body.md > p.has-dropcap::first-letter | float | left |
+| .article .article-body.md > p.has-dropcap::first-letter | font-family | var(--serif) |
+| .article .article-body.md > p.has-dropcap::first-letter | font-size | 3.4rem |
+| .article .article-body.md > p.has-dropcap::first-letter | font-weight | 700 |
+| .article .article-body.md > p.has-dropcap::first-letter | line-height | .82 |
+| .article .article-body.md > p.has-dropcap::first-letter | padding | .12rem .45rem .05rem 0 |
+| .article .article-body.md > p.has-dropcap::first-letter | color | var(--accent) |
+| .article .katex-display | margin | 1.25rem 0 |
+| .article .katex | font-size | 1.08em |
 | .article h2 | margin | 2.4rem 0 .8rem |
 | .article h2 | font-family | var(--serif) |
 | .article h2 | font-size | clamp(1.2rem, 2vw, 1.4rem) |
@@ -552,7 +559,7 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 | (max-width: 860px) | .content.cards .card:hover a.card-link | transform | none |
 | (max-width: 560px) | .main-intro h1 | font-size | clamp(2rem, 8.5vw, 2.55rem) |
 | (max-width: 560px) | .nav-brand-text | display | none |
-| (max-width: 560px) | .article .article-body.md > p:first-of-type::first-letter | font-size | 2.7rem |
+| (max-width: 560px) | .article .article-body.md > p.has-dropcap::first-letter | font-size | 2.7rem |
 | (prefers-reduced-motion: reduce) | * | transition | none |
 | (prefers-reduced-motion: reduce) | * | animation | none |
 | (prefers-reduced-motion: reduce) | html | scroll-behavior | auto |

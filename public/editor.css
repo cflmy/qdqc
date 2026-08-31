@@ -3,38 +3,61 @@
  * 布局：全宽写作桌 / 元信息条 / 工具栏+双栏编辑 / 底栏操作。 */
 
 /* ---- 页面骨架：隐藏侧栏与品牌图，主区拉满 ---- */
-body:has(.site-form.editor-skin) {
+body:has(.site-form.editor-skin),
+body.desk-list {
   grid-template-columns: 1fr;
   grid-template-areas: "top" "main" "foot";
 }
 body:has(.site-form.editor-skin) aside.side,
-body:has(.site-form.editor-skin) .mq-img.brand-logo {
+body:has(.site-form.editor-skin) .mq-img.brand-logo,
+body.desk-list aside.side,
+body.desk-list .mq-img.brand-logo {
   display: none;
 }
-body:has(.site-form.editor-skin) main.main {
+body:has(.site-form.editor-skin) main.main,
+body.desk-list main.main {
   padding: 1.1rem 1.25rem 2.5rem;
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
 }
-body:has(.site-form.editor-skin) .main-intro {
+body:has(.site-form.editor-skin) .main-intro,
+body.desk-list .main-intro {
   margin-bottom: .85rem;
   max-width: none;
 }
-body:has(.site-form.editor-skin) .main-intro h1 {
+body:has(.site-form.editor-skin) .main-intro h1,
+body.desk-list .main-intro h1 {
   font-size: clamp(1.55rem, 2.6vw, 1.95rem);
   letter-spacing: .03em;
   border-left-width: 3px;
   padding-left: .7rem;
 }
 body:has(.site-form.editor-skin) .main-intro p.lede,
-body:has(.site-form.editor-skin) .main-intro p {
+body:has(.site-form.editor-skin) .main-intro p,
+body.desk-list .main-intro p.lede,
+body.desk-list .main-intro p {
   max-width: 40rem;
   font-size: .95rem;
   margin-top: .35rem;
 }
-body:has(.site-form.editor-skin) footer.foot {
+body:has(.site-form.editor-skin) footer.foot,
+body.desk-list footer.foot {
   margin-top: 0;
+}
+
+/* 默认：写作台页有表单+列表时先藏表单，避免闪一下编辑器 */
+main.main:has(> .site-form):has(> .content.cards):not(.desk-writing) > .site-form {
+  display: none !important;
+}
+main.main.desk-writing > .site-form {
+  display: block !important;
+}
+/* 写作/编辑时收起列表，聚焦正文 */
+main.main.desk-writing > .content.cards,
+main.main.desk-writing > .pub-list-head,
+main.main.desk-writing > .pub-compose-bar {
+  display: none !important;
 }
 
 /* ---- 写作台外壳 ---- */
@@ -678,4 +701,124 @@ body:has(.site-form.editor-skin) footer.foot {
   .site-form.editor-skin .actions button:hover {
     transform: none;
   }
+}
+
+/* ---- 写作台：列表首页 / 编辑状态 ---- */
+.edit-status {
+  margin: 0.65rem 0 0;
+  font-family: var(--mono, ui-monospace, Consolas, monospace);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.edit-status.is-ready {
+  color: var(--accent);
+}
+.edit-status.is-error {
+  color: var(--mark, #c45c26);
+}
+.edit-status a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.pub-compose-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem 1.25rem;
+  margin: 0.35rem 0 1.5rem;
+  padding: 1rem 0 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+.pub-new-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--bg) !important;
+  font-family: var(--mono, ui-monospace, Consolas, monospace);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-decoration: none !important;
+  text-transform: uppercase;
+}
+.pub-new-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff !important;
+}
+.pub-compose-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+body.desk-list .pub-list-head,
+body:has(.site-form.editor-skin) .pub-list-head {
+  margin: 0.5rem 0 0.85rem;
+  padding-top: 0;
+  border-top: 0;
+  max-width: none;
+}
+body.desk-list .pub-list-head h2,
+body:has(.site-form.editor-skin) .pub-list-head h2 {
+  margin: 0;
+  font-family: var(--serif, Georgia, serif);
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+}
+body.desk-list .pub-list-head p,
+body:has(.site-form.editor-skin) .pub-list-head p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+body.desk-list .content.cards.pub-list,
+body:has(.site-form.editor-skin) .content.cards.pub-list {
+  max-width: none;
+}
+body.desk-list .content.cards.pub-list .card-link,
+body:has(.site-form.editor-skin) .content.cards.pub-list .card-link {
+  position: relative;
+  padding-right: 3.5rem;
+}
+body.desk-list .content.cards.pub-list .pub-edit-tip,
+body:has(.site-form.editor-skin) .content.cards.pub-list .pub-edit-tip {
+  position: absolute;
+  right: 0.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono, ui-monospace, Consolas, monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mark, #c45c26);
+}
+
+body:has(.site-form.editor-skin) .content.cards.pub-list .card-link.is-active-edit {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+body:has(.site-form.editor-skin) .content.cards.pub-list .card-link.is-active-edit .pub-edit-tip {
+  color: var(--accent);
+}
+
+.pub-empty {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.site-form.editor-skin .pub-id-hidden,
+.site-form.editor-skin input[name="id"][type="hidden"] {
+  display: none !important;
+}
+
+.site-form.editor-skin.is-editing .actions button:disabled {
+  opacity: 0.55;
+  cursor: wait;
 }

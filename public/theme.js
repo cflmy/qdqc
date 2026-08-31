@@ -198,13 +198,71 @@
     Array.prototype.forEach.call(nodes, function (n) { io.observe(n); });
   }
 
+  function formatDates() {
+    var nodes = document.querySelectorAll('.card-meta, .article-meta');
+    Array.prototype.forEach.call(nodes, function (el) {
+      var t = (el.textContent || '').trim();
+      var m = t.match(/^(\d{4}-\d{2}-\d{2})T[\d:.]+Z?$/i);
+      if (m) el.textContent = m[1];
+    });
+  }
+
+  function tuneDropcap() {
+    var p = document.querySelector('.article .article-body.md > p:first-of-type');
+    if (!p) return;
+    var t = (p.textContent || '').replace(/\s+/g, '');
+    // 公式 / 代码开头的段落不做首字下沉，避免把 $ 放大
+    if (!t || /^[\$\\\[\(\d]/.test(t) || t.indexOf('$$') === 0) return;
+    if (!/^[\u4e00-\u9fffA-Za-z]/.test(t)) return;
+    p.classList.add('has-dropcap');
+  }
+
+  function renderMath() {
+    if (typeof renderMathInElement !== 'function') return;
+    var roots = document.querySelectorAll('.article .article-body.md, .md-preview');
+    if (!roots.length) return;
+    var opts = {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\[', right: '\\]', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      throwOnError: false,
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    };
+    Array.prototype.forEach.call(roots, function (root) {
+      try { renderMathInElement(root, opts); } catch (e) { /* ignore */ }
+    });
+  }
+
+  function whenKatexReady(fn) {
+    if (typeof renderMathInElement === 'function') {
+      fn();
+      return;
+    }
+    var n = 0;
+    var timer = setInterval(function () {
+      n += 1;
+      if (typeof renderMathInElement === 'function') {
+        clearInterval(timer);
+        fn();
+      } else if (n > 60) {
+        clearInterval(timer);
+      }
+    }, 50);
+  }
+
   function boot() {
     mountBrand();
     mountToggle();
     mountMasthead();
+    formatDates();
+    tuneDropcap();
     markReady();
     mountProgress();
     mountReveal();
+    whenKatexReady(renderMath);
   }
 
   if (document.readyState === 'loading') {
