@@ -9,6 +9,7 @@ services:
       dockerfile: Dockerfile
       args:
         MARQDO_VERSION: "0.3.1"
+        RUST_IMAGE: "rust:1.85-bookworm"
     image: qdqc:local
     container_name: qdqc
     ports:

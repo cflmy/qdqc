@@ -1,9 +1,10 @@
 # 求道量子 · Marqdo 站点
 # 官方 Release 暂无 Linux 二进制，构建阶段从源码编译 marqdo + web 插件。
+# 需 Rust ≥1.85（依赖可能使用 edition 2024）；勿再使用 1.81。
 # syntax=docker/dockerfile:1
 
 ARG MARQDO_VERSION=0.3.1
-ARG RUST_IMAGE=rust:1.81-bookworm
+ARG RUST_IMAGE=rust:1.85-bookworm
 
 FROM ${RUST_IMAGE} AS builder
 ARG MARQDO_VERSION
@@ -14,11 +15,13 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL "https://github.com/cflmy/marqdo/archive/refs/tags/v${MARQDO_VERSION}.tar.gz" \
-  | tar -xz --strip-components=1
+  | tar -xz --strip-components=1 \
+  && test -f Cargo.lock
 
 ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
-RUN cargo build --release --bin marqdo \
-  && cargo build --release -p marqdo_plugin_web
+# --locked：使用仓库锁文件，避免 crates.io 解析到更新的 edition 2024 依赖
+RUN cargo build --release --locked --bin marqdo \
+  && cargo build --release --locked -p marqdo_plugin_web
 
 ENV MARQDO_EXT=/opt/marqdo/ext
 ENV MARQDO_EXT_SOURCE=/build/ext
