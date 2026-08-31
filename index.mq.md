@@ -98,7 +98,7 @@ import db:db/index.mq.md
 | stylesheet | "/static/brand-motion.css?v=10" | | | | | |
 | script | "/static/theme.js?v=11" | | | | | |
 | stylesheet | "/static/editor.css?v=20" | | | | | |
-| script | "/static/editor.js?v=20" | | | | | |
+| script | "/static/editor.js?v=22" | | | | | |
 
 `发布字段` =
 
@@ -192,6 +192,12 @@ import db:db/index.mq.md
 *tagged = > tagged.样式 样式=`首页CSS`*
 *tagged = > tagged.头装配 表=`头资源`*
 
+`文章接口` =
+
+| 路径 | 方法 | 表 | 条件 | 排序 | 上限 |
+|------|------|----|------|------|------|
+| api/posts | GET | posts | | "-updated_at" | 500 |
+
 *post_form = > 网页.表单 表="posts" 动作="插入"*
 *post_form = > post_form.字段 字段=`发布字段`*
 *post_form = > post_form.规则 规则=`发布规则`*
@@ -223,9 +229,11 @@ import db:db/index.mq.md
 *app = > app.路由 路径="/admin-publish" 页面=publish*
 *app = > app.路由 路径="/admin-edit" 页面=edit*
 *app = > app.挂载表单 id="post-edit" 表单=`edit_form`*
+*app = > app.装配 接口=`文章接口`*
 *app = > app.静态 目录="public" 挂载="/static"*
 *app = > app.图标 表=`站点图标`*
 *app = > app.鉴权 用户表=`管理员` 会话时长=3600*
 *app = > app.门禁 路径="/_form/post" 角色="admin"*
 *app = > app.门禁 路径="/_form/post-edit" 角色="admin"*
+*app = > app.门禁 路径="/api/posts" 角色="admin"*
 > `app`.监听

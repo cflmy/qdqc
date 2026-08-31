@@ -623,19 +623,6 @@
     }
   }
 
-  function parseAdminEdit(html) {
-    var doc = new DOMParser().parseFromString(html, 'text/html');
-    var srcForm = doc.querySelector('form');
-    if (!srcForm) return null;
-    var data = {};
-    ['title', 'slug', 'tag', 'summary', 'content', 'id'].forEach(function (name) {
-      var el = srcForm.querySelector('[name="' + name + '"]');
-      if (!el) return;
-      data[name] = el.value || '';
-    });
-    return data;
-  }
-
   function statusBanner(text, kind) {
     var banner = document.querySelector('.edit-status');
     if (!banner) {
@@ -653,40 +640,55 @@
     return banner;
   }
 
+  function findPostRow(payload, id) {
+    var rows = [];
+    if (payload && Array.isArray(payload.rows)) rows = payload.rows;
+    else if (Array.isArray(payload)) rows = payload;
+    var want = String(id);
+    for (var i = 0; i < rows.length; i++) {
+      if (String(rows[i].id) === want) return rows[i];
+    }
+    return null;
+  }
+
   function loadPostForEdit(form, id) {
-    statusBanner('正在加载文章 #' + id + '…', '');
+    statusBanner('正在从数据库加载文章 #' + id + '…', '');
     var submit = form.querySelector('.actions button');
     if (submit) submit.disabled = true;
 
-    return fetch('/admin/posts/' + encodeURIComponent(id) + '/edit', {
+    return fetch('/api/posts', {
       credentials: 'same-origin',
-      headers: { Accept: 'text/html' }
+      headers: { Accept: 'application/json' }
     }).then(function (res) {
       if (res.redirected && /login/i.test(res.url || '')) {
         window.location.href = '/admin/login';
         return null;
       }
+      if (res.status === 401 || res.status === 403) {
+        window.location.href = '/admin/login';
+        return null;
+      }
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.text();
-    }).then(function (html) {
-      if (html == null) return;
-      var data = parseAdminEdit(html);
-      if (!data) throw new Error('无法解析文章内容');
-      ensureIdField(form, data.id || id);
-      setField(form, 'title', data.title);
-      setField(form, 'slug', data.slug);
-      setField(form, 'tag', data.tag);
-      setField(form, 'summary', data.summary);
-      applyContent(form, data.content);
-      var title = data.title || ('#' + id);
-      statusBanner('正在编辑：<strong>' + title.replace(/</g, '&lt;') + '</strong>（保存后立即生效）', 'is-ready');
+      return res.json();
+    }).then(function (payload) {
+      if (payload == null) return;
+      var row = findPostRow(payload, id);
+      if (!row) throw new Error('数据库中未找到文章 #' + id);
+      ensureIdField(form, row.id || id);
+      setField(form, 'title', row.title);
+      setField(form, 'slug', row.slug);
+      setField(form, 'tag', row.tag);
+      setField(form, 'summary', row.summary);
+      applyContent(form, row.content);
+      var title = row.title || ('#' + id);
+      statusBanner('正在编辑：<strong>' + String(title).replace(/</g, '&lt;') + '</strong>（来自数据库，保存后立即生效）', 'is-ready');
       var h1 = document.querySelector('.main-intro h1');
-      if (h1) h1.textContent = '编辑 · ' + (data.title || ('文章 #' + id));
+      if (h1) h1.textContent = '编辑 · ' + (row.title || ('文章 #' + id));
       if (submit) submit.disabled = false;
     }).catch(function (err) {
       statusBanner(
         '加载失败：' + (err && err.message ? err.message : '未知错误') +
-          '。请确认已登录。文章编号已就绪，仍可尝试保存；或<a href="/admin-publish">返回新建</a>。',
+          '。请确认已登录。<a href="/admin-publish">返回列表</a>。',
         'is-error'
       );
       if (submit) submit.disabled = false;
