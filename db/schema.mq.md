@@ -1,6 +1,6 @@
 qdqc 数据结构
 
-求道量子站点的五张核心表：博客文章（posts / tags / post_tags）与论坛（topics / replies）。
+求道量子站点的核心表：博客文章（posts / tags / post_tags）。topics / replies 为历史表，界面已下线讨论区。
 `slug` 用于详情页 `/post/{slug}` 动态路由；`content` 存 Markdown 正文；`tag` 是主标签（tags 表 slug）。
 
 ## posts

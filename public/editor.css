@@ -1,76 +1,91 @@
-/* 求道量子 · 发布文章页「写作台」分栏 Markdown 编辑器
- * 由 public/editor.js 注入：editor.js 遇到「正文」文本域时给表单加 `editor-skin`，
- * 本样式表只在发布页生效，不影响论坛/其他页面表单。颜色全部走主题 CSS 变量，
- * 深浅黑白色板自动适配。
- *
- * 视觉仿 markdown.com.cn/editor：扁平图标工具栏（32x32 方块按钮 + 垂直分隔条）、
- * 左侧源码编辑区（等宽字体 + 行号槽）、右侧实时预览，底部状态栏（字数 / 行列 / 同步滚动）。 */
+/* 求道量子 · 发布页写作台
+ * editor.js 为正文域加上 editor-skin 后生效。色板跟随主题 CSS 变量（slate + cyan）。
+ * 布局：全宽写作桌 / 元信息条 / 工具栏+双栏编辑 / 底栏操作。 */
 
-/* ---- 页面骨架：发布页隐藏侧栏、主区专注写作 ---- */
+/* ---- 页面骨架：隐藏侧栏与品牌图，主区拉满 ---- */
 body:has(.site-form.editor-skin) {
   grid-template-columns: 1fr;
   grid-template-areas: "top" "main" "foot";
 }
-body:has(.site-form.editor-skin) aside.side {
+body:has(.site-form.editor-skin) aside.side,
+body:has(.site-form.editor-skin) .mq-img.brand-logo {
   display: none;
 }
-body:has(.site-form.editor-skin) .main-intro {
-  margin-bottom: 1.1rem;
-}
-body:has(.site-form.editor-skin) .main-intro p {
-  max-width: 54rem;
-}
-
-/* ---- 写作台卡片（覆盖 .site-form 的 30rem 限制） ---- */
-.site-form.editor-skin {
-  max-width: 1120px;
-  margin: 0 auto;
+body:has(.site-form.editor-skin) main.main {
+  padding: 1.1rem 1.25rem 2.5rem;
+  max-width: 1280px;
   width: 100%;
-  padding: 2rem 2.4rem 2.1rem;
-  background: color-mix(in srgb, var(--card) 90%, transparent);
+  margin: 0 auto;
+}
+body:has(.site-form.editor-skin) .main-intro {
+  margin-bottom: .85rem;
+  max-width: none;
+}
+body:has(.site-form.editor-skin) .main-intro h1 {
+  font-size: clamp(1.55rem, 2.6vw, 1.95rem);
+  letter-spacing: .03em;
+  border-left-width: 3px;
+  padding-left: .7rem;
+}
+body:has(.site-form.editor-skin) .main-intro p.lede,
+body:has(.site-form.editor-skin) .main-intro p {
+  max-width: 40rem;
+  font-size: .95rem;
+  margin-top: .35rem;
+}
+body:has(.site-form.editor-skin) footer.foot {
+  margin-top: 0;
+}
+
+/* ---- 写作台外壳 ---- */
+.site-form.editor-skin {
+  max-width: none;
+  margin: 0;
+  width: 100%;
+  padding: 1.35rem 1.5rem 1.4rem;
+  background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 20px;
-  box-shadow: var(--glow);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  border-radius: 2px;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
-
 .site-form.editor-skin .meta {
-  display: none; /* 隐藏插件渲染的 table/action 元信息，页面更干净 */
+  display: none;
 }
-
 .site-form.editor-skin form {
   display: block;
 }
 
-/* ---- 元信息字段区 ---- */
+/* ---- 元信息：标题独占一行，slug/tag/摘要成面板 ---- */
 .pub-meta {
   display: grid;
-  gap: 1.15rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1.15rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
 }
 .pub-field {
   margin: 0;
   display: grid;
-  gap: .45rem;
+  gap: .4rem;
 }
 
-/* 标题：大字无框、下划线聚焦，仿博客写作台 */
 .site-form.editor-skin .pub-title {
-  font-size: 0; /* 隐藏「标题」小字，占位符即提示 */
+  font-size: 0;
   gap: 0;
   display: block;
-  margin-bottom: 1.1rem;
+  margin-bottom: .15rem;
 }
 .site-form.editor-skin .pub-title input {
   display: block;
   width: 100%;
   font-family: var(--serif);
-  font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+  font-size: clamp(1.55rem, 2.8vw, 2.1rem);
   font-weight: 800;
-  line-height: 1.32;
+  line-height: 1.3;
   letter-spacing: .01em;
-  padding: .35rem .1rem .65rem;
+  padding: .2rem .05rem .55rem;
   border: 0;
   border-bottom: 2px solid var(--line);
   border-radius: 0;
@@ -89,28 +104,45 @@ body:has(.site-form.editor-skin) .main-intro p {
   box-shadow: 0 1px 0 var(--accent);
 }
 
-/* 链接标识 + 标签：同行两列 */
 .pub-row2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: .85rem;
 }
 
-/* 摘要：紧凑两行 */
+.site-form.editor-skin .pub-summary {
+  gap: .35rem;
+}
 .site-form.editor-skin .pub-summary textarea {
-  min-height: 4.6rem;
+  min-height: 3.6rem;
   resize: vertical;
+  line-height: 1.55;
 }
 
-/* 元信息输入框统一柔化 */
+.site-form.editor-skin .pub-meta label {
+  font-size: .78rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
 .site-form.editor-skin .pub-meta input:not([type="hidden"]),
 .site-form.editor-skin .pub-meta textarea {
-  background: color-mix(in srgb, var(--card-2) 55%, transparent);
+  background: color-mix(in srgb, var(--bg-2) 70%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: .55rem .75rem;
   transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
 }
 .site-form.editor-skin .pub-meta input:not([type="hidden"]):hover,
 .site-form.editor-skin .pub-meta textarea:hover {
   border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.site-form.editor-skin .pub-meta input:not([type="hidden"]):focus,
+.site-form.editor-skin .pub-meta textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
+  background: var(--card);
 }
 .site-form.editor-skin .pub-meta input::placeholder,
 .site-form.editor-skin .pub-meta textarea::placeholder {
@@ -118,57 +150,61 @@ body:has(.site-form.editor-skin) .main-intro p {
   opacity: 1;
 }
 
-/* ---- 正文字段容器 ---- */
+/* ---- 正文字段 ---- */
 .md-field {
   display: grid;
   gap: 0;
 }
 .md-field > .md-field-label {
-  display: none; /* 编辑器自带 Markdown/预览标签，正文标签冗余 */
+  display: none;
 }
 .md-field .md-hidden {
   display: none;
 }
 
-/* ============================================================
-   Editor —— 整体容器（仿 markdown.com.cn 三段式：工具/主体/状态栏）
-   ============================================================ */
+/* ---- Editor 容器 ---- */
 .md-editor {
   display: flex;
   flex-direction: column;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 2px;
   background: var(--card);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
   overflow: hidden;
+  min-height: min(68vh, 44rem);
   transition: border-color .18s ease;
 }
 .md-editor:focus-within {
-  border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+  border-color: var(--accent);
+  box-shadow: none;
 }
 
-/* ---- 工具栏：扁平、吸顶 ---- */
 .md-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: .5rem;
   flex-wrap: wrap;
-  padding: .38rem .5rem;
+  flex: none;
+  padding: .42rem .55rem;
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg-2) 85%, transparent);
-  position: sticky;
-  top: 4.1rem; /* 顶栏之下保持吸顶 */
-  z-index: 8;
+  background: color-mix(in srgb, var(--bg-2) 92%, var(--card));
+  position: relative;
+  z-index: 2;
 }
 .md-tools {
   display: flex;
   align-items: center;
-  gap: .1rem;
+  gap: .12rem;
   flex-wrap: wrap;
 }
+.md-toolbar .md-meta {
+  display: flex;
+  align-items: center;
+  gap: .12rem;
+  margin-left: auto;
+  flex: none;
+}
 
-/* 工具栏按钮：32x32 方块、无边框、低对比、hover 圆角底 */
 .md-toolbar .tool-btn,
 .md-toolbar .md-btn {
   width: 2rem;
@@ -178,7 +214,7 @@ body:has(.site-form.editor-skin) .main-intro p {
   align-items: center;
   justify-content: center;
   border: 0;
-  border-radius: 6px;
+  border-radius: 7px;
   background: transparent;
   color: var(--muted);
   font: inherit;
@@ -190,7 +226,7 @@ body:has(.site-form.editor-skin) .main-intro p {
 .md-toolbar .tool-btn:hover,
 .md-toolbar .md-btn:hover {
   color: var(--ink);
-  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 .md-toolbar .tool-btn:active,
 .md-toolbar .md-btn:active {
@@ -198,19 +234,17 @@ body:has(.site-form.editor-skin) .main-intro p {
 }
 .md-toolbar .md-btn.on {
   color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
 }
 
-/* 垂直分隔条（仿 .toolbar-divider：1px x 24px） */
 .md-toolbar .md-sep {
   width: 1px;
-  height: 1.5rem;
-  margin: 0 .3rem;
+  height: 1.4rem;
+  margin: 0 .28rem;
   background: var(--line);
   flex: none;
 }
 
-/* 标题下拉按钮：H + 下拉箭头 */
 .md-drop {
   position: relative;
 }
@@ -224,7 +258,6 @@ body:has(.site-form.editor-skin) .main-intro p {
   opacity: .75;
 }
 
-/* 下拉菜单：悬浮卡片、列表项 hover 高亮 */
 .md-drop-menu {
   display: none;
   position: absolute;
@@ -261,21 +294,22 @@ body:has(.site-form.editor-skin) .main-intro p {
   min-width: 1.7rem;
   font-weight: 700;
   color: var(--muted);
-  letter-spacing: .02em;
 }
 .md-drop-item:hover {
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
   color: var(--ink);
 }
 .md-drop-item:hover b {
   color: var(--accent);
 }
 
-/* ---- 双栏主体 ---- */
+/* ---- 双栏 ---- */
 .md-body {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 32rem;
+  flex: 1 1 auto;
+  min-height: min(58vh, 38rem);
+  min-width: 0;
 }
 .md-pane {
   min-width: 0;
@@ -288,37 +322,33 @@ body:has(.site-form.editor-skin) .main-intro p {
   border-left: 1px solid var(--line);
 }
 
-/* 面板标签：仿 reference 的固定小标签（Markdown / 预览） */
+/* 面板标签：占位流式，避免盖住工具栏或正文 */
 .md-pane .md-pane-tag {
-  position: absolute;
-  top: .6rem;
-  left: .75rem;
-  z-index: 3;
-  padding: .16rem .6rem;
-  font-size: .7rem;
-  letter-spacing: .12em;
+  position: static;
+  display: inline-flex;
+  align-self: flex-start;
+  margin: .55rem .7rem .15rem;
+  padding: .14rem .55rem;
+  font-size: .68rem;
+  letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--faint);
-  background: color-mix(in srgb, var(--card) 88%, transparent);
+  background: color-mix(in srgb, var(--bg-2) 80%, transparent);
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 5px;
   pointer-events: none;
   user-select: none;
-}
-.md-pane-preview .md-pane-tag {
-  left: .75rem;
+  z-index: auto;
 }
 
-/* 编辑区滚动容器：行号槽 + 文本域同滚 */
 .md-scroll {
   position: relative;
-  flex: 1;
+  flex: 1 1 auto;
   display: flex;
-  min-height: 32rem;
+  min-height: 0;
   overflow: auto;
 }
 
-/* 行号槽：48px 宽、与文本域同字体同行高，滚动同步位移 */
 .line-numbers {
   position: absolute;
   left: 0;
@@ -327,9 +357,9 @@ body:has(.site-form.editor-skin) .main-intro p {
   width: 3rem;
   flex: none;
   overflow: hidden;
-  padding: 2.4rem 0 1rem; /* 顶部与文本域留出标签位 */
+  padding: .85rem 0 1rem;
   border-right: 1px solid var(--line);
-  background: color-mix(in srgb, var(--card-2) 45%, transparent);
+  background: color-mix(in srgb, var(--bg-2) 55%, transparent);
   text-align: right;
   pointer-events: none;
   user-select: none;
@@ -339,21 +369,17 @@ body:has(.site-form.editor-skin) .main-intro p {
   padding-right: .55rem;
   color: var(--faint);
   font-family: "SF Mono", "Fira Code", "JetBrains Mono", "Cascadia Code", Monaco, Consolas, monospace;
-  /* 字号与行高必须与 .md-source 完全一致，行号才能逐行对齐 */
   font-size: .875rem;
   line-height: 1.7;
 }
 
-/* 源码文本域：等宽字体、大行高、左侧让出行号槽
- * 注意：以 .site-form.editor-skin 前缀提升特异性（0,3,1），
- * 否则 theme.mq.md 的 .site-form textarea（0,1,1）会覆盖下面这些属性。 */
 .site-form.editor-skin .md-source {
   display: block;
   flex: 1;
   width: 100%;
   min-width: 0;
-  min-height: 32rem;
-  padding: 2.4rem 1.3rem 1.4rem 3.6rem; /* 顶部留标签位，左侧留行号槽 */
+  min-height: min(52vh, 34rem);
+  padding: .85rem 1.2rem 1.4rem 3.55rem;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -374,17 +400,16 @@ body:has(.site-form.editor-skin) .main-intro p {
   opacity: .8;
 }
 
-/* ---- 预览面板 ---- */
 .md-pane-preview {
-  background: linear-gradient(160deg, var(--card), var(--card-2));
+  background: linear-gradient(165deg, var(--card), color-mix(in srgb, var(--card-2) 80%, var(--card)));
 }
 .md-preview-scroll {
-  flex: 1;
-  min-height: 32rem;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: auto;
 }
 .md-preview {
-  padding: 2.4rem 1.5rem 2rem;
+  padding: .85rem 1.45rem 2rem;
   color: var(--ink-soft);
   font-size: .96rem;
   overflow-wrap: break-word;
@@ -394,6 +419,7 @@ body:has(.site-form.editor-skin) .main-intro p {
 }
 .md-preview .md-empty {
   color: var(--faint);
+  font-style: italic;
 }
 .md-preview h1,
 .md-preview h2,
@@ -403,37 +429,37 @@ body:has(.site-form.editor-skin) .main-intro p {
 .md-preview h6 {
   font-family: var(--serif);
   color: var(--ink);
-  margin: 1.5rem 0 .6rem;
+  margin: 1.45rem 0 .55rem;
   line-height: 1.35;
 }
-.md-preview h1 { font-size: 1.8rem; }
+.md-preview h1 { font-size: 1.7rem; }
 .md-preview h2 {
-  font-size: 1.42rem;
+  font-size: 1.35rem;
   border-left: 3px solid var(--accent);
   padding-left: .55rem;
 }
-.md-preview h3 { font-size: 1.18rem; color: var(--ink-soft); }
+.md-preview h3 { font-size: 1.15rem; color: var(--ink-soft); }
 .md-preview h4 { font-size: 1.02rem; }
-.md-preview p { margin: .6rem 0; }
+.md-preview p { margin: .55rem 0; }
 .md-preview a { color: var(--accent-3); }
 .md-preview a:hover { color: var(--accent); text-decoration: underline; }
 .md-preview blockquote {
   margin: 1rem 0;
-  padding: .6rem 1.1rem;
-  border-left: 3px solid var(--accent-2);
-  background: color-mix(in srgb, var(--accent-2) 6%, transparent);
+  padding: .6rem 1.05rem;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
   color: var(--muted);
 }
 .md-preview code {
   padding: .12rem .38rem;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--ink) 8%, transparent);
-  color: var(--accent-3);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  color: var(--accent-2);
   font-family: "SF Mono", "Fira Code", "JetBrains Mono", "Cascadia Code", Monaco, Consolas, monospace;
   font-size: .86em;
 }
 .md-preview pre {
-  padding: .9rem 1.1rem;
+  padding: .85rem 1.05rem;
   border-radius: 10px;
   background: var(--code-bg);
   border: 1px solid var(--line);
@@ -443,20 +469,20 @@ body:has(.site-form.editor-skin) .main-intro p {
 .md-preview pre code {
   padding: 0;
   background: transparent;
-  color: #bfd9f5;
+  color: #a8e7f5;
 }
 .md-preview ul,
 .md-preview ol {
-  padding-left: 1.5rem;
-  margin: .55rem 0;
+  padding-left: 1.45rem;
+  margin: .5rem 0;
 }
-.md-preview li { margin: .25rem 0; }
-.md-preview li > p { margin: .2rem 0; }
+.md-preview li { margin: .22rem 0; }
+.md-preview li > p { margin: .15rem 0; }
 .md-preview hr {
   border: 0;
   height: 1px;
   background: var(--line);
-  margin: 1.6rem 0;
+  margin: 1.5rem 0;
 }
 .md-preview img {
   max-width: 100%;
@@ -472,11 +498,11 @@ body:has(.site-form.editor-skin) .main-intro p {
 .md-preview th,
 .md-preview td {
   border: 1px solid var(--line);
-  padding: .5rem .75rem;
+  padding: .45rem .7rem;
   text-align: left;
 }
 .md-preview th {
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
   color: var(--ink);
   font-weight: 600;
 }
@@ -485,15 +511,15 @@ body:has(.site-form.editor-skin) .main-intro p {
 }
 .md-preview del { color: var(--faint); }
 
-/* ---- 状态栏（仿 reference footer：字数 + 行列 + 同步滚动） ---- */
+/* ---- 状态栏 ---- */
 .md-status {
   display: flex;
   align-items: center;
   gap: .55rem;
-  padding: .42rem .9rem;
+  padding: .4rem .9rem;
   border-top: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg-2) 85%, transparent);
-  font-size: .78rem;
+  background: color-mix(in srgb, var(--bg-2) 88%, transparent);
+  font-size: .76rem;
   color: var(--faint);
   user-select: none;
 }
@@ -528,34 +554,47 @@ body:has(.site-form.editor-skin) .main-intro p {
   cursor: pointer;
 }
 
-/* ---- 操作栏：发布居右、取消居左 ---- */
+/* ---- 底栏操作 ---- */
 .site-form.editor-skin .actions {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
   gap: 1rem;
-  margin-top: 1.4rem;
-  padding-top: 1.25rem;
+  margin-top: 1.15rem;
+  padding: .95rem 0 0;
   border-top: 1px solid var(--line);
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--card) 92%, transparent) 28%);
+  z-index: 5;
 }
 .site-form.editor-skin .actions button {
-  padding: .72rem 2.4rem;
-  font-size: 1rem;
-  letter-spacing: .04em;
+  padding: .7rem 2.1rem;
+  font-size: .95rem;
+  letter-spacing: .05em;
+  border-radius: 2px;
+  background: var(--accent);
+  background-image: none;
+  box-shadow: none;
+  transition: filter .15s ease;
 }
 .site-form.editor-skin .actions button:hover {
-  box-shadow: var(--glow-2);
-  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow: none;
+  transform: none;
 }
 .site-form.editor-skin .actions a {
   color: var(--faint);
-  transition: color .15s ease;
+  padding: .45rem .7rem;
+  border-radius: 7px;
+  transition: color .15s ease, background-color .15s ease;
 }
 .site-form.editor-skin .actions a:hover {
   color: var(--muted);
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
 }
 
-/* ---- 全屏模式 ---- */
+/* ---- 全屏 ---- */
 .md-editor.full {
   position: fixed;
   inset: 0;
@@ -563,59 +602,80 @@ body:has(.site-form.editor-skin) .main-intro p {
   border: 0;
   border-radius: 0;
   box-shadow: none;
+  min-height: 100vh;
 }
 .md-editor.full .md-toolbar {
+  position: sticky;
   top: 0;
+  z-index: 4;
 }
 .md-editor.full .md-body {
   flex: 1;
   min-height: 0;
 }
 .md-editor.full .md-scroll,
-.md-editor.full .md-preview-scroll {
+.md-editor.full .md-preview-scroll,
+.md-editor.full .md-source {
   min-height: 0;
 }
 .md-editor.full .md-source {
-  min-height: 100%;
   height: 100%;
 }
 
-/* ---- 窄屏：单栏 + 切换 ---- */
+/* ---- 窄屏 ---- */
 @media (max-width: 860px) {
+  body:has(.site-form.editor-skin) main.main {
+    padding: 1rem .85rem 2rem;
+  }
   .site-form.editor-skin {
-    padding: 1.3rem 1.1rem 1.5rem;
-    border-radius: 16px;
+    padding: 1.05rem .95rem 1.2rem;
+    border-radius: 12px;
   }
   .pub-row2 {
     grid-template-columns: 1fr;
   }
   .md-toolbar {
-    position: static; /* 窄屏不吸顶，避免遮挡 */
+    position: static;
+  }
+  .md-editor,
+  .md-body,
+  .md-scroll,
+  .md-preview-scroll,
+  .site-form.editor-skin .md-source {
+    min-height: 22rem;
   }
   .md-body {
     grid-template-columns: 1fr;
-    min-height: 22rem;
   }
   .md-pane + .md-pane {
     border-left: 0;
     border-top: 1px solid var(--line);
   }
-  .md-scroll,
-  .md-preview-scroll {
-    min-height: 22rem;
-  }
-  /* 窄屏默认显示编辑栏；点「预览」按钮切换 */
   .md-body.md-view-edit .md-pane-preview { display: none; }
   .md-body.md-view-preview .md-pane-edit { display: none; }
   .md-btn.md-preview-toggle {
-    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
     color: var(--accent);
+  }
+  .site-form.editor-skin .actions {
+    position: static;
+    background: transparent;
   }
 }
 
-/* 宽屏始终双栏，隐藏切换按钮 */
 @media (min-width: 861px) {
   .md-btn.md-preview-toggle {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-form.editor-skin .actions button,
+  .md-toolbar .tool-btn,
+  .md-toolbar .md-btn {
+    transition: none;
+  }
+  .site-form.editor-skin .actions button:hover {
+    transform: none;
   }
 }

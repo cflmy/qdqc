@@ -1,99 +1,95 @@
 ---
 title: styles/theme
-description: 求道量子主题：黑白双色（亮色白/暗色黑），样式即数据表格，装配即函数。
+description: 求道量子 · 科技杂志刊 + 论文阅读栏主题。
 import 网页:ext/web/网页.mq.md
 import text:lib/text.mq.md
 ---
 
-求道量子的主题样式即数据表格：每个 `## 段` 导出一张 GFM 样式表（`|选择器|属性|值|`，
-或用 `|媒体|选择器|属性|值|` 表达响应式），`## 全局` 用 `样式装配` 函数把它们
-装配成一份完整 CSS。黑白双色：`:root` 是白色亮色盘，`html[data-theme="dark"]`
-切换为黑色暗色盘，切换按钮由 `public/theme.js` 注入顶栏，选择持久化到 localStorage。
-黑白是骨，蓝紫是点缀——「求道于量子」的克制科技感。
+求道量子主题参考科技杂志 / 期刊排版：刊头 masthead、等宽栏目标签、目录式编号列表，
+文章页接近论文阅读栏（发丝线标题区、首字下沉、章节编号、宽边距）。动效由
+public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使用无序列表符号。
 
 ## 基础
-
-配色与字体变量、页面骨架。`:root` 为白色亮色盘，`html[data-theme="dark"]`
-覆盖为黑色暗色盘；正文/代码/链接全部走 `var()`，一套规则黑白通吃。
 
 `基础` =
 
 | 选择器 | 属性 | 值 |
 |--------|------|-----|
-| :root | --bg | #ffffff |
-| :root | --bg-2 | #f6f8fc |
-| :root | --card | #ffffff |
-| :root | --card-2 | #f1f5f9 |
-| :root | --code-bg | #0b1020 |
-| :root | --line | rgba(15,23,42,.10) |
-| :root | --ink | #0f172a |
-| :root | --ink-soft | #334155 |
-| :root | --muted | #64748b |
-| :root | --faint | #94a3b8 |
-| :root | --accent | #2563eb |
-| :root | --accent-2 | #7c3aed |
-| :root | --accent-3 | #0891b2 |
-| :root | --glass | rgba(255,255,255,.78) |
-| :root | --grid-line | rgba(15,23,42,.045) |
-| :root | --glow | 0 10px 30px rgba(15,23,42,.06) |
-| :root | --glow-2 | 0 0 0 1px rgba(37,99,235,.12), 0 14px 34px rgba(37,99,235,.10) |
-| :root | --danger | #e11d48 |
+| :root | --bg | #f3f1ea |
+| :root | --bg-2 | #e8e4da |
+| :root | --card | #faf8f3 |
+| :root | --card-2 | #efebe3 |
+| :root | --code-bg | #12161e |
+| :root | --line | rgba(24, 22, 18, .14) |
+| :root | --ink | #14120f |
+| :root | --ink-soft | #2e2a24 |
+| :root | --muted | #5c564c |
+| :root | --faint | #8a8378 |
+| :root | --accent | #0f6e6a |
+| :root | --accent-2 | #0b5552 |
+| :root | --accent-3 | #17807b |
+| :root | --mark | #c45c26 |
+| :root | --glass | rgba(243, 241, 234, .9) |
+| :root | --radius | 0px |
+| :root | --measure | 40rem |
+| :root | --serif | Georgia, "Songti SC", "Noto Serif SC", "Source Han Serif SC", serif |
+| :root | --sans | system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif |
+| :root | --mono | ui-monospace, "Cascadia Code", "Consolas", "Sarasa Mono SC", monospace |
 | :root | color-scheme | light |
-| :root | --radius | 14px |
-| :root | --serif | "Noto Serif SC", Georgia, "Songti SC", serif |
-| :root | --sans | "Noto Sans SC", "IBM Plex Sans", system-ui, -apple-system, sans-serif |
-| html[data-theme="dark"] | --bg | #0a0e17 |
-| html[data-theme="dark"] | --bg-2 | #10151f |
-| html[data-theme="dark"] | --card | #141a26 |
-| html[data-theme="dark"] | --card-2 | #1a2130 |
-| html[data-theme="dark"] | --code-bg | #04070c |
-| html[data-theme="dark"] | --line | rgba(148,197,255,.16) |
-| html[data-theme="dark"] | --ink | #ffffff |
-| html[data-theme="dark"] | --ink-soft | #f3f6fa |
-| html[data-theme="dark"] | --muted | #dde5ef |
-| html[data-theme="dark"] | --faint | #c2cdd9 |
-| html[data-theme="dark"] | --accent | #5c9dff |
-| html[data-theme="dark"] | --accent-2 | #a78bfa |
-| html[data-theme="dark"] | --accent-3 | #45e0f5 |
-| html[data-theme="dark"] | --danger | #fb7185 |
+| html[data-theme="dark"] | --bg | #0c0f14 |
+| html[data-theme="dark"] | --bg-2 | #141922 |
+| html[data-theme="dark"] | --card | #12171f |
+| html[data-theme="dark"] | --card-2 | #1a202a |
+| html[data-theme="dark"] | --code-bg | #07090d |
+| html[data-theme="dark"] | --line | rgba(210, 220, 235, .12) |
+| html[data-theme="dark"] | --ink | #e9eef5 |
+| html[data-theme="dark"] | --ink-soft | #c5ced9 |
+| html[data-theme="dark"] | --muted | #8b97a8 |
+| html[data-theme="dark"] | --faint | #5f6b7a |
+| html[data-theme="dark"] | --accent | #3dcdc4 |
+| html[data-theme="dark"] | --accent-2 | #7ee0d9 |
+| html[data-theme="dark"] | --accent-3 | #a8efe9 |
+| html[data-theme="dark"] | --mark | #e8a445 |
+| html[data-theme="dark"] | --glass | rgba(12, 15, 20, .92) |
 | html[data-theme="dark"] | color-scheme | dark |
-| html[data-theme="dark"] | --glass | rgba(12,17,28,.82) |
-| html[data-theme="dark"] | --grid-line | rgba(148,197,255,.06) |
-| html[data-theme="dark"] | --glow | 0 8px 30px rgba(0,0,0,.35) |
-| html[data-theme="dark"] | --glow-2 | 0 0 0 1px rgba(92,157,255,.30), 0 14px 34px rgba(92,157,255,.16) |
 | html | scroll-behavior | smooth |
-| html | scrollbar-color | var(--faint) transparent |
 | * | box-sizing | border-box |
-| ::selection | background | rgba(37,99,235,.18) |
-| html[data-theme="dark"] ::selection | background | rgba(92,157,255,.30) |
+| ::selection | background | color-mix(in srgb, var(--mark) 28%, transparent) |
 | body | margin | 0 |
 | body | font-family | var(--sans) |
+| body | font-size | clamp(1rem, 0.95rem + 0.22vw, 1.075rem) |
 | body | background-color | var(--bg) |
-| body | background-image | linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px), radial-gradient(1100px 560px at 16% -8%, rgba(37,99,235,.07), transparent 60%), radial-gradient(900px 520px at 92% 112%, rgba(124,58,237,.07), transparent 60%) |
-| body | background-size | 34px 34px, 34px 34px, auto, auto |
-| body | background-attachment | fixed |
-| html[data-theme="dark"] body | background-image | linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px), radial-gradient(1100px 560px at 16% -8%, rgba(92,157,255,.10), transparent 60%), radial-gradient(900px 520px at 92% 112%, rgba(167,139,250,.08), transparent 60%) |
+| body | background-image | linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px) |
+| body | background-size | 48px 48px |
 | body | color | var(--ink) |
 | body | display | grid |
 | body | min-height | 100vh |
 | body | line-height | 1.75 |
 | body | -webkit-font-smoothing | antialiased |
 | body | grid-template-rows | auto 1fr auto |
-| body.has-sidebar | grid-template-columns | 16rem 1fr |
+| body.has-sidebar | grid-template-columns | minmax(10.5rem, 12.5rem) minmax(0, 1fr) |
 | body.has-sidebar | grid-template-areas | "top top" "side main" "foot foot" |
 | body.no-sidebar | grid-template-areas | "top" "main" "foot" |
-| a | color | var(--accent-3) |
+| a | color | var(--accent-2) |
 | a | text-decoration | none |
-| a:hover | color | var(--accent) |
+| a:hover | color | var(--mark) |
 | a:focus-visible | outline | 2px solid var(--accent) |
 | a:focus-visible | outline-offset | 3px |
-| code | font-family | "Cascadia Code", "JetBrains Mono", Consolas, monospace |
+| code | font-family | var(--mono) |
+| code | font-size | .88em |
+| #qd-progress | position | fixed |
+| #qd-progress | top | 0 |
+| #qd-progress | left | 0 |
+| #qd-progress | height | 2px |
+| #qd-progress | width | 0 |
+| #qd-progress | z-index | 60 |
+| #qd-progress | background | linear-gradient(90deg, var(--accent), var(--mark)) |
+| #qd-progress | transform-origin | left center |
+| #qd-progress | pointer-events | none |
 
 **`基础`**
 
 ## 顶栏
-
-吸顶导航：黑白玻璃磨砂、细分隔线、站名渐变字、黑白主题切换按钮。
 
 `顶栏` =
 
@@ -102,172 +98,211 @@ import text:lib/text.mq.md
 | header.topnav | grid-area | top |
 | header.topnav | position | sticky |
 | header.topnav | top | 0 |
-| header.topnav | z-index | 20 |
+| header.topnav | z-index | 30 |
 | header.topnav | background | var(--glass) |
-| header.topnav | backdrop-filter | blur(16px) saturate(1.5) |
-| header.topnav | -webkit-backdrop-filter | blur(16px) saturate(1.5) |
+| header.topnav | backdrop-filter | blur(12px) |
+| header.topnav | -webkit-backdrop-filter | blur(12px) |
 | header.topnav | border-bottom | 1px solid var(--line) |
-| header.topnav | box-shadow | 0 1px 0 rgba(37,99,235,.06), var(--glow) |
-| header.topnav | padding | .9rem 2rem |
+| header.topnav | padding | .85rem clamp(1rem, 4vw, 2.75rem) |
 | header.topnav | display | flex |
 | header.topnav | align-items | center |
 | header.topnav | justify-content | space-between |
-| header.topnav | gap | .5rem |
+| header.topnav | gap | 1rem |
 | ul.nav | list-style | none |
 | ul.nav | margin | 0 |
 | ul.nav | padding | 0 |
 | ul.nav | display | flex |
-| ul.nav | align-items | center |
-| ul.nav | gap | .35rem |
+| ul.nav | align-items | baseline |
+| ul.nav | gap | .2rem 1.35rem |
+| ul.nav | flex-wrap | wrap |
 | ul.nav li | margin | 0 |
+| ul.nav a | position | relative |
 | ul.nav a | display | inline-block |
-| ul.nav a | padding | .5rem .95rem |
-| ul.nav a | border-radius | 999px |
+| ul.nav a | padding | .25rem 0 |
 | ul.nav a | color | var(--muted) |
-| ul.nav a | font-size | .95rem |
-| ul.nav a | transition | color .16s ease, background-color .16s ease, box-shadow .16s ease |
+| ul.nav a | font-size | .88rem |
+| ul.nav a | letter-spacing | .04em |
+| ul.nav a | transition | color .2s ease |
 | ul.nav a:hover | color | var(--ink) |
-| ul.nav a:hover | background | color-mix(in srgb, var(--accent) 12%, transparent) |
-| ul.nav li:first-child a | font-weight | 800 |
-| ul.nav li:first-child a | font-size | 1.14rem |
-| ul.nav li:first-child a | letter-spacing | .08em |
-| ul.nav li:first-child a | color | transparent |
-| ul.nav li:first-child a | background-image | linear-gradient(90deg, var(--accent), var(--accent-2)) |
-| ul.nav li:first-child a | background-clip | text |
-| ul.nav li:first-child a | -webkit-background-clip | text |
-| button.theme-toggle | padding | .42rem 1rem |
+| ul.nav a:hover | background | transparent |
+| ul.nav li:first-child a | font-family | var(--serif) |
+| ul.nav li:first-child a | font-weight | 700 |
+| ul.nav li:first-child a | font-size | 1.08rem |
+| ul.nav li:first-child a | letter-spacing | .16em |
+| ul.nav li:first-child a | color | var(--ink) |
+| ul.nav li:first-child a:hover | color | var(--accent-2) |
+| button.theme-toggle | padding | .28rem .65rem |
 | button.theme-toggle | border | 1px solid var(--line) |
-| button.theme-toggle | border-radius | 999px |
+| button.theme-toggle | border-radius | 0 |
 | button.theme-toggle | background | transparent |
-| button.theme-toggle | color | var(--muted) |
-| button.theme-toggle | font | inherit |
-| button.theme-toggle | font-size | .88rem |
+| button.theme-toggle | color | var(--faint) |
+| button.theme-toggle | font-family | var(--mono) |
+| button.theme-toggle | font-size | .68rem |
+| button.theme-toggle | letter-spacing | .12em |
+| button.theme-toggle | text-transform | uppercase |
 | button.theme-toggle | cursor | pointer |
-| button.theme-toggle | transition | color .16s ease, border-color .16s ease, box-shadow .16s ease |
+| button.theme-toggle | transition | color .2s ease, border-color .2s ease, background-color .2s ease |
 | button.theme-toggle:hover | color | var(--ink) |
-| button.theme-toggle:hover | border-color | var(--accent) |
-| button.theme-toggle:hover | box-shadow | 0 0 0 1px var(--accent) |
+| button.theme-toggle:hover | border-color | var(--ink) |
 
 **`顶栏`**
 
 ## 侧栏
-
-右侧归档面板：黑白卡片、墨色/荧光左侧条、标题点缀。
 
 `侧栏` =
 
 | 选择器 | 属性 | 值 |
 |--------|------|-----|
 | aside.side | grid-area | side |
-| aside.side | margin | 1.5rem 0 1.5rem 1.5rem |
-| aside.side | padding | 1.3rem 1.15rem |
-| aside.side | background | color-mix(in srgb, var(--card) 88%, transparent) |
-| aside.side | border | 1px solid var(--line) |
-| aside.side | border-left | 3px solid var(--accent) |
-| aside.side | border-radius | var(--radius) |
+| aside.side | margin | 2.25rem 0 2rem 1.25rem |
+| aside.side | padding | 0 1rem 0 0 |
+| aside.side | border-right | 1px solid var(--line) |
+| aside.side | background | transparent |
 | aside.side | align-self | start |
-| aside.side | box-shadow | var(--glow) |
+| aside.side | position | sticky |
+| aside.side | top | 4.25rem |
 | aside.side .side-label | display | block |
-| aside.side .side-label | font-size | .72rem |
+| aside.side .side-label | font-family | var(--mono) |
+| aside.side .side-label | font-size | .66rem |
+| aside.side .side-label | letter-spacing | .18em |
 | aside.side .side-label | text-transform | uppercase |
-| aside.side .side-label | letter-spacing | .16em |
-| aside.side .side-label | color | var(--faint) |
-| aside.side .side-label | margin-bottom | .7rem |
+| aside.side .side-label | color | var(--mark) |
+| aside.side .side-label | margin-bottom | .9rem |
 | ul.side-nav | list-style | none |
 | ul.side-nav | margin | 0 |
 | ul.side-nav | padding | 0 |
 | ul.side-nav | display | grid |
-| ul.side-nav | gap | .3rem |
+| ul.side-nav | gap | .1rem |
 | ul.side-nav a | display | block |
-| ul.side-nav a | padding | .5rem .7rem |
-| ul.side-nav a | border-radius | 8px |
+| ul.side-nav a | padding | .42rem 0 |
 | ul.side-nav a | color | var(--muted) |
-| ul.side-nav a | transition | color .16s ease, background-color .16s ease |
+| ul.side-nav a | font-size | .88rem |
+| ul.side-nav a | transition | color .2s ease, transform .2s ease |
 | ul.side-nav a:hover | color | var(--ink) |
-| ul.side-nav a:hover | background | color-mix(in srgb, var(--accent) 10%, transparent) |
+| ul.side-nav a:hover | transform | translateX(3px) |
+| ul.side-nav a:hover | background | transparent |
 
 **`侧栏`**
 
 ## 主体
 
-主内容区：引言大字标题、柔光排版、品牌图光晕。
+刊头区：等宽 kicker、大标题、副文发丝底线。
 
 `主体` =
 
 | 选择器 | 属性 | 值 |
 |--------|------|-----|
 | main.main | grid-area | main |
-| main.main | padding | 1.5rem 2rem 3rem |
+| main.main | padding | clamp(1.6rem, 4vw, 3rem) clamp(1rem, 4vw, 3rem) 4.5rem |
 | main.main | min-width | 0 |
+| main.main | max-width | 54rem |
 | main.main h1 | font-family | var(--serif) |
-| main.main h1 | margin | 0 0 .6rem |
+| main.main h1 | margin | 0 0 .7rem |
 | main.main p | margin | .45rem 0 |
-| .main-intro | margin-bottom | 1.8rem |
-| .main-intro h1 | font-size | clamp(2rem, 4vw, 3rem) |
-| .main-intro h1 | font-weight | 800 |
+| .main-intro | margin-bottom | 2.5rem |
+| .main-intro | max-width | 44rem |
+| .main-intro | padding-bottom | 1.85rem |
+| .main-intro | border-bottom | 0 |
+| .main-intro .kicker | margin | 0 0 .7rem |
+| .main-intro .kicker | font-family | var(--mono) |
+| .main-intro .kicker | font-size | .72rem |
+| .main-intro .kicker | letter-spacing | .2em |
+| .main-intro .kicker | text-transform | uppercase |
+| .main-intro .kicker | color | var(--mark) |
+| .main-intro h1 | font-size | clamp(2.4rem, 6vw, 3.6rem) |
+| .main-intro h1 | font-weight | 700 |
 | .main-intro h1 | letter-spacing | .01em |
+| .main-intro h1 | line-height | 1.12 |
 | .main-intro h1 | text-wrap | balance |
 | .main-intro h1 | color | var(--ink) |
-| .main-intro h1 | border-left | 4px solid var(--accent) |
-| .main-intro h1 | padding-left | .7rem |
+| .main-intro p.lede | font-size | clamp(1.05rem, 1.8vw, 1.25rem) |
+| .main-intro p.lede | line-height | 1.7 |
+| .main-intro p.lede | color | var(--ink-soft) |
+| .main-intro p.lede | max-width | 34rem |
+| .main-intro p.lede | margin-top | .75rem |
 | .main-intro p | color | var(--muted) |
-| .main-intro p | max-width | 46rem |
-| .main-intro h2 | font-size | 1.3rem |
-| .main-intro h2 | color | var(--ink-soft) |
-| .main-intro h2 | margin | 1.6rem 0 .6rem |
+| .main-intro p | max-width | 36rem |
 | .mq-img.brand-logo | margin | 0 |
 | .mq-img.brand-logo img | display | block |
-| .mq-img.brand-logo img | width | 5.25rem |
+| .mq-img.brand-logo img | width | 5.75rem |
 | .mq-img.brand-logo img | height | auto |
-| .mq-img.brand-logo img | margin | .6rem 0 1.5rem |
-| .mq-img.brand-logo img | filter | drop-shadow(0 0 22px color-mix(in srgb, var(--accent) 30%, transparent)) |
+| .mq-img.brand-logo img | margin | 0 0 1.35rem |
+| .mq-img.brand-logo img | border | 1px solid var(--line) |
+| .mq-img.brand-logo img | border-radius | 0 |
+| .mq-img.brand-logo img | filter | none |
 
 **`主体`**
 
 ## 卡片
 
-文章/主题列表卡片：黑白玻璃、悬浮上浮、渐变标签、三行摘要。
+杂志目录：编号 + 发丝分割 + 悬停平移。
 
 `卡片` =
 
 | 选择器 | 属性 | 值 |
 |--------|------|-----|
 | .content.cards | display | grid |
-| .content.cards | grid-template-columns | repeat(auto-fill, minmax(20rem, 1fr)) |
-| .content.cards | gap | 1.15rem |
+| .content.cards | grid-template-columns | 1fr |
+| .content.cards | gap | 0 |
+| .content.cards | max-width | var(--measure) |
+| .content.cards | counter-reset | qd-article |
 | .content.cards .card | position | relative |
-| .content.cards .card | display | block |
-| .content.cards .card | background | linear-gradient(160deg, var(--card), var(--card-2)) |
-| .content.cards .card | border | 1px solid var(--line) |
-| .content.cards .card | border-radius | var(--radius) |
-| .content.cards .card | padding | 1.35rem 1.4rem |
-| .content.cards .card | box-shadow | var(--glow) |
-| .content.cards .card | transition | transform .18s ease, box-shadow .18s ease, border-color .18s ease |
-| .content.cards .card:hover | transform | translateY(-5px) |
-| .content.cards .card:hover | border-color | var(--accent) |
-| .content.cards .card:hover | box-shadow | var(--glow-2) |
+| .content.cards .card | display | grid |
+| .content.cards .card | grid-template-columns | 3.2rem 1fr |
+| .content.cards .card | column-gap | 1rem |
+| .content.cards .card | align-items | start |
+| .content.cards .card | background | transparent |
+| .content.cards .card | border | 0 |
+| .content.cards .card | border-bottom | 1px solid var(--line) |
+| .content.cards .card | border-radius | 0 |
+| .content.cards .card | padding | 1.45rem 0 1.5rem |
+| .content.cards .card | box-shadow | none |
+| .content.cards .card | transition | background-color .25s ease |
+| .content.cards .card::before | counter-increment | qd-article |
+| .content.cards .card::before | content | counter(qd-article, decimal-leading-zero) |
+| .content.cards .card::before | font-family | var(--mono) |
+| .content.cards .card::before | font-size | .78rem |
+| .content.cards .card::before | letter-spacing | .08em |
+| .content.cards .card::before | color | var(--faint) |
+| .content.cards .card::before | padding-top | .35rem |
+| .content.cards .card:hover | background | transparent |
+| .content.cards .card:hover | transform | none |
+| .content.cards .card:hover::before | color | var(--mark) |
+| .content.cards a.card-link | grid-column | 2 |
 | .content.cards a.card-link | color | inherit |
-| .content.cards a.card-link:hover | color | inherit |
-| .content.cards .card-meta | font-size | .78rem |
+| .content.cards a.card-link | text-decoration | none |
+| .content.cards a.card-link | display | block |
+| .content.cards a.card-link | transition | transform .35s cubic-bezier(0.22, 1, 0.36, 1) |
+| .content.cards .card:hover a.card-link | transform | translateX(6px) |
+| .content.cards .card-meta | font-family | var(--mono) |
+| .content.cards .card-meta | font-size | .68rem |
 | .content.cards .card-meta | color | var(--faint) |
-| .content.cards .card-meta | letter-spacing | .04em |
-| .content.cards .card h2 | margin | .45rem 0 .5rem |
+| .content.cards .card-meta | letter-spacing | .12em |
+| .content.cards .card-meta | text-transform | uppercase |
+| .content.cards .card h2 | margin | .35rem 0 .45rem |
 | .content.cards .card h2 | font-family | var(--serif) |
-| .content.cards .card h2 | font-size | 1.24rem |
+| .content.cards .card h2 | font-size | clamp(1.22rem, 2.2vw, 1.55rem) |
+| .content.cards .card h2 | font-weight | 700 |
+| .content.cards .card h2 | line-height | 1.32 |
 | .content.cards .card h2 | color | var(--ink) |
+| .content.cards .card:hover h2 | color | var(--accent-2) |
 | .content.cards .card-tag | display | inline-block |
-| .content.cards .card-tag | margin-bottom | .7rem |
-| .content.cards .card-tag | padding | .16rem .7rem |
-| .content.cards .card-tag | font-size | .76rem |
-| .content.cards .card-tag | border-radius | 999px |
-| .content.cards .card-tag | color | var(--accent) |
-| .content.cards .card-tag | background | color-mix(in srgb, var(--accent) 9%, transparent) |
-| .content.cards .card-tag | border | 1px solid color-mix(in srgb, var(--accent) 30%, transparent) |
+| .content.cards .card-tag | margin | 0 .5rem .3rem 0 |
+| .content.cards .card-tag | padding | 0 |
+| .content.cards .card-tag | font-family | var(--mono) |
+| .content.cards .card-tag | font-size | .66rem |
+| .content.cards .card-tag | letter-spacing | .14em |
+| .content.cards .card-tag | text-transform | uppercase |
+| .content.cards .card-tag | color | var(--mark) |
+| .content.cards .card-tag | background | transparent |
+| .content.cards .card-tag | border | 0 |
 | .content.cards .card p | margin | 0 |
 | .content.cards .card p | color | var(--muted) |
-| .content.cards .card p | font-size | .92rem |
+| .content.cards .card p | font-size | .94rem |
+| .content.cards .card p | line-height | 1.65 |
+| .content.cards .card p | max-width | 36rem |
 | .content.cards .card p | display | -webkit-box |
-| .content.cards .card p | -webkit-line-clamp | 3 |
+| .content.cards .card p | -webkit-line-clamp | 2 |
 | .content.cards .card p | -webkit-box-orient | vertical |
 | .content.cards .card p | overflow | hidden |
 
@@ -275,62 +310,98 @@ import text:lib/text.mq.md
 
 ## 文章
 
-详情页正文排版：黑白排版、引用留墨边、代码深底。
+论文 / 科技刊阅读栏：标题区发丝线、首字下沉、章节编号。
 
 `文章` =
 
 | 选择器 | 属性 | 值 |
 |--------|------|-----|
-| .article | max-width | 46rem |
-| .article | background | linear-gradient(160deg, var(--card), var(--card-2)) |
-| .article | border | 1px solid var(--line) |
-| .article | border-radius | var(--radius) |
-| .article | padding | 2rem 2.1rem |
-| .article-title | margin | .4rem 0 .5rem |
-| .article-title | font-family | var(--serif) |
-| .article-title | font-size | clamp(1.6rem, 3vw, 2.2rem) |
-| .article-title | color | var(--ink) |
-| .article-meta | font-size | .8rem |
+| .article | max-width | var(--measure) |
+| .article | background | transparent |
+| .article | border | 0 |
+| .article | padding | 0 0 3rem |
+| .article | box-shadow | none |
+| .article-meta | font-family | var(--mono) |
+| .article-meta | font-size | .7rem |
 | .article-meta | color | var(--faint) |
+| .article-meta | letter-spacing | .14em |
+| .article-meta | text-transform | uppercase |
+| .article-title | margin | .85rem 0 .8rem |
+| .article-title | font-family | var(--serif) |
+| .article-title | font-size | clamp(1.85rem, 4.2vw, 2.75rem) |
+| .article-title | font-weight | 700 |
+| .article-title | line-height | 1.2 |
+| .article-title | letter-spacing | .005em |
+| .article-title | color | var(--ink) |
+| .article-title | text-wrap | balance |
 | .article-tags | display | inline-block |
-| .article-tags | margin-top | .3rem |
-| .article-tags | padding | .2rem .8rem |
-| .article-tags | font-size | .8rem |
-| .article-tags | border-radius | 999px |
-| .article-tags | color | var(--accent-2) |
-| .article-tags | background | color-mix(in srgb, var(--accent-2) 9%, transparent) |
-| .article h2 | margin | 1.9rem 0 .7rem |
+| .article-tags | margin | .2rem 0 1.6rem |
+| .article-tags | padding | 0 0 .95rem |
+| .article-tags | width | 100% |
+| .article-tags | border-bottom | 1px solid var(--line) |
+| .article-tags | font-family | var(--mono) |
+| .article-tags | font-size | .7rem |
+| .article-tags | letter-spacing | .14em |
+| .article-tags | text-transform | uppercase |
+| .article-tags | color | var(--mark) |
+| .article-tags | background | transparent |
+| .article-tags | border-radius | 0 |
+| .article .article-body.md | counter-reset | qd-sec |
+| .article .article-body.md | padding-top | .35rem |
+| .article .article-body.md > p:first-of-type::first-letter | float | left |
+| .article .article-body.md > p:first-of-type::first-letter | font-family | var(--serif) |
+| .article .article-body.md > p:first-of-type::first-letter | font-size | 3.4rem |
+| .article .article-body.md > p:first-of-type::first-letter | font-weight | 700 |
+| .article .article-body.md > p:first-of-type::first-letter | line-height | .82 |
+| .article .article-body.md > p:first-of-type::first-letter | padding | .12rem .45rem .05rem 0 |
+| .article .article-body.md > p:first-of-type::first-letter | color | var(--accent) |
+| .article h2 | margin | 2.4rem 0 .8rem |
 | .article h2 | font-family | var(--serif) |
+| .article h2 | font-size | clamp(1.2rem, 2vw, 1.4rem) |
 | .article h2 | color | var(--ink) |
-| .article h2 | border-left | 3px solid var(--accent) |
-| .article h2 | padding-left | .6rem |
-| .article h3 | margin | 1.5rem 0 .6rem |
+| .article h2 | display | flex |
+| .article h2 | gap | .75rem |
+| .article h2 | align-items | baseline |
+| .article h2::before | counter-increment | qd-sec |
+| .article h2::before | content | counter(qd-sec, decimal-leading-zero) |
+| .article h2::before | font-family | var(--mono) |
+| .article h2::before | font-size | .72rem |
+| .article h2::before | letter-spacing | .1em |
+| .article h2::before | color | var(--mark) |
+| .article h2 | border-left | 0 |
+| .article h2 | padding-left | 0 |
+| .article h3 | margin | 1.7rem 0 .55rem |
+| .article h3 | font-family | var(--serif) |
+| .article h3 | font-size | 1.08rem |
 | .article h3 | color | var(--ink-soft) |
 | .article p | color | var(--ink-soft) |
-| .article blockquote | margin | 1.1rem 0 |
-| .article blockquote | padding | .7rem 1.1rem |
-| .article blockquote | border-left | 3px solid var(--accent-2) |
-| .article blockquote | background | color-mix(in srgb, var(--accent-2) 6%, transparent) |
+| .article p | margin | .9rem 0 |
+| .article p | max-width | 38rem |
+| .article blockquote | margin | 1.7rem 0 |
+| .article blockquote | padding | .2rem 0 .2rem 1.15rem |
+| .article blockquote | border-left | 2px solid var(--mark) |
+| .article blockquote | background | transparent |
 | .article blockquote | color | var(--muted) |
-| .article .article-body.md pre | padding | .9rem 1.1rem |
-| .article .article-body.md pre | border-radius | 10px |
+| .article blockquote | font-family | var(--serif) |
+| .article blockquote | font-size | 1.08rem |
+| .article blockquote | font-style | italic |
+| .article .article-body.md pre | padding | 1rem 1.15rem |
+| .article .article-body.md pre | border-radius | 0 |
 | .article .article-body.md pre | background | var(--code-bg) |
 | .article .article-body.md pre | border | 1px solid var(--line) |
 | .article .article-body.md pre | overflow-x | auto |
 | .article .article-body.md code | color | var(--accent-3) |
-| .article .article-body.md pre code | color | #bfd9f5 |
-| .article ul | padding-left | 1.3rem |
+| .article .article-body.md pre code | color | #b8e4de |
+| .article ul | padding-left | 1.2rem |
 | .article ul | color | var(--ink-soft) |
 | .article hr | border | 0 |
 | .article hr | height | 1px |
 | .article hr | background | var(--line) |
-| .article hr | margin | 2rem 0 |
+| .article hr | margin | 2.4rem 0 |
 
 **`文章`**
 
 ## 表单
-
-发帖等表单：黑白输入框、聚焦墨环/荧光环、渐变提交按钮。
 
 `表单` =
 
@@ -341,27 +412,25 @@ import text:lib/text.mq.md
 | .site-form form | gap | 1rem |
 | .site-form label | display | grid |
 | .site-form label | gap | .35rem |
-| .site-form label | font-size | .9rem |
+| .site-form label | font-size | .85rem |
 | .site-form label | color | var(--muted) |
-| .site-form input | padding | .6rem .8rem |
+| .site-form input | padding | .6rem .75rem |
 | .site-form input | border | 1px solid var(--line) |
-| .site-form input | border-radius | 8px |
+| .site-form input | border-radius | 0 |
 | .site-form input | background | var(--card) |
 | .site-form input | color | var(--ink) |
 | .site-form input | font | inherit |
 | .site-form input:focus | outline | none |
 | .site-form input:focus | border-color | var(--accent) |
-| .site-form input:focus | box-shadow | 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent) |
-| .site-form textarea | padding | .6rem .8rem |
+| .site-form textarea | padding | .6rem .75rem |
 | .site-form textarea | border | 1px solid var(--line) |
-| .site-form textarea | border-radius | 8px |
+| .site-form textarea | border-radius | 0 |
 | .site-form textarea | background | var(--card) |
 | .site-form textarea | color | var(--ink) |
 | .site-form textarea | font | inherit |
 | .site-form textarea | min-height | 8rem |
 | .site-form textarea:focus | outline | none |
 | .site-form textarea:focus | border-color | var(--accent) |
-| .site-form textarea:focus | box-shadow | 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent) |
 | .site-form input[readonly] | background | var(--bg-2) |
 | .site-form input[readonly] | color | var(--faint) |
 | .site-form .err | color | var(--danger) |
@@ -370,16 +439,16 @@ import text:lib/text.mq.md
 | .site-form .actions | gap | .8rem |
 | .site-form .actions | align-items | center |
 | .site-form .actions | flex-wrap | wrap |
-| .site-form button | padding | .6rem 1.4rem |
+| .site-form button | padding | .65rem 1.4rem |
 | .site-form button | border | 0 |
-| .site-form button | border-radius | 999px |
-| .site-form button | background-image | linear-gradient(90deg, var(--accent), var(--accent-2)) |
+| .site-form button | border-radius | 0 |
+| .site-form button | background | var(--accent) |
+| .site-form button | background-image | none |
 | .site-form button | color | #fff |
 | .site-form button | font-weight | 600 |
 | .site-form button | font-family | inherit |
 | .site-form button | cursor | pointer |
-| .site-form button:hover | filter | brightness(1.08) |
-| .site-form button:hover | box-shadow | var(--glow-2) |
+| .site-form button:hover | filter | brightness(1.06) |
 | .site-form .actions a | color | var(--faint) |
 | .site-form .meta | color | var(--faint) |
 | .site-form .meta | font-size | .82rem |
@@ -388,33 +457,31 @@ import text:lib/text.mq.md
 
 ## 页脚
 
-站点页脚：黑白、细分割线、柔和文字。
-
 `页脚` =
 
 | 选择器 | 属性 | 值 |
 |--------|------|-----|
 | footer.foot | grid-area | foot |
-| footer.foot | margin-top | 2rem |
-| footer.foot | padding | 1.1rem 2rem |
-| footer.foot | background | color-mix(in srgb, var(--card) 70%, transparent) |
+| footer.foot | padding | 1.4rem clamp(1rem, 4vw, 2.75rem) |
 | footer.foot | border-top | 1px solid var(--line) |
+| footer.foot | background | transparent |
 | ul.foot-nav | list-style | none |
 | ul.foot-nav | margin | 0 |
 | ul.foot-nav | padding | 0 |
 | ul.foot-nav | display | flex |
+| ul.foot-nav | gap | 1.2rem |
+| ul.foot-nav | flex-wrap | wrap |
 | ul.foot-nav | align-items | center |
-| ul.foot-nav | gap | 1.4rem |
 | ul.foot-nav a | color | var(--faint) |
-| ul.foot-nav a | font-size | .86rem |
-| ul.foot-nav a:hover | color | var(--accent-3) |
+| ul.foot-nav a | font-size | .8rem |
+| ul.foot-nav a | font-family | var(--mono) |
+| ul.foot-nav a | letter-spacing | .06em |
+| ul.foot-nav a:hover | color | var(--ink) |
 | ul.foot-nav li:first-child a | color | var(--muted) |
 
 **`页脚`**
 
 ## 分页
-
-分页控件：黑白胶囊、荧光边框悬停。
 
 `分页` =
 
@@ -423,24 +490,27 @@ import text:lib/text.mq.md
 | .pagination | display | flex |
 | .pagination | align-items | center |
 | .pagination | gap | 1rem |
-| .pagination | margin-top | 2rem |
+| .pagination | margin-top | 2.4rem |
+| .pagination | padding-top | 1.2rem |
+| .pagination | border-top | 1px solid var(--line) |
+| .pagination | max-width | var(--measure) |
 | .pagination | flex-wrap | wrap |
-| .pagination a | padding | .45rem 1.1rem |
-| .pagination a | border-radius | 999px |
-| .pagination a | border | 1px solid var(--line) |
 | .pagination a | color | var(--muted) |
-| .pagination a | transition | color .16s ease, border-color .16s ease, box-shadow .16s ease |
-| .pagination a:hover | color | var(--ink) |
-| .pagination a:hover | border-color | var(--accent) |
-| .pagination a:hover | box-shadow | 0 0 0 1px var(--accent) |
+| .pagination a | font-family | var(--mono) |
+| .pagination a | font-size | .78rem |
+| .pagination a | letter-spacing | .08em |
+| .pagination a | text-transform | uppercase |
+| .pagination a | border | 0 |
+| .pagination a | padding | .2rem 0 |
+| .pagination a:hover | color | var(--mark) |
+| .pagination a:hover | background | transparent |
 | .pagination .page-status | color | var(--faint) |
-| .pagination .page-status | font-size | .88rem |
+| .pagination .page-status | font-family | var(--mono) |
+| .pagination .page-status | font-size | .75rem |
 
 **`分页`**
 
 ## 响应式
-
-窄屏布局：单列、顶栏换行、卡片单列。
 
 `响应式` =
 
@@ -449,11 +519,11 @@ import text:lib/text.mq.md
 | (max-width: 860px) | body.has-sidebar | grid-template-columns | 1fr |
 | (max-width: 860px) | body.has-sidebar | grid-template-areas | "top" "main" "foot" |
 | (max-width: 860px) | aside.side | display | none |
-| (max-width: 860px) | main.main | padding | 1.2rem 1rem 2.5rem |
-| (max-width: 860px) | header.topnav | padding | .8rem 1rem |
-| (max-width: 860px) | .content.cards | grid-template-columns | 1fr |
-| (max-width: 560px) | ul.nav | flex-wrap | wrap |
-| (max-width: 560px) | .article | padding | 1.3rem 1.1rem |
+| (max-width: 860px) | main.main | padding | 1.25rem 1.05rem 3rem |
+| (max-width: 860px) | .content.cards .card | grid-template-columns | 2.4rem 1fr |
+| (max-width: 860px) | .content.cards .card:hover a.card-link | transform | none |
+| (max-width: 560px) | .main-intro h1 | font-size | clamp(2rem, 9vw, 2.6rem) |
+| (max-width: 560px) | .article .article-body.md > p:first-of-type::first-letter | font-size | 2.7rem |
 | (prefers-reduced-motion: reduce) | * | transition | none |
 | (prefers-reduced-motion: reduce) | * | animation | none |
 | (prefers-reduced-motion: reduce) | html | scroll-behavior | auto |
@@ -461,8 +531,6 @@ import text:lib/text.mq.md
 **`响应式`**
 
 ## 全局
-
-用 样式装配 函数逐个把段落表装配成 CSS，再拼接成完整样式表。
 
 *基础表 = > 基础*
 *顶栏表 = > 顶栏*

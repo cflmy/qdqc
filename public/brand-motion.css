@@ -1,0 +1,201 @@
+/* 求道量子 · 杂志风动效
+ * 注意：不要用 body:not(.is-ready){opacity:0} 预藏内容，脚本未执行时会导致白屏。
+ * 入场动画仅在 .is-ready 后播放；未就绪时内容保持可见。 */
+
+@keyframes qd-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes qd-masthead {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes qd-kicker {
+  from {
+    opacity: 0;
+    letter-spacing: 0.4em;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.2em;
+    transform: translateY(0);
+  }
+}
+
+@keyframes qd-rule {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes qd-grid-drift {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 48px 48px, 48px 48px; }
+}
+
+/* 导航下划线（伪元素须写在真实 CSS 文件，Marqdo 表无法输出空 content） */
+ul.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--mark, #c45c26);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+ul.nav a:hover::after {
+  transform: scaleX(1);
+}
+ul.nav li:first-child a::after {
+  background: var(--accent, #0f6e6a);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    animation: qd-grid-drift 32s linear infinite;
+  }
+
+  body.is-ready .mq-img.brand-logo {
+    animation: qd-rise 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  body.is-ready .main-intro .kicker {
+    animation: qd-kicker 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+  }
+
+  body.is-ready .main-intro h1 {
+    animation: qd-masthead 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+  }
+
+  body.is-ready .main-intro .lede {
+    animation: qd-rise 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+  }
+
+  body.is-ready .main-intro {
+    position: relative;
+  }
+
+  body.is-ready .main-intro::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--line);
+    transform-origin: left;
+    animation: qd-rule 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
+  }
+
+  body.is-ready .content.cards .card {
+    animation: qd-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  body.is-ready .content.cards .card:nth-child(1) { animation-delay: 0.28s; }
+  body.is-ready .content.cards .card:nth-child(2) { animation-delay: 0.34s; }
+  body.is-ready .content.cards .card:nth-child(3) { animation-delay: 0.4s; }
+  body.is-ready .content.cards .card:nth-child(4) { animation-delay: 0.46s; }
+  body.is-ready .content.cards .card:nth-child(5) { animation-delay: 0.52s; }
+  body.is-ready .content.cards .card:nth-child(6) { animation-delay: 0.58s; }
+  body.is-ready .content.cards .card:nth-child(7) { animation-delay: 0.64s; }
+  body.is-ready .content.cards .card:nth-child(8) { animation-delay: 0.7s; }
+  body.is-ready .content.cards .card:nth-child(n+9) { animation-delay: 0.74s; }
+
+  body.is-ready .article-meta {
+    animation: qd-kicker 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  body.is-ready .article-title {
+    animation: qd-masthead 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+  }
+
+  body.is-ready .article-tags {
+    animation: qd-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+  }
+
+  body.is-ready .article .article-body.md {
+    animation: qd-rise 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+  }
+
+  .qd-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(3px);
+    transition:
+      opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .qd-reveal.qd-in {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  .content.cards .card:hover::before {
+    transition: color 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(-2px);
+  }
+
+  #qd-progress {
+    transition: width 0.08s linear;
+  }
+
+  html.theme-switching body,
+  html.theme-switching .mq-img.brand-logo img {
+    transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+
+  html.theme-switching .mq-img.brand-logo img {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none !important;
+  }
+
+  .main-intro {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .main-intro .kicker,
+  .main-intro h1,
+  .main-intro .lede,
+  .mq-img.brand-logo,
+  .content.cards .card,
+  .article-title,
+  .article-meta,
+  .article-tags,
+  .article .article-body.md,
+  .qd-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
+}
