@@ -1,0 +1,32 @@
+# 求道量子 · 一键拉起
+# 用法：docker compose up -d --build
+# 访问：http://127.0.0.1:18085
+
+services:
+  qdqc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MARQDO_VERSION: "0.3.1"
+    image: qdqc:local
+    container_name: qdqc
+    ports:
+      - "${QDQC_PORT:-18085}:18085"
+    volumes:
+      # 持久化 SQLite（首次启动会按 db/seed 幂等建库）
+      - qdqc-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://127.0.0.1:18085/ >/dev/null || exit 1",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  qdqc-data:

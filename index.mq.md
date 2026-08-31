@@ -221,7 +221,7 @@ import db:db/index.mq.md
 *edit = > edit.样式 样式=`首页CSS`*
 *edit = > edit.头装配 表=`发资源`*
 
-*app = > 网页.应用 页面=page 数据库=store 后台=True 主机="127.0.0.1" 端口=18085*
+*app = > 网页.应用 页面=page 数据库=store 后台=True 主机="0.0.0.0" 端口=18085*
 *app = > app.路由 路径="/about" 页面=about*
 *app = > app.路由 路径="/post/{slug}" 页面=post*
 *app = > app.路由 路径="/tags" 页面=tags*
