@@ -3,6 +3,10 @@ title: 求道量子
 description: 求道量子，以求道之心，探量子之密。
 导入 网页:ext/web/网页.mq.md
 import theme:styles/theme.mq.md
+import motion:styles/brand-motion.mq.md
+import volumeStyle:styles/volume.mq.md
+import editorStyle:styles/editor.mq.md
+import text:lib/text.mq.md
 import nav:components/nav.mq.md
 import side:components/side.mq.md
 import foot:components/foot.mq.md
@@ -101,10 +105,8 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | | | | |
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
-| stylesheet | "/static/brand-motion.css?v=14" | | | | | |
-| stylesheet | "/static/volume.css?v=14" | | | | | |
 | script | "/static/theme.js?v=12" | | | | | |
-| script | "/static/volume.js?v=12" | | | | | |
+| script | "/static/volume.js?v=13" | | | | | |
 
 `发资源` =
 
@@ -113,11 +115,8 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | | | | |
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
-| stylesheet | "/static/brand-motion.css?v=14" | | | | | |
-| stylesheet | "/static/volume.css?v=14" | | | | | |
 | script | "/static/theme.js?v=12" | | | | | |
-| script | "/static/volume.js?v=12" | | | | | |
-| stylesheet | "/static/editor.css?v=24" | | | | | |
+| script | "/static/volume.js?v=13" | | | | | |
 | script | "/static/editor.js?v=23" | | | | | |
 
 `发布字段` =
@@ -180,7 +179,30 @@ import db:db/index.mq.md
 
 *store = > db.打开*
 
-*首页CSS = > theme.全局*
+*主题CSS = > theme.全局*
+*动效CSS = > motion.全局*
+*刊CSS = > volumeStyle.全局*
+*写作台样式 = > editorStyle.全局*
+
+`前台样式段` =
+
+| css |
+|-----|
+| `主题CSS` |
+| `动效CSS` |
+| `刊CSS` |
+
+`写作台样式段` =
+
+| css |
+|-----|
+| `主题CSS` |
+| `动效CSS` |
+| `刊CSS` |
+| `写作台样式` |
+
+*首页CSS = > text.str_join xs=`前台样式段` sep=""*
+*写作台CSS = > text.str_join xs=`写作台样式段` sep=""*
 
 *page = > 网页.页面 标题="求道量子" 引言="<p class='kicker'>// Journal</p><h1>求道量子</h1><p class='lede slogan'>以求道之心，探量子之密。</p><section class='column-gate column-gate--shelf' aria-label='专栏入口'><p class='column-gate-label'>本刊三卷</p><ul class='column-gate-list'><li><a href='/column/marqdo'><div class='cg-media'><img src='/static/covers/vol-marqdo.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 01</span><span class='cg-name'>Marqdo 专栏</span><span class='cg-desc'>文档即代码，把站点写进 .mq.md</span></div></a></li><li><a href='/column/linear-algebra'><div class='cg-media'><img src='/static/covers/vol-linear-algebra.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 02</span><span class='cg-name'>线性代数专栏</span><span class='cg-desc'>向量与矩阵——量子语言的语法</span></div></a></li><li><a href='/column/quantum-algorithms'><div class='cg-media'><img src='/static/covers/vol-quantum.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 03</span><span class='cg-name'>量子算法专栏</span><span class='cg-desc'>门线路、Shor / Grover 与纠错入门</span></div></a></li></ul><p class='column-gate-more'><a href='/columns'>进入专栏书架 →</a></p></section>"*
 *page = > page.组件装配 组件=`首页`*
@@ -261,13 +283,13 @@ import db:db/index.mq.md
 *publish = > publish.主体装配 主体=`管理列表`*
 *publish = > publish.排序 排序="-updated_at"*
 *publish = > publish.链接前缀 前缀="/admin-publish?id="*
-*publish = > publish.样式 样式=`首页CSS`*
+*publish = > publish.样式 样式=`写作台CSS`*
 *publish = > publish.头装配 表=`发资源`*
 
 *edit = > 网页.页面 标题="编辑文章" 引言="<h1>编辑文章</h1><p class='lede'>正在打开写作台…</p>"*
 *edit = > edit.组件装配 组件=`首页`*
 *edit = > edit.表单装配 表单=`edit_form` id="post-edit"*
-*edit = > edit.样式 样式=`首页CSS`*
+*edit = > edit.样式 样式=`写作台CSS`*
 *edit = > edit.头装配 表=`发资源`*
 
 *app = > 网页.应用 页面=page 数据库=store 后台=True 主机="0.0.0.0" 端口=18085*

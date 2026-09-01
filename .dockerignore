@@ -12,6 +12,9 @@ Thumbs.db
 .DS_Store
 _*.ps1
 _tmp*
+_style*
 agent-transcripts
 **/__pycache__
 *.md.bak
+# 本机 marqdo 缓存 / 转换中间物，勿打进镜像
+tools/__pycache__/
