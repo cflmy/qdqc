@@ -101,10 +101,10 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | | | | |
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
-| stylesheet | "/static/brand-motion.css?v=12" | | | | | |
-| stylesheet | "/static/volume.css?v=13" | | | | | |
+| stylesheet | "/static/brand-motion.css?v=14" | | | | | |
+| stylesheet | "/static/volume.css?v=14" | | | | | |
 | script | "/static/theme.js?v=12" | | | | | |
-| script | "/static/volume.js?v=11" | | | | | |
+| script | "/static/volume.js?v=12" | | | | | |
 
 `发资源` =
 
@@ -113,11 +113,11 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | | | | |
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
-| stylesheet | "/static/brand-motion.css?v=12" | | | | | |
-| stylesheet | "/static/volume.css?v=13" | | | | | |
+| stylesheet | "/static/brand-motion.css?v=14" | | | | | |
+| stylesheet | "/static/volume.css?v=14" | | | | | |
 | script | "/static/theme.js?v=12" | | | | | |
-| script | "/static/volume.js?v=11" | | | | | |
-| stylesheet | "/static/editor.css?v=23" | | | | | |
+| script | "/static/volume.js?v=12" | | | | | |
+| stylesheet | "/static/editor.css?v=24" | | | | | |
 | script | "/static/editor.js?v=23" | | | | | |
 
 `发布字段` =

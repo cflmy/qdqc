@@ -7,7 +7,7 @@ import text:lib/text.mq.md
 
 求道量子主题参考科技杂志 / 期刊排版：刊头 masthead、等宽栏目标签、目录式编号列表，
 文章页接近论文阅读栏（发丝线标题区、首字下沉、章节编号、宽边距）。动效由
-public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使用无序列表符号。
+动效由 public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使用无序列表符号。
 
 ## 基础
 

@@ -36,25 +36,6 @@
     { name: 'Marqdo', slug: 'marqdo' }
   ];
 
-  var NEWS_FALLBACK = [
-    { title: 'IBM 公布下一代量子处理器路线与容错里程碑', url: 'https://newsroom.ibm.com/quantum', source: 'IBM', published_at: '2026-08-20' },
-    { title: 'Quantinuum：离子阱逻辑比特保真度新进展', url: 'https://www.quantinuum.com/', source: 'Quantinuum', published_at: '2026-08-22' },
-    { title: '开源量子软件栈：Qiskit / Cirq 生态更新', url: 'https://qiskit.org/', source: 'Qiskit', published_at: '2026-08-21' },
-    { title: '超导量子比特相干时间与可扩展互连', url: 'https://arxiv.org/list/quant-ph/recent', source: 'arXiv', published_at: '2026-08-19' },
-    { title: 'NIST 后量子密码标准化推进与迁移提醒', url: 'https://csrc.nist.gov/projects/post-quantum-cryptography', source: 'NIST', published_at: '2026-08-18' },
-    { title: 'AWS Braket 扩展量子硬件与模拟器可用区', url: 'https://aws.amazon.com/braket/', source: 'AWS', published_at: '2026-08-16' },
-    { title: 'Microsoft Azure Quantum：拓扑与纠错研究简报', url: 'https://azure.microsoft.com/products/quantum', source: 'Microsoft', published_at: '2026-08-14' },
-    { title: 'Google Quantum AI：表面码与逻辑比特实验进展综述', url: 'https://quantumai.google/', source: 'Google Quantum AI', published_at: '2026-08-12' },
-    { title: '量子机器学习：变分算法与噪声鲁棒性讨论', url: 'https://quantum-journal.org/', source: 'Quantum', published_at: '2026-08-11' },
-    { title: '原子阵列中性原子量子计算实验综述', url: 'https://www.nature.com/subjects/quantum-information', source: 'Nature QI', published_at: '2026-08-09' },
-    { title: '后量子 TLS 试点：浏览器与 CDN 迁移观察', url: 'https://blog.cloudflare.com/', source: 'Cloudflare', published_at: '2026-08-07' },
-    { title: 'IonQ / 离子阱路线：高保真门操作与云访问更新', url: 'https://ionq.com/', source: 'IonQ', published_at: '2026-08-05' },
-    { title: '欧洲量子旗舰计划：产业落地与标准协作', url: 'https://qt.eu/', source: 'Quantum Flagship', published_at: '2026-08-03' },
-    { title: '量子传感：惯性测量与精密计时应用速览', url: 'https://www.nist.gov/', source: 'NIST', published_at: '2026-07-30' },
-    { title: '中国九章光量子计算原型机相关报道回顾', url: 'https://www.nature.com/', source: 'Nature', published_at: '2026-07-28' },
-    { title: '光子量子计算：可扩展光源与干涉网络', url: 'https://www.psi.ch/', source: 'PSI / 学界', published_at: '2026-07-25' }
-  ];
-
   function pathInfo() {
     var p = window.location.pathname || '';
     if (/^\/columns\/?$/.test(p)) return { mode: 'shelf' };
@@ -325,8 +306,11 @@
   }
 
   function newsListHtml(newsRows, limit) {
-    /* 侧栏：多取条目铺满可视区；整页不设限。侧栏用 CSS 裁切，无滚动条 */
-    var news = (newsRows && newsRows.length ? newsRows : NEWS_FALLBACK);
+    /* 仅展示数据库 /api/news 返回的行，无本地假数据 */
+    var news = Array.isArray(newsRows) ? newsRows.slice() : [];
+    if (!news.length) {
+      return '<li class="side-news-empty">暂无快讯，请在库表 news 中添加。</li>';
+    }
     if (limit && limit > 0) news = news.slice(0, limit);
     return news
       .map(function (n) {
@@ -352,25 +336,27 @@
     if (!main || main.querySelector('.news-archive')) return;
     document.body.classList.add('layout-news');
 
-    var news = newsRows && newsRows.length ? newsRows : NEWS_FALLBACK;
-    var items = news
-      .map(function (n) {
-        var date = String(n.published_at || '').slice(0, 10);
-        var ext = /^https?:\/\//i.test(String(n.url || ''));
-        return (
-          '<li class="news-archive-item">' +
-            '<a href="' + esc(n.url || '#') + '"' + (ext ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' +
-              '<span class="news-archive-meta">' +
-                '<time>' + esc(date) + '</time>' +
-                (n.source ? '<span>' + esc(n.source) + '</span>' : '') +
-              '</span>' +
-              '<span class="news-archive-title">' + esc(n.title || '') + '</span>' +
-              (n.summary ? '<p class="news-archive-summary">' + esc(n.summary) + '</p>' : '') +
-            '</a>' +
-          '</li>'
-        );
-      })
-      .join('');
+    var news = Array.isArray(newsRows) ? newsRows : [];
+    var items = news.length
+      ? news
+          .map(function (n) {
+            var date = String(n.published_at || '').slice(0, 10);
+            var ext = /^https?:\/\//i.test(String(n.url || ''));
+            return (
+              '<li class="news-archive-item">' +
+                '<a href="' + esc(n.url || '#') + '"' + (ext ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' +
+                  '<span class="news-archive-meta">' +
+                    '<time>' + esc(date) + '</time>' +
+                    (n.source ? '<span>' + esc(n.source) + '</span>' : '') +
+                  '</span>' +
+                  '<span class="news-archive-title">' + esc(n.title || '') + '</span>' +
+                  (n.summary ? '<p class="news-archive-summary">' + esc(n.summary) + '</p>' : '') +
+                '</a>' +
+              '</li>'
+            );
+          })
+          .join('')
+      : '<li class="news-archive-empty">库中尚无新闻。向 news 表插入记录后刷新即可。</li>';
 
     var wrap = document.createElement('section');
     wrap.className = 'news-archive';
@@ -379,7 +365,7 @@
       '<header class="news-archive-head">' +
         '<p class="news-archive-kicker">// brief</p>' +
         '<h1>量子新闻</h1>' +
-        '<p class="news-archive-lede">产业与学界快讯，按时间倒序。点标题可打开原文。</p>' +
+        '<p class="news-archive-lede">数据来自 SQLite news 表（/api/news），按时间倒序。点标题打开原文。</p>' +
       '</header>' +
       '<ol class="news-archive-list">' + items + '</ol>';
 
