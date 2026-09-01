@@ -1,11 +1,13 @@
 qdqc 数据结构
 
-求道量子站点的核心表：博客文章（posts / tags / post_tags）。topics / replies 为历史表，界面已下线讨论区。
-`slug` 用于详情页 `/post/{slug}` 动态路由；`content` 存 Markdown 正文；`tag` 是主标签（tags 表 slug）。
+求道量子站点的核心表：博客文章（posts / tags / post_tags）、专栏（columns）、量子新闻（news）。
+topics / replies 为历史表，界面已下线讨论区。
+`slug` 用于详情页 `/post/{slug}`；专栏归属与置顶由迁移写入 `column_slug` / `pinned`（见 db/migrate.mq.md）。
+`tag` 是横切主标签，与专栏相互独立。
 
 ## posts
 
-文章主表结构。
+文章主表。`column_slug`（text）与 `pinned`（integer，1=置顶）由迁移 ALTER 追加，不在此建表字段中重复声明，以免新旧库冲突。
 
 `posts` =
 
@@ -21,6 +23,42 @@ qdqc 数据结构
 | updated_at | text | true |
 
 **`posts`**
+
+## columns
+
+专栏表。编辑意图下的连载入口，不等于标签。
+
+`columns` =
+
+| 字段 | 类型 | 可空 |
+|------|------|------|
+| id | integer | false |
+| name | text | false |
+| slug | text | false |
+| summary | text | true |
+| sort_order | integer | true |
+| status | text | true |
+| created_at | text | true |
+
+**`columns`**
+
+## news
+
+量子新闻 / 快讯。侧栏展示，与本站长文 posts 分离；url 可为外链。
+
+`news` =
+
+| 字段 | 类型 | 可空 |
+|------|------|------|
+| id | integer | false |
+| title | text | false |
+| url | text | false |
+| source | text | true |
+| summary | text | true |
+| published_at | text | true |
+| created_at | text | true |
+
+**`news`**
 
 ## tags
 

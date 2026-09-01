@@ -247,6 +247,39 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 | .main-intro p.lede.slogan | max-width | 24rem |
 | .main-intro p | color | var(--muted) |
 | .main-intro p | max-width | 36rem |
+| .column-gate | margin | 1.75rem 0 0 |
+| .column-gate | padding | 1.15rem 0 0 |
+| .column-gate | border-top | 1px solid var(--line) |
+| .column-gate | max-width | none |
+| .column-gate-label | margin | 0 0 .85rem |
+| .column-gate-label | font-family | var(--mono) |
+| .column-gate-label | font-size | .68rem |
+| .column-gate-label | letter-spacing | .2em |
+| .column-gate-label | text-transform | uppercase |
+| .column-gate-label | color | var(--faint) |
+| .column-gate-list | list-style | none |
+| .column-gate-list | margin | 0 |
+| .column-gate-list | padding | 0 |
+| .column-gate-list | display | grid |
+| .column-gate-list | gap | 0 |
+| .column-gate-list a | display | grid |
+| .column-gate-list a | gap | .2rem |
+| .column-gate-list a | padding | .85rem 0 |
+| .column-gate-list a | border-bottom | 1px solid var(--line) |
+| .column-gate-list a | text-decoration | none |
+| .column-gate-list a | color | inherit |
+| .column-gate-list a:hover .cg-name | color | var(--mark) |
+| .column-gate-list .cg-name | font-family | var(--serif) |
+| .column-gate-list .cg-name | font-size | 1.12rem |
+| .column-gate-list .cg-name | letter-spacing | .04em |
+| .column-gate-list .cg-desc | font-size | .9rem |
+| .column-gate-list .cg-desc | color | var(--muted) |
+| .column-gate-more | margin | .9rem 0 0 |
+| .column-gate-more a | font-family | var(--mono) |
+| .column-gate-more a | font-size | .78rem |
+| .column-gate-more a | letter-spacing | .06em |
+| .column-gate-more a | color | var(--mark) |
+| .column-gate-more a | text-decoration | none |
 | .mq-img.brand-logo | margin | 0 |
 | .mq-img.brand-logo | line-height | 0 |
 | .mq-img.brand-logo img | display | block |
@@ -296,6 +329,10 @@ public/brand-motion.css 与 theme.js 协作完成。禁止在本文件顶层使�
 | .content.cards .card:hover | background | transparent |
 | .content.cards .card:hover | transform | none |
 | .content.cards .card:hover::before | color | var(--mark) |
+| .content.cards .card.is-pinned::before | content | "置顶" |
+| .content.cards .card.is-pinned::before | letter-spacing | .12em |
+| .content.cards .card.is-pinned::before | color | var(--mark) |
+| .content.cards .card.is-pinned | background | color-mix(in srgb, var(--mark) 5%, transparent) |
 | .content.cards .card > .card-meta | grid-column | 2 |
 | .content.cards .card > h2 | grid-column | 2 |
 | .content.cards .card > .card-tag | grid-column | 2 |

@@ -46,6 +46,16 @@ import db:db/index.mq.md
 | meta | 点击查看该标签下的文章 | |
 | href | tags.slug | |
 
+`专栏列表` =
+
+| 属性 | 值 | 样式 |
+|------|-----|------|
+| title | columns.name | |
+| body | columns.summary | |
+| meta | columns.status | |
+| tag | columns.slug | |
+| href | columns.slug | |
+
 `文章条件` =
 
 | 字段 | 操作 | 值 |
@@ -57,6 +67,12 @@ import db:db/index.mq.md
 | 字段 | 操作 | 值 |
 |------|------|-----|
 | tag | = | {slug} |
+
+`专栏条件` =
+
+| 字段 | 操作 | 值 |
+|------|------|-----|
+| column_slug | = | {slug} |
 
 `管理员` =
 
@@ -85,8 +101,10 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | | | | |
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
-| stylesheet | "/static/brand-motion.css?v=10" | | | | | |
-| script | "/static/theme.js?v=11" | | | | | |
+| stylesheet | "/static/brand-motion.css?v=12" | | | | | |
+| stylesheet | "/static/volume.css?v=13" | | | | | |
+| script | "/static/theme.js?v=12" | | | | | |
+| script | "/static/volume.js?v=11" | | | | | |
 
 `发资源` =
 
@@ -95,10 +113,12 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | | | | |
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
-| stylesheet | "/static/brand-motion.css?v=10" | | | | | |
-| script | "/static/theme.js?v=11" | | | | | |
-| stylesheet | "/static/editor.css?v=20" | | | | | |
-| script | "/static/editor.js?v=22" | | | | | |
+| stylesheet | "/static/brand-motion.css?v=12" | | | | | |
+| stylesheet | "/static/volume.css?v=13" | | | | | |
+| script | "/static/theme.js?v=12" | | | | | |
+| script | "/static/volume.js?v=11" | | | | | |
+| stylesheet | "/static/editor.css?v=23" | | | | | |
+| script | "/static/editor.js?v=23" | | | | | |
 
 `发布字段` =
 
@@ -107,6 +127,8 @@ import db:db/index.mq.md
 | title | 标题 | text | true | |
 | slug | 链接标识 | text | false | |
 | tag | 标签 | text | false | |
+| column_slug | 专栏 | text | false | |
+| pinned | 置顶 | text | false | 0 |
 | summary | 摘要 | textarea | false | |
 | content | 正文 | textarea | true | |
 
@@ -118,6 +140,8 @@ import db:db/index.mq.md
 | title | 标题 | text | true | |
 | slug | 链接标识 | text | false | |
 | tag | 标签 | text | false | |
+| column_slug | 专栏 | text | false | |
+| pinned | 置顶 | text | false | 0 |
 | summary | 摘要 | textarea | false | |
 | content | 正文 | textarea | true | |
 
@@ -129,6 +153,7 @@ import db:db/index.mq.md
 | title | max:200 | 标题请控制在 200 字以内 |
 | slug | max:80 | 链接标识最长 80 字符 |
 | tag | max:32 | 标签最长 32 字符 |
+| column_slug | max:64 | 专栏标识最长 64 字符 |
 | content | required | 请填写正文 |
 
 `编辑规则` =
@@ -140,6 +165,7 @@ import db:db/index.mq.md
 | title | max:200 | 标题请控制在 200 字以内 |
 | slug | max:80 | 链接标识最长 80 字符 |
 | tag | max:32 | 标签最长 32 字符 |
+| column_slug | max:64 | 专栏标识最长 64 字符 |
 | content | required | 请填写正文 |
 
 `管理列表` =
@@ -156,15 +182,15 @@ import db:db/index.mq.md
 
 *首页CSS = > theme.全局*
 
-*page = > 网页.页面 标题="求道量子" 引言="<p class='kicker'>// Journal</p><h1>求道量子</h1><p class='lede slogan'>以求道之心，探量子之密。</p>"*
+*page = > 网页.页面 标题="求道量子" 引言="<p class='kicker'>// Journal</p><h1>求道量子</h1><p class='lede slogan'>以求道之心，探量子之密。</p><section class='column-gate column-gate--shelf' aria-label='专栏入口'><p class='column-gate-label'>本刊三卷</p><ul class='column-gate-list'><li><a href='/column/marqdo'><div class='cg-media'><img src='/static/covers/vol-marqdo.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 01</span><span class='cg-name'>Marqdo 专栏</span><span class='cg-desc'>文档即代码，把站点写进 .mq.md</span></div></a></li><li><a href='/column/linear-algebra'><div class='cg-media'><img src='/static/covers/vol-linear-algebra.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 02</span><span class='cg-name'>线性代数专栏</span><span class='cg-desc'>向量与矩阵——量子语言的语法</span></div></a></li><li><a href='/column/quantum-algorithms'><div class='cg-media'><img src='/static/covers/vol-quantum.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 03</span><span class='cg-name'>量子算法专栏</span><span class='cg-desc'>门线路、Shor / Grover 与纠错入门</span></div></a></li></ul><p class='column-gate-more'><a href='/columns'>进入专栏书架 →</a></p></section>"*
 *page = > page.组件装配 组件=`首页`*
 *page = > page.主体装配 主体=`列表`*
-*page = > page.排序 排序="-created_at"*
+*page = > page.排序 排序="-pinned,-created_at"*
 *page = > page.样式 样式=`首页CSS`*
 *page = > page.头装配 表=`头资源`*
 *page = > page.图片装配 表=`品牌图`*
 
-*about = > 网页.页面 标题="关于" 引言="<p class='kicker'>// about</p><h1>关于本刊</h1><p class='lede slogan'>求道量子，以求道之心，探量子之密。</p><p>我们关注可核对的概念、可复述的直觉，以及算法与硬件之间正在发生的事。文章按期刊目录编排，正文采用论文阅读栏的版式。</p>"*
+*about = > 网页.页面 标题="关于" 引言="<p class='kicker'>// about</p><h1>关于本刊</h1><p class='lede slogan'>求道量子，以求道之心，探量子之密。</p><p>我们关注可核对的概念、可复述的直觉，以及算法与硬件之间正在发生的事。内容按三条专栏组织：<strong>Marqdo</strong>（工具与表达）、<strong>线性代数</strong>（量子前置数学）、<strong>量子算法</strong>（门线路与算法入门）；标签仍作横切检索。正文采用论文阅读栏的版式。</p>"*
 *about = > about.组件装配 组件=`首页`*
 *about = > about.样式 样式=`首页CSS`*
 *about = > about.头装配 表=`头资源`*
@@ -188,15 +214,38 @@ import db:db/index.mq.md
 *tagged = > tagged.组件装配 组件=`首页`*
 *tagged = > tagged.主体装配 主体=`列表`*
 *tagged = > tagged.查询条件 条件=`标签条件`*
-*tagged = > tagged.排序 排序="-created_at"*
+*tagged = > tagged.排序 排序="-pinned,-created_at"*
 *tagged = > tagged.样式 样式=`首页CSS`*
 *tagged = > tagged.头装配 表=`头资源`*
 
-`文章接口` =
+*columns = > 网页.页面 标题="专栏书架" 引言="<p class='kicker'>// library</p><h1>专栏书架</h1><p class='lede'>装载中…</p>"*
+*columns = > columns.组件装配 组件=`首页`*
+*columns = > columns.主体装配 主体=`专栏列表`*
+*columns = > columns.排序 排序="sort_order"*
+*columns = > columns.链接前缀 前缀="/column/"*
+*columns = > columns.样式 样式=`首页CSS`*
+*columns = > columns.头装配 表=`头资源`*
+
+*news = > 网页.页面 标题="量子新闻" 引言="<p class='kicker'>// brief</p><h1>量子新闻</h1><p class='lede'>装载快讯…</p>"*
+*news = > news.组件装配 组件=`首页`*
+*news = > news.样式 样式=`首页CSS`*
+*news = > news.头装配 表=`头资源`*
+
+*column = > 网页.页面 标题="开卷" 引言="<p class='kicker'>// volume</p><h1>开卷</h1><p class='lede'>装载目录…</p>"*
+*column = > column.组件装配 组件=`首页`*
+*column = > column.主体装配 主体=`列表`*
+*column = > column.查询条件 条件=`专栏条件`*
+*column = > column.排序 排序="created_at"*
+*column = > column.样式 样式=`首页CSS`*
+*column = > column.头装配 表=`头资源`*
+
+`站点接口` =
 
 | 路径 | 方法 | 表 | 条件 | 排序 | 上限 |
 |------|------|----|------|------|------|
-| api/posts | GET | posts | | "-updated_at" | 500 |
+| api/posts | GET | posts | | "-pinned,-updated_at" | 500 |
+| api/columns | GET | columns | | sort_order | 50 |
+| api/news | GET | news | | "-published_at" | 40 |
 
 *post_form = > 网页.表单 表="posts" 动作="插入"*
 *post_form = > post_form.字段 字段=`发布字段`*
@@ -226,14 +275,18 @@ import db:db/index.mq.md
 *app = > app.路由 路径="/post/{slug}" 页面=post*
 *app = > app.路由 路径="/tags" 页面=tags*
 *app = > app.路由 路径="/tag/{slug}" 页面=tagged*
+*app = > app.路由 路径="/columns" 页面=columns*
+*app = > app.路由 路径="/column/{slug}" 页面=column*
+*app = > app.路由 路径="/news" 页面=news*
 *app = > app.路由 路径="/admin-publish" 页面=publish*
 *app = > app.路由 路径="/admin-edit" 页面=edit*
 *app = > app.挂载表单 id="post-edit" 表单=`edit_form`*
-*app = > app.装配 接口=`文章接口`*
+*app = > app.装配 接口=`站点接口`*
 *app = > app.静态 目录="public" 挂载="/static"*
 *app = > app.图标 表=`站点图标`*
 *app = > app.鉴权 用户表=`管理员` 会话时长=3600*
 *app = > app.门禁 路径="/_form/post" 角色="admin"*
 *app = > app.门禁 路径="/_form/post-edit" 角色="admin"*
-*app = > app.门禁 路径="/api/posts" 角色="admin"*
+*app = > app.门禁 路径="/admin-publish" 角色="admin"*
+*app = > app.门禁 路径="/admin-edit" 角色="admin"*
 > `app`.监听

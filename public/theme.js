@@ -253,12 +253,40 @@
     }, 50);
   }
 
+  function markPinnedCards() {
+    var cards = document.querySelectorAll('main.main > .content.cards .card');
+    if (!cards.length) return;
+    fetch('/api/posts', { credentials: 'same-origin', headers: { Accept: 'application/json' } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (payload) {
+        if (!payload) return;
+        var rows = Array.isArray(payload.rows) ? payload.rows : [];
+        var pinned = {};
+        rows.forEach(function (row) {
+          if (row && (row.pinned === 1 || row.pinned === '1') && row.slug) {
+            pinned[String(row.slug)] = true;
+          }
+        });
+        Array.prototype.forEach.call(cards, function (card) {
+          var a = card.querySelector('a.card-link');
+          if (!a) return;
+          var href = a.getAttribute('href') || '';
+          var m = href.match(/\/post\/([^/?#]+)/);
+          if (!m) return;
+          var slug = decodeURIComponent(m[1]);
+          if (pinned[slug]) card.classList.add('is-pinned');
+        });
+      })
+      .catch(function () { /* 静默 */ });
+  }
+
   function boot() {
     mountBrand();
     mountToggle();
     mountMasthead();
     formatDates();
     tuneDropcap();
+    markPinnedCards();
     markReady();
     mountProgress();
     mountReveal();

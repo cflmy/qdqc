@@ -462,19 +462,84 @@
 
   /* ---------- 写作台布局：重组元信息字段 ---------- */
 
+  var COLUMN_OPTIONS = [
+    { value: '', label: '无专栏' },
+    { value: 'marqdo', label: 'Marqdo 专栏' },
+    { value: 'linear-algebra', label: '线性代数专栏' },
+    { value: 'quantum-algorithms', label: '量子算法专栏' }
+  ];
+
+  function enhanceColumnField(lab, inp) {
+    if (!inp || inp.tagName === 'SELECT' || inp.dataset.colEnhanced === '1') return;
+    inp.dataset.colEnhanced = '1';
+    var sel = document.createElement('select');
+    sel.name = 'column_slug';
+    sel.className = inp.className || '';
+    COLUMN_OPTIONS.forEach(function (opt) {
+      var o = document.createElement('option');
+      o.value = opt.value;
+      o.textContent = opt.label;
+      sel.appendChild(o);
+    });
+    sel.value = String(inp.value || '');
+    lab.replaceChild(sel, inp);
+    // 异步补全专栏名（若 API 有更多）
+    fetch('/api/columns', { credentials: 'same-origin', headers: { Accept: 'application/json' } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (payload) {
+        if (!payload) return;
+        var rows = Array.isArray(payload.rows) ? payload.rows : [];
+        if (!rows.length) return;
+        var cur = sel.value;
+        while (sel.options.length > 1) sel.remove(1);
+        rows
+          .slice()
+          .sort(function (a, b) { return (a.sort_order || 0) - (b.sort_order || 0); })
+          .forEach(function (row) {
+            var o = document.createElement('option');
+            o.value = row.slug || '';
+            o.textContent = row.name || row.slug || '';
+            sel.appendChild(o);
+          });
+        sel.value = cur;
+      })
+      .catch(function () { /* 静态选项兜底 */ });
+  }
+
+  function enhancePinnedField(lab, inp) {
+    if (!inp || inp.dataset.pinEnhanced === '1') return;
+    inp.dataset.pinEnhanced = '1';
+    inp.type = 'hidden';
+    inp.value = String(inp.value === '1' || inp.value === 1 ? '1' : '0');
+    var wrap = document.createElement('label');
+    wrap.className = 'pub-pin-toggle';
+    var box = document.createElement('input');
+    box.type = 'checkbox';
+    box.checked = inp.value === '1';
+    box.addEventListener('change', function () {
+      inp.value = box.checked ? '1' : '0';
+    });
+    wrap.appendChild(box);
+    wrap.appendChild(document.createTextNode(' 置顶到列表前端'));
+    lab.appendChild(wrap);
+    lab.classList.add('pub-pinned');
+  }
+
   function composeMeta(form) {
     if (form.querySelector('.pub-meta')) return;
     var meta = document.createElement('div');
     meta.className = 'pub-meta';
     var row2 = document.createElement('div');
     row2.className = 'pub-row2';
-    var title = null, summary = null, hasRow2 = false;
+    var row3 = document.createElement('div');
+    row3.className = 'pub-row3';
+    var title = null, summary = null, hasRow2 = false, hasRow3 = false;
 
     Array.prototype.forEach.call(form.querySelectorAll('label'), function (lab) {
-      var inp = lab.querySelector('input[name], textarea[name]');
+      var inp = lab.querySelector('input[name], textarea[name], select[name]');
       if (!inp) return;
       var n = inp.getAttribute('name');
-      if (n === 'content') return; // 正文交给编辑器
+      if (n === 'content') return;
       lab.classList.add('pub-field');
       if (n === 'title') {
         title = lab;
@@ -485,6 +550,16 @@
         row2.appendChild(lab);
         hasRow2 = true;
         inp.setAttribute('placeholder', n === 'slug' ? '链接标识（留空自动生成）' : '标签（可选）');
+      } else if (n === 'column_slug') {
+        enhanceColumnField(lab, inp);
+        lab.classList.add('pub-col');
+        row3.appendChild(lab);
+        hasRow3 = true;
+      } else if (n === 'pinned') {
+        enhancePinnedField(lab, inp);
+        lab.classList.add('pub-col');
+        row3.appendChild(lab);
+        hasRow3 = true;
       } else if (n === 'summary') {
         summary = lab;
         lab.classList.add('pub-summary');
@@ -495,6 +570,7 @@
 
     if (title) meta.appendChild(title);
     if (hasRow2) meta.appendChild(row2);
+    if (hasRow3) meta.appendChild(row3);
     if (summary) meta.appendChild(summary);
 
     if (!meta.childNodes.length) return;
@@ -504,6 +580,21 @@
     } else {
       form.insertBefore(meta, form.firstChild);
     }
+  }
+
+  function syncPinnedCheckbox(form) {
+    var inp = form.querySelector('input[name="pinned"]');
+    if (!inp) return;
+    var box = form.querySelector('.pub-pin-toggle input[type="checkbox"]');
+    var on = String(inp.value) === '1';
+    inp.value = on ? '1' : '0';
+    if (box) box.checked = on;
+  }
+
+  function normalizePinnedOnSubmit(form) {
+    var inp = form.querySelector('input[name="pinned"]');
+    if (!inp) return;
+    inp.value = String(inp.value) === '1' ? '1' : '0';
   }
 
   /* ---------- 链接标识：空 slug 会导致文章无法打开、列表排版错乱 ---------- */
@@ -589,6 +680,7 @@
     var el = form.querySelector('[name="' + name + '"]');
     if (!el) return;
     el.value = value == null ? '' : String(value);
+    if (name === 'pinned') syncPinnedCheckbox(form);
   }
 
   function ensureIdField(form, id) {
@@ -678,6 +770,9 @@
       setField(form, 'title', row.title);
       setField(form, 'slug', row.slug);
       setField(form, 'tag', row.tag);
+      setField(form, 'column_slug', row.column_slug || '');
+      setField(form, 'pinned', row.pinned === 1 || row.pinned === '1' ? '1' : '0');
+      syncPinnedCheckbox(form);
       setField(form, 'summary', row.summary);
       applyContent(form, row.content);
       var title = row.title || ('#' + id);
@@ -724,7 +819,7 @@
         statusBanner('请填写链接标识（slug），否则文章无法打开。', 'is-error');
         return;
       }
-      // 提交前把编辑器正文（含换行）写回 textarea
+      normalizePinnedOnSubmit(form);
       var src = form.querySelector('.md-source');
       var ta = form.querySelector('textarea[name="content"]');
       if (src && ta) ta.value = normalizeNewlines(src.value);
@@ -875,6 +970,7 @@
         var src = form.querySelector('.md-source');
         var content = form.querySelector('textarea[name="content"]');
         if (src && content) content.value = normalizeNewlines(src.value);
+        normalizePinnedOnSubmit(form);
         if (!ensureSlug(form)) {
           e.preventDefault();
           statusBanner('请填写链接标识（slug），否则文章无法打开。', 'is-error');

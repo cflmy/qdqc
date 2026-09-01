@@ -133,6 +133,46 @@ main.main.desk-writing > .pub-compose-bar {
   gap: .85rem;
 }
 
+.pub-row3 {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: .85rem;
+  align-items: end;
+}
+
+.site-form.editor-skin .pub-meta select {
+  background: color-mix(in srgb, var(--bg-2) 70%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: .55rem .75rem;
+  color: var(--ink);
+  font: inherit;
+}
+
+.site-form.editor-skin .pub-pinned {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: .9rem;
+  color: var(--ink-soft);
+}
+
+.site-form.editor-skin .pub-pin-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  margin-top: .35rem;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: .92rem;
+  color: var(--ink);
+}
+
+.site-form.editor-skin .pub-pin-toggle input {
+  width: 1rem;
+  height: 1rem;
+}
+
 .site-form.editor-skin .pub-summary {
   gap: .35rem;
 }
@@ -654,7 +694,8 @@ main.main.desk-writing > .pub-compose-bar {
     padding: 1.05rem .95rem 1.2rem;
     border-radius: 12px;
   }
-  .pub-row2 {
+  .pub-row2,
+  .pub-row3 {
     grid-template-columns: 1fr;
   }
   .md-toolbar {
