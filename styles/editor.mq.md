@@ -14,23 +14,23 @@ import text:lib/text.mq.md
 
 | 选择器 | 属性 | 值 |
 |--------|------|-----|
-| body:has(.site-form.editor-skin), body.desk-list | grid-template-columns | 1fr |
-| body:has(.site-form.editor-skin), body.desk-list | grid-template-areas | "\"top\" \"main\" \"foot\"" |
-| body:has(.site-form.editor-skin) aside.side, body:has(.site-form.editor-skin) .mq-img.brand-logo, body.desk-list aside.side, body.desk-list .mq-img.brand-logo | display | none |
-| body:has(.site-form.editor-skin) main.main, body.desk-list main.main | padding | 1.1rem 1.25rem 2.5rem |
-| body:has(.site-form.editor-skin) main.main, body.desk-list main.main | max-width | 1280px |
-| body:has(.site-form.editor-skin) main.main, body.desk-list main.main | width | 100% |
-| body:has(.site-form.editor-skin) main.main, body.desk-list main.main | margin | 0 auto |
-| body:has(.site-form.editor-skin) .main-intro, body.desk-list .main-intro | margin-bottom | .85rem |
-| body:has(.site-form.editor-skin) .main-intro, body.desk-list .main-intro | max-width | none |
-| body:has(.site-form.editor-skin) .main-intro h1, body.desk-list .main-intro h1 | font-size | clamp(1.55rem, 2.6vw, 1.95rem) |
-| body:has(.site-form.editor-skin) .main-intro h1, body.desk-list .main-intro h1 | letter-spacing | .03em |
-| body:has(.site-form.editor-skin) .main-intro h1, body.desk-list .main-intro h1 | border-left-width | 3px |
-| body:has(.site-form.editor-skin) .main-intro h1, body.desk-list .main-intro h1 | padding-left | .7rem |
-| body:has(.site-form.editor-skin) .main-intro p.lede, body:has(.site-form.editor-skin) .main-intro p, body.desk-list .main-intro p.lede, body.desk-list .main-intro p | max-width | 40rem |
-| body:has(.site-form.editor-skin) .main-intro p.lede, body:has(.site-form.editor-skin) .main-intro p, body.desk-list .main-intro p.lede, body.desk-list .main-intro p | font-size | .95rem |
-| body:has(.site-form.editor-skin) .main-intro p.lede, body:has(.site-form.editor-skin) .main-intro p, body.desk-list .main-intro p.lede, body.desk-list .main-intro p | margin-top | .35rem |
-| body:has(.site-form.editor-skin) footer.foot, body.desk-list footer.foot | margin-top | 0 |
+| body:has(.site-form.editor-skin), body.desk-list, body.desk-admin | grid-template-columns | 1fr |
+| body:has(.site-form.editor-skin), body.desk-list, body.desk-admin | grid-template-areas | "\"top\" \"main\" \"foot\"" |
+| body:has(.site-form.editor-skin) aside.side, body:has(.site-form.editor-skin) .mq-img.brand-logo, body.desk-list aside.side, body.desk-list .mq-img.brand-logo, body.desk-admin aside.side, body.desk-admin aside.side-rail, body.desk-admin .mq-img.brand-logo | display | none |
+| body:has(.site-form.editor-skin) main.main, body.desk-list main.main, body.desk-admin main.main | padding | 1.1rem 1.25rem 2.5rem |
+| body:has(.site-form.editor-skin) main.main, body.desk-list main.main, body.desk-admin main.main | max-width | 1280px |
+| body:has(.site-form.editor-skin) main.main, body.desk-list main.main, body.desk-admin main.main | width | 100% |
+| body:has(.site-form.editor-skin) main.main, body.desk-list main.main, body.desk-admin main.main | margin | 0 auto |
+| body:has(.site-form.editor-skin) .main-intro, body.desk-list .main-intro, body.desk-admin .main-intro | margin-bottom | .85rem |
+| body:has(.site-form.editor-skin) .main-intro, body.desk-list .main-intro, body.desk-admin .main-intro | max-width | none |
+| body:has(.site-form.editor-skin) .main-intro h1, body.desk-list .main-intro h1, body.desk-admin .main-intro h1 | font-size | clamp(1.55rem, 2.6vw, 1.95rem) |
+| body:has(.site-form.editor-skin) .main-intro h1, body.desk-list .main-intro h1, body.desk-admin .main-intro h1 | letter-spacing | .03em |
+| body:has(.site-form.editor-skin) .main-intro h1, body.desk-list .main-intro h1, body.desk-admin .main-intro h1 | border-left-width | 3px |
+| body:has(.site-form.editor-skin) .main-intro h1, body.desk-list .main-intro h1, body.desk-admin .main-intro h1 | padding-left | .7rem |
+| body:has(.site-form.editor-skin) .main-intro p.lede, body:has(.site-form.editor-skin) .main-intro p, body.desk-list .main-intro p.lede, body.desk-list .main-intro p, body.desk-admin .main-intro p.lede, body.desk-admin .main-intro p | max-width | 40rem |
+| body:has(.site-form.editor-skin) .main-intro p.lede, body:has(.site-form.editor-skin) .main-intro p, body.desk-list .main-intro p.lede, body.desk-list .main-intro p, body.desk-admin .main-intro p.lede, body.desk-admin .main-intro p | font-size | .95rem |
+| body:has(.site-form.editor-skin) .main-intro p.lede, body:has(.site-form.editor-skin) .main-intro p, body.desk-list .main-intro p.lede, body.desk-list .main-intro p, body.desk-admin .main-intro p.lede, body.desk-admin .main-intro p | margin-top | .35rem |
+| body:has(.site-form.editor-skin) footer.foot, body.desk-list footer.foot, body.desk-admin footer.foot | margin-top | 0 |
 | main.main:has(> .site-form):has(> .content.cards):not(.desk-writing) > .site-form | display | none !important |
 | main.main.desk-writing > .site-form | display | block !important |
 | main.main.desk-writing > .content.cards, main.main.desk-writing > .pub-list-head, main.main.desk-writing > .pub-compose-bar | display | none !important |
@@ -522,18 +522,117 @@ import text:lib/text.mq.md
 | (max-width: 860px) | .site-form.editor-skin .actions | position | static |
 | (max-width: 860px) | .site-form.editor-skin .actions | background | transparent |
 | (min-width: 861px) | .md-btn.md-preview-toggle | display | none |
-| (prefers-reduced-motion: reduce) | .site-form.editor-skin .actions button, .md-toolbar .tool-btn, .md-toolbar .md-btn | transition | none |
+| (max-width: 860px) | .admin-hub-grid | grid-template-columns | 1fr |
+| (max-width: 860px) | .admin-nav-logout | margin-left | 0 |
 | (prefers-reduced-motion: reduce) | .site-form.editor-skin .actions button:hover | transform | none |
 
 **`响应式`**
+
+## 登录
+
+`登录` =
+
+| 选择器 | 属性 | 值 |
+|--------|------|-----|
+| .desk-login | max-width | 24rem |
+| .desk-login-form | display | grid |
+| .desk-login-form | gap | .85rem |
+| .desk-login-form | margin-top | 1rem |
+| .desk-login-form label | display | grid |
+| .desk-login-form label | gap | .25rem |
+| .desk-login-form label | font-size | .9rem |
+| .desk-login-form input | padding | .55rem .65rem |
+| .desk-login-form input | border | 1px solid var(--line) |
+| .desk-login-form input | border-radius | 6px |
+| .desk-login-form input | font | inherit |
+| .desk-login-form button | background | var(--mark) |
+| .desk-login-form button | color | #fff |
+| .desk-login-form button | border | 0 |
+| .desk-login-form button | padding | .6rem 1rem |
+| .desk-login-form button | border-radius | 6px |
+| .desk-login-form button | cursor | pointer |
+| .desk-login-form button | font | inherit |
+| .desk-login-form button:disabled | opacity | .65 |
+| .desk-login-form button:disabled | cursor | wait |
+| .desk-login-err | margin-top | .75rem |
+| .desk-login-err | color | #b91c1c |
+| .desk-login-err | font-size | .9rem |
+
+**`登录`**
+
+## 后台
+
+`后台` =
+
+| 选择器 | 属性 | 值 |
+|--------|------|-----|
+| body.desk-list aside.side, body.desk-writing aside.side, body.desk-admin aside.side, body.desk-admin aside.side-rail | display | none |
+| body.desk-admin.has-rail, body.desk-admin.has-sidebar.has-rail | grid-template-columns | 1fr !important |
+| body.desk-admin.has-rail, body.desk-admin.has-sidebar.has-rail | grid-template-areas | "\"top\" \"main\" \"foot\" !important" |
+| .admin-nav | display | flex |
+| .admin-nav | flex-wrap | wrap |
+| .admin-nav | align-items | center |
+| .admin-nav | gap | .35rem 1rem |
+| .admin-nav | margin | 0 0 1rem |
+| .admin-nav | padding | 0 0 .85rem |
+| .admin-nav | border-bottom | 1px solid var(--line) |
+| .admin-nav | font-family | var(--mono) |
+| .admin-nav | font-size | .72rem |
+| .admin-nav | letter-spacing | .12em |
+| .admin-nav | text-transform | uppercase |
+| .admin-nav a | color | var(--muted) |
+| .admin-nav a | text-decoration | none |
+| .admin-nav a | padding | .2rem 0 |
+| .admin-nav a:hover | color | var(--mark) |
+| .admin-nav a[aria-current="page"] | color | var(--ink) |
+| .admin-nav a[aria-current="page"] | border-bottom | 2px solid var(--mark) |
+| .admin-nav-logout | margin-left | auto |
+| .admin-hub-grid | display | grid |
+| .admin-hub-grid | grid-template-columns | repeat(3, minmax(0, 1fr)) |
+| .admin-hub-grid | gap | 1rem |
+| .admin-hub-grid | margin | 1.25rem 0 1rem |
+| .admin-hub-card | display | grid |
+| .admin-hub-card | gap | .35rem |
+| .admin-hub-card | padding | 1rem 1.1rem |
+| .admin-hub-card | border | 1px solid var(--line) |
+| .admin-hub-card | border-radius | 10px |
+| .admin-hub-card | background | color-mix(in srgb, var(--card) 88%, transparent) |
+| .admin-hub-card | text-decoration | none |
+| .admin-hub-card | color | inherit |
+| .admin-hub-card | transition | border-color .2s ease, transform .2s ease |
+| .admin-hub-card:hover | border-color | color-mix(in srgb, var(--mark) 45%, var(--line)) |
+| .admin-hub-card:hover | transform | translateY(-2px) |
+| .admin-hub-kicker | font-family | var(--mono) |
+| .admin-hub-kicker | font-size | .62rem |
+| .admin-hub-kicker | letter-spacing | .16em |
+| .admin-hub-kicker | text-transform | uppercase |
+| .admin-hub-kicker | color | var(--faint) |
+| .admin-hub-card strong | font-family | var(--serif) |
+| .admin-hub-card strong | font-size | 1.15rem |
+| .admin-hub-card span:last-child | font-size | .88rem |
+| .admin-hub-card span:last-child | color | var(--muted) |
+| .admin-hub-card span:last-child | line-height | 1.45 |
+| .admin-hub-note | font-size | .85rem |
+| .admin-hub-note | color | var(--faint) |
+| .site-form.meta-form | max-width | 42rem |
+| .site-form.meta-form | padding | 1.25rem 1.35rem |
+| .site-form.meta-form | border | 1px solid var(--line) |
+| .site-form.meta-form | border-radius | 12px |
+| .site-form.meta-form | background | color-mix(in srgb, var(--card) 90%, transparent) |
+
+**`后台`**
 
 ## 全局
 
 *表规则 = > 规则*
 *表响应式 = > 响应式*
+*表登录 = > 登录*
+*表后台 = > 后台*
 
 *css规则 = > 网页.样式装配 名="规则" 表=`表规则`*
 *css响应式 = > 网页.样式装配 名="响应式" 表=`表响应式`*
+*css登录 = > 网页.样式装配 名="登录" 表=`表登录`*
+*css后台 = > 网页.样式装配 名="后台" 表=`表后台`*
 
 `css段` =
 
@@ -541,6 +640,8 @@ import text:lib/text.mq.md
 |-----|
 | `css规则` |
 | `css响应式` |
+| `css登录` |
+| `css后台` |
 
 *css = > text.str_join xs=`css段` sep=""*
 **css**

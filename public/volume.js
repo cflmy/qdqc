@@ -38,6 +38,7 @@
 
   function pathInfo() {
     var p = window.location.pathname || '';
+    if (/^\/desk(?:\/|$)/.test(p) || /^\/login\/?$/.test(p)) return { mode: 'desk' };
     if (/^\/columns\/?$/.test(p)) return { mode: 'shelf' };
     if (/^\/news\/?$/.test(p)) return { mode: 'news' };
     var m = p.match(/^\/column\/([^/?#]+)\/?$/);
@@ -453,6 +454,7 @@
 
   function boot() {
     var info = pathInfo();
+    if (info.mode === 'desk') return;
 
     if (info.mode === 'home') {
       promoteHomeGate();

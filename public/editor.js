@@ -667,7 +667,7 @@
   }
 
   function isPublishPath() {
-    return /^\/admin-publish\/?$/.test(window.location.pathname || '');
+    return /^\/desk\/posts\/?$/.test(window.location.pathname || '');
   }
 
   function resolveForm(shell) {
@@ -753,11 +753,11 @@
       headers: { Accept: 'application/json' }
     }).then(function (res) {
       if (res.redirected && /login/i.test(res.url || '')) {
-        window.location.href = '/admin/login';
+        window.location.href = '/login';
         return null;
       }
       if (res.status === 401 || res.status === 403) {
-        window.location.href = '/admin/login';
+        window.location.href = '/login';
         return null;
       }
       if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -783,7 +783,7 @@
     }).catch(function (err) {
       statusBanner(
         '加载失败：' + (err && err.message ? err.message : '未知错误') +
-          '。请确认已登录。<a href="/admin-publish">返回列表</a>。',
+          '。请确认已登录。<a href="/desk/posts">返回列表</a>。',
         'is-error'
       );
       if (submit) submit.disabled = false;
@@ -802,7 +802,7 @@
     if (submit) submit.textContent = '保存修改';
     if (cancel) {
       cancel.textContent = '返回列表';
-      cancel.setAttribute('href', '/admin-publish');
+      cancel.setAttribute('href', '/desk/posts');
     }
 
     form.addEventListener('submit', function (e) {
@@ -851,13 +851,13 @@
   }
 
   function mountListChrome() {
-    setIntro('写作台', '管理已发布内容；点击条目进入编辑，或发布一篇新稿。');
+      setIntro('文章管理', '管理已发布内容；点击条目进入编辑，或发布一篇新稿。');
 
     if (document.querySelector('.pub-compose-bar')) return;
     var bar = document.createElement('div');
     bar.className = 'pub-compose-bar';
     bar.innerHTML =
-      '<a class="pub-new-btn" href="/admin-publish?new=1">发布新帖子</a>' +
+      '<a class="pub-new-btn" href="/desk/posts?new=1">发布新帖子</a>' +
       '<p class="pub-compose-hint">新稿将出现在首页顶部；编辑已有文章不会新增条目。</p>';
 
     var cards = document.querySelector('main.main > .content.cards');
@@ -919,7 +919,7 @@
     // 旧编辑页统一跳进写作台，避免两套入口
     if (isEditPath()) {
       var rid = queryId();
-      window.location.replace(rid ? ('/admin-publish?id=' + encodeURIComponent(rid)) : '/admin-publish');
+      window.location.replace(rid ? ('/desk/posts?id=' + encodeURIComponent(rid)) : '/desk/posts');
       return;
     }
 
@@ -953,17 +953,17 @@
     var cancel = form.querySelector('.actions a');
     if (cancel) {
       cancel.textContent = '返回列表';
-      cancel.setAttribute('href', '/admin-publish');
+      cancel.setAttribute('href', '/desk/posts');
     }
 
     if (mode === 'edit') {
       var editId = queryId();
-      setIntro('编辑文章', '修改后保存即可更新已发布内容。<a href="/admin-publish">返回列表</a>');
+      setIntro('编辑文章', '修改后保存即可更新已发布内容。<a href="/desk/posts">返回列表</a>');
       if (cards) decoratePublishList(editId);
       enterEditMode(shell, form, editId);
       if (cancel) cancel.textContent = '返回列表';
     } else {
-      setIntro('发布新帖子', '填写标题与正文后发布。<a href="/admin-publish">返回列表</a>');
+      setIntro('发布新帖子', '填写标题与正文后发布。<a href="/desk/posts">返回列表</a>');
       if (submit) submit.textContent = '发布文章';
       bindSlugAssist(form);
       form.addEventListener('submit', function (e) {

@@ -7,6 +7,7 @@ import motion:styles/brand-motion.mq.md
 import volumeStyle:styles/volume.mq.md
 import editorStyle:styles/editor.mq.md
 import text:lib/text.mq.md
+import admin:components/admin.mq.md
 import nav:components/nav.mq.md
 import side:components/side.mq.md
 import foot:components/foot.mq.md
@@ -106,7 +107,14 @@ import db:db/index.mq.md
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
 | script | "/static/theme.js?v=12" | | | | | |
+| script | "/static/desk-guard.js?v=1" | | | | | |
 | script | "/static/volume.js?v=13" | | | | | |
+
+`登录资源` =
+
+| 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
+|------|------|------|------|------|------|------|
+| script | "/static/desk-login.js?v=2" | | | | | |
 
 `发资源` =
 
@@ -116,8 +124,9 @@ import db:db/index.mq.md
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
 | script | "/static/theme.js?v=12" | | | | | |
-| script | "/static/volume.js?v=13" | | | | | |
-| script | "/static/editor.js?v=23" | | | | | |
+| script | "/static/desk-guard.js?v=1" | | | | | |
+| script | "/static/admin.js?v=3" | | | | | |
+| script | "/static/editor.js?v=25" | | | | | |
 
 `发布字段` =
 
@@ -176,6 +185,109 @@ import db:db/index.mq.md
 | meta | posts.updated_at | |
 | tag | posts.tag | |
 | href | posts.id | |
+
+`专栏管理列表` =
+
+| 属性 | 值 | 样式 |
+|------|-----|------|
+| title | columns.name | |
+| body | columns.summary | |
+| meta | columns.status | |
+| tag | columns.slug | |
+| href | columns.id | |
+
+`新闻管理列表` =
+
+| 属性 | 值 | 样式 |
+|------|-----|------|
+| title | news.title | |
+| body | news.summary | |
+| meta | news.published_at | |
+| tag | news.source | |
+| href | news.id | |
+
+`专栏发布字段` =
+
+| 字段 | 标签 | 类型 | 必填 | 默认 |
+|------|------|------|------|------|
+| name | 名称 | text | true | |
+| slug | 链接标识 | text | true | |
+| summary | 摘要 | textarea | false | |
+| sort_order | 排序 | text | false | 0 |
+| status | 状态 | text | false | ongoing |
+| created_at | 创建时间 | text | false | |
+
+`专栏编辑字段` =
+
+| 字段 | 标签 | 类型 | 必填 | 默认 |
+|------|------|------|------|------|
+| id | 编号 | text | true | |
+| name | 名称 | text | true | |
+| slug | 链接标识 | text | true | |
+| summary | 摘要 | textarea | false | |
+| sort_order | 排序 | text | false | |
+| status | 状态 | text | false | |
+| created_at | 创建时间 | text | false | |
+
+`新闻发布字段` =
+
+| 字段 | 标签 | 类型 | 必填 | 默认 |
+|------|------|------|------|------|
+| title | 标题 | text | true | |
+| url | 原文链接 | text | true | |
+| source | 来源 | text | false | |
+| summary | 摘要 | textarea | false | |
+| published_at | 发布日期 | text | false | |
+| created_at | 入库时间 | text | false | |
+
+`新闻编辑字段` =
+
+| 字段 | 标签 | 类型 | 必填 | 默认 |
+|------|------|------|------|------|
+| id | 编号 | text | true | |
+| title | 标题 | text | true | |
+| url | 原文链接 | text | true | |
+| source | 来源 | text | false | |
+| summary | 摘要 | textarea | false | |
+| published_at | 发布日期 | text | false | |
+| created_at | 入库时间 | text | false | |
+
+`专栏发布规则` =
+
+| 字段 | 规则 | 消息 |
+|------|------|------|
+| name | required | 请填写专栏名称 |
+| name | max:120 | 名称最长 120 字符 |
+| slug | required | 请填写 slug |
+| slug | max:64 | slug 最长 64 字符 |
+| summary | max:500 | 摘要最长 500 字符 |
+
+`专栏编辑规则` =
+
+| 字段 | 规则 | 消息 |
+|------|------|------|
+| id | required | 缺少专栏编号 |
+| name | required | 请填写专栏名称 |
+| slug | required | 请填写 slug |
+| slug | max:64 | slug 最长 64 字符 |
+
+`新闻发布规则` =
+
+| 字段 | 规则 | 消息 |
+|------|------|------|
+| title | required | 请填写标题 |
+| title | max:200 | 标题最长 200 字符 |
+| url | required | 请填写原文链接 |
+| url | max:500 | 链接最长 500 字符 |
+| source | max:64 | 来源最长 64 字符 |
+
+`新闻编辑规则` =
+
+| 字段 | 规则 | 消息 |
+|------|------|------|
+| id | required | 缺少新闻编号 |
+| title | required | 请填写标题 |
+| url | required | 请填写原文链接 |
 
 *store = > db.打开*
 
@@ -277,22 +389,59 @@ import db:db/index.mq.md
 *edit_form = > edit_form.字段 字段=`编辑字段`*
 *edit_form = > edit_form.规则 规则=`编辑规则`*
 
-*publish = > 网页.页面 标题="写作台" 引言="<h1>写作台</h1><p class='lede'>查看已发布文章，或发布一篇新稿。</p>"*
-*publish = > publish.组件装配 组件=`首页`*
+*column_form = > 网页.表单 表="columns" 动作="插入"*
+*column_form = > column_form.字段 字段=`专栏发布字段`*
+*column_form = > column_form.规则 规则=`专栏发布规则`*
+
+*column_edit_form = > 网页.表单 表="columns" 动作="更新"*
+*column_edit_form = > column_edit_form.字段 字段=`专栏编辑字段`*
+*column_edit_form = > column_edit_form.规则 规则=`专栏编辑规则`*
+
+*news_form = > 网页.表单 表="news" 动作="插入"*
+*news_form = > news_form.字段 字段=`新闻发布字段`*
+*news_form = > news_form.规则 规则=`新闻发布规则`*
+
+*news_edit_form = > 网页.表单 表="news" 动作="更新"*
+*news_edit_form = > news_edit_form.字段 字段=`新闻编辑字段`*
+*news_edit_form = > news_edit_form.规则 规则=`新闻编辑规则`*
+
+*desk_hub = > 网页.页面 标题="后台管理" 引言="<p class='kicker'>// desk</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏与量子新闻。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/desk/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/desk/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/desk/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a></div><p class='admin-hub-note'>需管理员登录；未登录访问本页将自动要求登录。</p>"*
+*desk_hub = > desk_hub.组件装配 组件=admin.`后台壳`*
+*desk_hub = > desk_hub.样式 样式=`写作台CSS`*
+*desk_hub = > desk_hub.头装配 表=`发资源`*
+
+*login = > 网页.页面 标题="后台登录" 引言="<div class='desk-login'><p class='kicker'>// desk</p><h1>后台登录</h1><p class='lede'>管理员登录后进入自研后台，管理文章、专栏与新闻。</p><form id='desk-login-form' class='desk-login-form' method='post' action='#'><label>用户名<input name='username' autocomplete='username' required autofocus/></label><label>密码<input name='password' type='password' autocomplete='current-password' required/></label><button type='submit'>登录</button></form><p id='desk-login-err' class='desk-login-err' hidden></p></div>"*
+*login = > login.样式 样式=`写作台CSS`*
+*login = > login.头装配 表=`登录资源`*
+
+*publish = > 网页.页面 标题="文章管理" 引言="<p class='kicker'>// posts</p><h1>文章管理</h1><p class='lede'>查看已发布文章，或撰写新稿。</p>"*
+*publish = > publish.组件装配 组件=admin.`后台壳`*
 *publish = > publish.表单装配 表单=`post_form` id="post"*
 *publish = > publish.主体装配 主体=`管理列表`*
 *publish = > publish.排序 排序="-updated_at"*
-*publish = > publish.链接前缀 前缀="/admin-publish?id="*
+*publish = > publish.链接前缀 前缀="/desk/posts?id="*
 *publish = > publish.样式 样式=`写作台CSS`*
 *publish = > publish.头装配 表=`发资源`*
 
-*edit = > 网页.页面 标题="编辑文章" 引言="<h1>编辑文章</h1><p class='lede'>正在打开写作台…</p>"*
-*edit = > edit.组件装配 组件=`首页`*
-*edit = > edit.表单装配 表单=`edit_form` id="post-edit"*
-*edit = > edit.样式 样式=`写作台CSS`*
-*edit = > edit.头装配 表=`发资源`*
+*admin_columns = > 网页.页面 标题="专栏管理" 引言="<p class='kicker'>// columns</p><h1>专栏管理</h1><p class='lede'>维护书架上的专栏元数据。</p>"*
+*admin_columns = > admin_columns.组件装配 组件=admin.`后台壳`*
+*admin_columns = > admin_columns.表单装配 表单=`column_form` id="column"*
+*admin_columns = > admin_columns.主体装配 主体=`专栏管理列表`*
+*admin_columns = > admin_columns.排序 排序="sort_order"*
+*admin_columns = > admin_columns.链接前缀 前缀="/desk/columns?id="*
+*admin_columns = > admin_columns.样式 样式=`写作台CSS`*
+*admin_columns = > admin_columns.头装配 表=`发资源`*
 
-*app = > 网页.应用 页面=page 数据库=store 后台=True 主机="0.0.0.0" 端口=18085*
+*admin_news = > 网页.页面 标题="新闻管理" 引言="<p class='kicker'>// news</p><h1>新闻管理</h1><p class='lede'>维护侧栏与 /news 页的量子快讯。</p>"*
+*admin_news = > admin_news.组件装配 组件=admin.`后台壳`*
+*admin_news = > admin_news.表单装配 表单=`news_form` id="news"*
+*admin_news = > admin_news.主体装配 主体=`新闻管理列表`*
+*admin_news = > admin_news.排序 排序="-published_at"*
+*admin_news = > admin_news.链接前缀 前缀="/desk/news?id="*
+*admin_news = > admin_news.样式 样式=`写作台CSS`*
+*admin_news = > admin_news.头装配 表=`发资源`*
+
+*app = > 网页.应用 页面=page 数据库=store 后台=False 主机="0.0.0.0" 端口=18085*
 *app = > app.路由 路径="/about" 页面=about*
 *app = > app.路由 路径="/post/{slug}" 页面=post*
 *app = > app.路由 路径="/tags" 页面=tags*
@@ -300,15 +449,27 @@ import db:db/index.mq.md
 *app = > app.路由 路径="/columns" 页面=columns*
 *app = > app.路由 路径="/column/{slug}" 页面=column*
 *app = > app.路由 路径="/news" 页面=news*
+*app = > app.路由 路径="/desk" 页面=desk_hub*
+*app = > app.路由 路径="/desk/posts" 页面=publish*
+*app = > app.路由 路径="/desk/columns" 页面=admin_columns*
+*app = > app.路由 路径="/desk/news" 页面=admin_news*
+*app = > app.路由 路径="/login" 页面=login*
+*app = > app.路由 路径="/desk/login" 页面=login*
 *app = > app.路由 路径="/admin-publish" 页面=publish*
-*app = > app.路由 路径="/admin-edit" 页面=edit*
+*app = > app.路由 路径="/admin-edit" 页面=publish*
 *app = > app.挂载表单 id="post-edit" 表单=`edit_form`*
+*app = > app.挂载表单 id="column-edit" 表单=`column_edit_form`*
+*app = > app.挂载表单 id="news-edit" 表单=`news_edit_form`*
 *app = > app.装配 接口=`站点接口`*
 *app = > app.静态 目录="public" 挂载="/static"*
 *app = > app.图标 表=`站点图标`*
 *app = > app.鉴权 用户表=`管理员` 会话时长=3600*
+*app = > app.门禁 路径="/desk" 角色="admin"*
+*app = > app.门禁 路径="/desk/*" 角色="admin"*
 *app = > app.门禁 路径="/_form/post" 角色="admin"*
 *app = > app.门禁 路径="/_form/post-edit" 角色="admin"*
-*app = > app.门禁 路径="/admin-publish" 角色="admin"*
-*app = > app.门禁 路径="/admin-edit" 角色="admin"*
+*app = > app.门禁 路径="/_form/column" 角色="admin"*
+*app = > app.门禁 路径="/_form/column-edit" 角色="admin"*
+*app = > app.门禁 路径="/_form/news" 角色="admin"*
+*app = > app.门禁 路径="/_form/news-edit" 角色="admin"*
 > `app`.监听
