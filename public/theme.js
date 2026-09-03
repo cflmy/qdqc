@@ -144,6 +144,108 @@
     apply(readStored());
   }
 
+  /* 小屏杂志抽屉：侧栏改为 off-canvas，保留归档入口 */
+  function mqNarrow() {
+    return window.matchMedia('(max-width: 860px)').matches;
+  }
+
+  function drawerEligible() {
+    var side = document.querySelector('aside.side');
+    if (!side) return false;
+    var b = document.body;
+    if (!b) return false;
+    if (b.classList.contains('desk-admin') || b.classList.contains('desk-list') || b.classList.contains('desk-writing')) {
+      return false;
+    }
+    if (b.classList.contains('layout-shelf') || b.classList.contains('layout-volume') || b.classList.contains('layout-news')) {
+      return false;
+    }
+    return b.classList.contains('has-sidebar');
+  }
+
+  function setDrawer(open) {
+    var side = document.querySelector('aside.side');
+    var btn = document.getElementById('nav-menu-toggle');
+    var veil = document.getElementById('nav-drawer-veil');
+    if (!side || !drawerEligible() || !mqNarrow()) {
+      document.body.classList.remove('nav-open');
+      document.documentElement.style.removeProperty('overflow');
+      if (btn) {
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', '打开目录');
+      }
+      if (veil) veil.hidden = true;
+      return;
+    }
+    document.body.classList.toggle('nav-open', open);
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (btn) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? '关闭目录' : '打开目录');
+    }
+    if (veil) veil.hidden = !open;
+    if (open) {
+      var first = side.querySelector('a');
+      if (first) try { first.focus({ preventScroll: true }); } catch (e) { /* ignore */ }
+    }
+  }
+
+  function mountDrawer() {
+    var nav = document.querySelector('header.topnav');
+    var side = document.querySelector('aside.side');
+    if (!nav || !side) return;
+
+    if (!document.getElementById('nav-menu-toggle')) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'nav-menu-toggle';
+      btn.className = 'nav-menu-toggle';
+      btn.setAttribute('aria-controls', 'site-side-drawer');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', '打开目录');
+      btn.innerHTML =
+        '<span class="nav-menu-bars" aria-hidden="true"><i></i><i></i><i></i></span>' +
+        '<span class="nav-menu-label">目录</span>';
+      btn.addEventListener('click', function () {
+        setDrawer(!document.body.classList.contains('nav-open'));
+      });
+      var brand = document.getElementById('nav-brand');
+      if (brand && brand.nextSibling) nav.insertBefore(btn, brand.nextSibling);
+      else nav.insertBefore(btn, nav.firstChild);
+    }
+
+    if (!side.id) side.id = 'site-side-drawer';
+    side.setAttribute('role', 'navigation');
+    side.setAttribute('aria-label', '站点目录');
+
+    if (!document.getElementById('nav-drawer-veil')) {
+      var veil = document.createElement('button');
+      veil.type = 'button';
+      veil.id = 'nav-drawer-veil';
+      veil.className = 'nav-drawer-veil';
+      veil.setAttribute('aria-label', '关闭目录');
+      veil.hidden = true;
+      veil.addEventListener('click', function () { setDrawer(false); });
+      document.body.appendChild(veil);
+    }
+
+    if (!mountDrawer._bound) {
+      mountDrawer._bound = true;
+      document.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Escape') setDrawer(false);
+      });
+      window.addEventListener('resize', function () {
+        if (!mqNarrow()) setDrawer(false);
+      });
+      side.addEventListener('click', function (ev) {
+        var t = ev.target;
+        if (t && t.closest && t.closest('a')) setDrawer(false);
+      });
+    }
+
+    setDrawer(false);
+  }
+
   function mountProgress() {
     if (document.getElementById('qd-progress')) return;
     var bar = document.createElement('div');
@@ -283,6 +385,7 @@
   function boot() {
     mountBrand();
     mountToggle();
+    mountDrawer();
     mountMasthead();
     formatDates();
     tuneDropcap();
@@ -291,6 +394,8 @@
     mountProgress();
     mountReveal();
     whenKatexReady(renderMath);
+    // volume.js 可能稍后改 body class，再同步一次抽屉可用性
+    setTimeout(mountDrawer, 0);
   }
 
   if (document.readyState === 'loading') {

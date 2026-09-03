@@ -599,9 +599,38 @@ import text:lib/text.mq.md
 
 | 媒体 | 选择器 | 属性 | 值 |
 |------|--------|------|-----|
-| (max-width: 1100px) | body.has-sidebar.has-rail | grid-template-columns | minmax(10.5rem, 12.5rem) minmax(0, 1fr) |
-| (max-width: 1100px) | body.has-sidebar.has-rail | grid-template-areas | "\"top top\" \"side main\" \"foot foot\"" |
-| (max-width: 1100px) | aside.side-rail | display | none |
+| (min-width: 861px) and (max-width: 1100px) | body.has-sidebar.has-rail | grid-template-columns | minmax(10.5rem, 12.5rem) minmax(0, 1fr) |
+| (min-width: 861px) and (max-width: 1100px) | body.has-sidebar.has-rail | grid-template-areas | "\"top top\" \"side main\" \"rail rail\" \"foot foot\"" |
+| (max-width: 860px) | body.has-sidebar.has-rail | grid-template-columns | 1fr !important |
+| (max-width: 860px) | body.has-sidebar.has-rail | grid-template-areas | "\"top\" \"main\" \"rail\" \"foot\" !important" |
+| (max-width: 1100px) | aside.side-rail | display | flex |
+| (max-width: 1100px) | aside.side-rail | position | static |
+| (max-width: 1100px) | aside.side-rail | top | auto |
+| (max-width: 1100px) | aside.side-rail | max-height | none |
+| (max-width: 1100px) | aside.side-rail | margin | 0 |
+| (max-width: 1100px) | aside.side-rail | padding | 1.35rem clamp(1.05rem, 4vw, 3rem) 2.25rem |
+| (max-width: 1100px) | aside.side-rail | border-left | 0 |
+| (max-width: 1100px) | aside.side-rail | border-top | 1px solid var(--line) |
+| (max-width: 1100px) | aside.side-rail | background | color-mix(in srgb, var(--card) 55%, transparent) |
+| (max-width: 1100px) | .side-rail-body | overflow | visible |
+| (max-width: 1100px) | .side-rail-body | min-height | 0 |
+| (max-width: 1100px) | .side-rail-body::after | display | none |
+| (max-width: 1100px) | .side-news-list | display | grid |
+| (max-width: 1100px) | .side-news-list | grid-auto-flow | column |
+| (max-width: 1100px) | .side-news-list | grid-auto-columns | minmax(14.5rem, 16.5rem) |
+| (max-width: 1100px) | .side-news-list | gap | 0 |
+| (max-width: 1100px) | .side-news-list | overflow-x | auto |
+| (max-width: 1100px) | .side-news-list | overscroll-behavior-x | contain |
+| (max-width: 1100px) | .side-news-list | scroll-snap-type | x mandatory |
+| (max-width: 1100px) | .side-news-list | -webkit-overflow-scrolling | touch |
+| (max-width: 1100px) | .side-news-list | padding | 0 0 .35rem |
+| (max-width: 1100px) | .side-news-list | scrollbar-width | thin |
+| (max-width: 1100px) | .side-news-list li | border-bottom | 0 |
+| (max-width: 1100px) | .side-news-list li | border-right | 1px solid var(--line) |
+| (max-width: 1100px) | .side-news-list li | scroll-snap-align | start |
+| (max-width: 1100px) | .side-news-list a | padding | .85rem 1rem .85rem 0 |
+| (max-width: 1100px) | .side-news-list a | min-height | 7.5rem |
+| (max-width: 1100px) | .side-news-title | -webkit-line-clamp | 4 |
 | (max-width: 1100px) | body.has-sidebar.has-rail .main-intro.masthead-split | grid-template-columns | 1fr |
 | (max-width: 1100px) | body.has-sidebar.has-rail .main-intro.masthead-split | gap | 1rem |
 | (max-width: 1100px) | .masthead-guide | padding | .85rem 0 0 |

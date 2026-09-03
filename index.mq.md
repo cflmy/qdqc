@@ -106,9 +106,9 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | | | | |
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
-| script | "/static/theme.js?v=12" | | | | | |
+| script | "/static/theme.js?v=13" | | | | | |
 | script | "/static/desk-guard.js?v=1" | | | | | |
-| script | "/static/volume.js?v=13" | | | | | |
+| script | "/static/volume.js?v=14" | | | | | |
 
 `登录资源` =
 
@@ -123,7 +123,7 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | | | | |
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
-| script | "/static/theme.js?v=12" | | | | | |
+| script | "/static/theme.js?v=13" | | | | | |
 | script | "/static/desk-guard.js?v=1" | | | | | |
 | script | "/static/admin.js?v=3" | | | | | |
 | script | "/static/editor.js?v=25" | | | | | |

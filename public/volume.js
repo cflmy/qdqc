@@ -385,7 +385,7 @@
     rail.innerHTML =
       '<div class="side-rail-head">' +
         '<p class="side-rail-label">量子新闻</p>' +
-        '<a class="side-rail-jump" href="/news" title="浏览全部新闻" aria-label="浏览全部新闻">→</a>' +
+        '<a class="side-rail-jump" href="/news" title="浏览全部新闻" aria-label="浏览全部新闻">全部 →</a>' +
       '</div>' +
       '<div class="side-rail-body">' +
         '<ul class="side-news-list">' + newsListHtml(newsRows, 24) + '</ul>' +

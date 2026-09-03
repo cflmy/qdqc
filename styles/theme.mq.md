@@ -165,6 +165,41 @@ import text:lib/text.mq.md
 | button.theme-toggle | transition | color .2s ease, border-color .2s ease |
 | button.theme-toggle:hover | color | var(--ink) |
 | button.theme-toggle:hover | border-color | var(--ink) |
+| .nav-menu-toggle | display | none |
+| .nav-menu-toggle | align-items | center |
+| .nav-menu-toggle | gap | .4rem |
+| .nav-menu-toggle | margin-left | auto |
+| .nav-menu-toggle | margin-right | .35rem |
+| .nav-menu-toggle | padding | .35rem .55rem |
+| .nav-menu-toggle | border | 1px solid var(--line) |
+| .nav-menu-toggle | background | transparent |
+| .nav-menu-toggle | color | var(--ink) |
+| .nav-menu-toggle | font-family | var(--mono) |
+| .nav-menu-toggle | font-size | .66rem |
+| .nav-menu-toggle | letter-spacing | .14em |
+| .nav-menu-toggle | text-transform | uppercase |
+| .nav-menu-toggle | cursor | pointer |
+| .nav-menu-toggle | flex-shrink | 0 |
+| .nav-menu-bars | display | grid |
+| .nav-menu-bars | gap | 3px |
+| .nav-menu-bars | width | .9rem |
+| .nav-menu-bars i | display | block |
+| .nav-menu-bars i | height | 1.5px |
+| .nav-menu-bars i | background | currentColor |
+| .nav-menu-bars i | transition | transform .22s ease, opacity .22s ease |
+| body.nav-open .nav-menu-bars i:nth-child(1) | transform | translateY(4.5px) rotate(45deg) |
+| body.nav-open .nav-menu-bars i:nth-child(2) | opacity | 0 |
+| body.nav-open .nav-menu-bars i:nth-child(3) | transform | translateY(-4.5px) rotate(-45deg) |
+| .nav-drawer-veil | display | none |
+| .nav-drawer-veil | position | fixed |
+| .nav-drawer-veil | inset | 0 |
+| .nav-drawer-veil | z-index | 35 |
+| .nav-drawer-veil | border | 0 |
+| .nav-drawer-veil | padding | 0 |
+| .nav-drawer-veil | margin | 0 |
+| .nav-drawer-veil | background | color-mix(in srgb, var(--ink) 42%, transparent) |
+| .nav-drawer-veil | cursor | pointer |
+| .nav-drawer-veil | -webkit-tap-highlight-color | transparent |
 
 **`顶栏`**
 
@@ -584,22 +619,76 @@ import text:lib/text.mq.md
 
 ## 响应式
 
+杂志阅读：大屏双栏 + 快讯轨；中屏快讯下沉为卷末简报；小屏单列正文 + 抽屉目录。
+覆盖 Marqdo 内置 `SHELL_CSS` 的双列默认，避免非首页仍留侧栏占位。
+
 `响应式` =
 
 | 媒体 | 选择器 | 属性 | 值 |
 |------|--------|------|-----|
-| (max-width: 860px) | body.has-sidebar | grid-template-columns | 1fr |
-| (max-width: 860px) | body.has-sidebar | grid-template-areas | "top" "main" "foot" |
-| (max-width: 860px) | aside.side | display | none |
-| (max-width: 860px) | main.main | padding | 1.25rem 1.05rem 3rem |
+| (max-width: 860px) | body.has-sidebar | grid-template-columns | 1fr !important |
+| (max-width: 860px) | body.has-sidebar | grid-template-areas | "\"top\" \"main\" \"foot\" !important" |
+| (max-width: 860px) | body.has-sidebar.has-rail | grid-template-columns | 1fr !important |
+| (max-width: 860px) | body.has-sidebar.has-rail | grid-template-areas | "\"top\" \"main\" \"rail\" \"foot\" !important" |
+| (max-width: 860px) | body | overflow-x | hidden |
+| (max-width: 860px) | header.topnav | padding | .65rem .9rem |
+| (max-width: 860px) | header.topnav | gap | .55rem |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) .nav-menu-toggle | display | inline-flex |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news) ul.nav | display | none |
+| (max-width: 860px) | button.theme-toggle | margin-left | 0 |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | position | fixed !important |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | grid-area | auto !important |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | inset | 0 auto 0 0 |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | top | 0 !important |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | left | 0 !important |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | right | auto !important |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | bottom | 0 !important |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | z-index | 40 |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | width | min(18.5rem, 86vw) |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | max-width | 18.5rem |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | height | 100vh |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | margin | 0 !important |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | padding | 1.35rem 1.15rem 2rem |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | border-right | 1px solid var(--line) |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | align-self | stretch |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | background | var(--bg) |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | box-shadow | 8px 0 28px color-mix(in srgb, var(--ink) 12%, transparent) |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | transform | translateX(-105%) |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | transition | transform .28s ease |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | overflow-y | auto |
+| (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | -webkit-overflow-scrolling | touch |
+| (max-width: 860px) | body.nav-open.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news) aside.side | transform | translateX(0) |
+| (max-width: 860px) | body.nav-open .nav-drawer-veil | display | block |
+| (max-width: 860px) | ul.side-nav | display | grid !important |
+| (max-width: 860px) | ul.side-nav | flex-direction | column |
+| (max-width: 860px) | ul.side-nav | gap | .05rem |
+| (max-width: 860px) | ul.side-nav a | padding | .72rem 0 |
+| (max-width: 860px) | ul.side-nav a | font-size | .95rem |
+| (max-width: 860px) | ul.side-nav a:hover | transform | none |
+| (max-width: 860px) | main.main | padding | 1.35rem 1.05rem 3.25rem |
+| (max-width: 860px) | main.main | max-width | none |
+| (max-width: 860px) | main.main | width | 100% |
+| (max-width: 860px) | .main-intro | margin-bottom | 1.75rem |
+| (max-width: 860px) | .main-intro | padding-bottom | 1.25rem |
+| (max-width: 860px) | .main-intro | max-width | none |
+| (max-width: 860px) | .main-intro h1 | letter-spacing | .08em |
+| (max-width: 860px) | .content.cards | max-width | none |
 | (max-width: 860px) | .content.cards .card | grid-template-columns | 2.4rem 1fr |
 | (max-width: 860px) | .content.cards .card:hover a.card-link | transform | none |
+| (max-width: 860px) | .article | max-width | none |
+| (max-width: 860px) | .article | margin-top | 1rem |
+| (max-width: 860px) | .article | padding | 1.25rem 1rem 1.75rem |
+| (max-width: 860px) | .article .article-body.md | font-size | 1.02rem |
+| (max-width: 860px) | .article .article-body.md | line-height | 1.8 |
+| (max-width: 860px) | footer.foot | width | 100% |
 | (max-width: 560px) | .main-intro h1 | font-size | clamp(2rem, 8.5vw, 2.55rem) |
 | (max-width: 560px) | .nav-brand-text | display | none |
+| (max-width: 560px) | .nav-menu-label | display | none |
 | (max-width: 560px) | .article .article-body.md > p.has-dropcap::first-letter | font-size | 2.7rem |
 | (prefers-reduced-motion: reduce) | * | transition | none |
 | (prefers-reduced-motion: reduce) | * | animation | none |
 | (prefers-reduced-motion: reduce) | html | scroll-behavior | auto |
+| (prefers-reduced-motion: reduce) | body.has-sidebar aside.side | transition | none |
 
 **`响应式`**
 
