@@ -5,7 +5,14 @@
   var p = window.location.pathname || '';
   var q = window.location.search || '';
 
-  if (/^\/admin\/login/.test(p) || /^\/admin\/logout/.test(p)) return;
+  if (/^\/admin\/login\/?$/.test(p) || /^\/_auth\/login\/?$/.test(p)) {
+    window.location.replace('/login' + q);
+    return;
+  }
+  if (/^\/admin\/logout\/?$/.test(p)) {
+    window.location.replace('/_auth/logout' + q);
+    return;
+  }
 
   var exact = {
     '/admin': '/desk',

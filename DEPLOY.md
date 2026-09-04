@@ -2,7 +2,7 @@
 
 本站基于 [Marqdo](https://github.com/cflmy/marqdo) `ext/web`。官方 Release 目前只有 Windows 包，镜像会在构建阶段编译 Linux 版 `marqdo` 与 `libweb.so`（首次构建较慢，约需数分钟到十几分钟，取决于网络与机器）。
 
-构建使用 **Rust ≥ 1.85**（`rust:1.85-bookworm`）与 **Marqdo v0.3.2**。勿使用 1.81：部分依赖需要 edition 2024，旧工具链会报 `exit code: 101`。勿使用低于 0.3.2 的 Marqdo：站点样式已迁入 `styles/*.mq.md`，依赖样式表对含 `/` 值的引号约定与 `@keyframes` 装配。
+构建使用 **Rust ≥ 1.85**（`rust:1.85-bookworm`）与 **Marqdo v0.3.4**。勿使用 1.81：部分依赖需要 edition 2024，旧工具链会报 `exit code: 101`。勿使用低于 0.3.4 的 Marqdo：本站依赖 C0–C4 定制能力（`壳样式`、可配置门禁/`登录路径`、`后台前缀`），以及 0.3.2+ 的样式表引号约定与 `@keyframes` 装配。
 
 ## 前置
 
@@ -45,7 +45,7 @@ SQLite 文件在容器内 `/app/data`，通过 Compose 卷 `qdqc-data` 持久化
 
 ## 本机开发（非 Docker）
 
-需本机安装 **Marqdo ≥ 0.3.2** 与 web 插件（`marqdo ext add web`）。监听为 `0.0.0.0:18085`：
+需本机安装 **Marqdo ≥ 0.3.4** 与 web 插件（`marqdo ext add web`）。监听为 `0.0.0.0:18085`：
 
 ```powershell
 marqdo run index.mq.md
@@ -57,5 +57,5 @@ marqdo run index.mq.md
 
 | 阶段 | 作用 |
 |------|------|
-| builder | 拉取 Marqdo `v0.3.2` 源码，编译 CLI + web 插件，执行 `marqdo ext add web` |
+| builder | 拉取 Marqdo `v0.3.4` 源码，编译 CLI + web 插件，执行 `marqdo ext add web` |
 | runtime | Debian slim + 站点文件，入口 `marqdo run index.mq.md` |

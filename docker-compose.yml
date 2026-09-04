@@ -1,7 +1,7 @@
 # 求道量子 · 一键拉起
 # 用法：docker compose up -d --build
 # 访问：http://127.0.0.1:18085
-# 需 Marqdo 0.3.2+（样式表引号 /、@keyframes）
+# 需 Marqdo 0.3.4+（C0–C4 定制 API + 样式表引号 /、@keyframes）
 
 services:
   qdqc:
@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        MARQDO_VERSION: "0.3.2"
+        MARQDO_VERSION: "0.3.4"
         RUST_IMAGE: "rust:1.85-bookworm"
     image: qdqc:local
     container_name: qdqc

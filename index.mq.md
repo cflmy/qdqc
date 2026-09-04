@@ -106,15 +106,15 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | | | | |
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
-| script | "/static/theme.js?v=13" | | | | | |
-| script | "/static/desk-guard.js?v=1" | | | | | |
+| script | "/static/theme.js?v=14" | | | | | |
+| script | "/static/desk-guard.js?v=2" | | | | | |
 | script | "/static/volume.js?v=14" | | | | | |
 
 `登录资源` =
 
 | 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
 |------|------|------|------|------|------|------|
-| script | "/static/desk-login.js?v=2" | | | | | |
+| script | "/static/desk-login.js?v=4" | | | | | |
 
 `发资源` =
 
@@ -123,9 +123,9 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | | | | |
 | script | "/static/katex/katex.min.js" | | | | | |
 | script | "/static/katex/auto-render.min.js" | | | | | |
-| script | "/static/theme.js?v=13" | | | | | |
-| script | "/static/desk-guard.js?v=1" | | | | | |
-| script | "/static/admin.js?v=3" | | | | | |
+| script | "/static/theme.js?v=14" | | | | | |
+| script | "/static/desk-guard.js?v=2" | | | | | |
+| script | "/static/admin.js?v=4" | | | | | |
 | script | "/static/editor.js?v=25" | | | | | |
 
 `发布字段` =
@@ -410,7 +410,7 @@ import db:db/index.mq.md
 *desk_hub = > desk_hub.样式 样式=`写作台CSS`*
 *desk_hub = > desk_hub.头装配 表=`发资源`*
 
-*login = > 网页.页面 标题="后台登录" 引言="<div class='desk-login'><p class='kicker'>// desk</p><h1>后台登录</h1><p class='lede'>管理员登录后进入自研后台，管理文章、专栏与新闻。</p><form id='desk-login-form' class='desk-login-form' method='post' action='#'><label>用户名<input name='username' autocomplete='username' required autofocus/></label><label>密码<input name='password' type='password' autocomplete='current-password' required/></label><button type='submit'>登录</button></form><p id='desk-login-err' class='desk-login-err' hidden></p></div>"*
+*login = > 网页.页面 标题="后台登录" 引言="<div class='desk-login'><p class='kicker'>// desk</p><h1>后台登录</h1><p class='lede'>管理员登录后进入自研后台，管理文章、专栏与新闻。</p><form id='desk-login-form' class='desk-login-form' method='post' action='/_auth/login'><label>用户名<input name='username' autocomplete='username' required autofocus/></label><label>密码<input name='password' type='password' autocomplete='current-password' required/></label><button type='submit'>登录</button></form><p id='desk-login-err' class='desk-login-err' hidden></p></div>"*
 *login = > login.样式 样式=`写作台CSS`*
 *login = > login.头装配 表=`登录资源`*
 
@@ -441,7 +441,7 @@ import db:db/index.mq.md
 *admin_news = > admin_news.样式 样式=`写作台CSS`*
 *admin_news = > admin_news.头装配 表=`发资源`*
 
-*app = > 网页.应用 页面=page 数据库=store 后台=False 主机="0.0.0.0" 端口=18085*
+*app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_auth" 登录回跳="/desk" 登出回跳="/login" 壳样式="minimal" 资源版本="20260904" 主机="0.0.0.0" 端口=18085*
 *app = > app.路由 路径="/about" 页面=about*
 *app = > app.路由 路径="/post/{slug}" 页面=post*
 *app = > app.路由 路径="/tags" 页面=tags*
@@ -463,13 +463,13 @@ import db:db/index.mq.md
 *app = > app.装配 接口=`站点接口`*
 *app = > app.静态 目录="public" 挂载="/static"*
 *app = > app.图标 表=`站点图标`*
-*app = > app.鉴权 用户表=`管理员` 会话时长=3600*
-*app = > app.门禁 路径="/desk" 角色="admin"*
-*app = > app.门禁 路径="/desk/*" 角色="admin"*
-*app = > app.门禁 路径="/_form/post" 角色="admin"*
-*app = > app.门禁 路径="/_form/post-edit" 角色="admin"*
-*app = > app.门禁 路径="/_form/column" 角色="admin"*
-*app = > app.门禁 路径="/_form/column-edit" 角色="admin"*
-*app = > app.门禁 路径="/_form/news" 角色="admin"*
-*app = > app.门禁 路径="/_form/news-edit" 角色="admin"*
+*app = > app.门禁 路径="/_auth" 角色="admin" 匹配="prefix" 拒绝="redirect" 排除="/_auth/login"*
+*app = > app.鉴权 用户表=`管理员` 会话时长=3600 登录路径="/login" 登录回跳="/desk" 登出回跳="/login"*
+*app = > app.门禁 路径="/desk" 角色="admin" 匹配="prefix" 拒绝="redirect" 排除="/login,/desk/login"*
+*app = > app.门禁 路径="/_form/post" 角色="admin" 匹配="exact" 拒绝="redirect"*
+*app = > app.门禁 路径="/_form/post-edit" 角色="admin" 匹配="exact" 拒绝="redirect"*
+*app = > app.门禁 路径="/_form/column" 角色="admin" 匹配="exact" 拒绝="redirect"*
+*app = > app.门禁 路径="/_form/column-edit" 角色="admin" 匹配="exact" 拒绝="redirect"*
+*app = > app.门禁 路径="/_form/news" 角色="admin" 匹配="exact" 拒绝="redirect"*
+*app = > app.门禁 路径="/_form/news-edit" 角色="admin" 匹配="exact" 拒绝="redirect"*
 > `app`.监听

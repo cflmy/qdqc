@@ -1,5 +1,6 @@
 {
   "terminal.integrated.env.windows": {
-    "Path": "D:\\code\\marqdo-bin\\marqdo;${env:Path}"
+    "Path": "D:\\code\\marqdo-bin\\marqdo;${env:Path}",
+    "MARQDO_EXT": "D:\\code\\marqdo-bin\\ext"
   }
 }

@@ -91,7 +91,7 @@
       .map(function (l) {
         return '<a href="' + esc(l.href) + '"' + (l.active ? ' aria-current="page"' : '') + '>' + esc(l.label) + '</a>';
       })
-      .join('') + '<a class="admin-nav-logout" href="/admin/logout">退出</a>';
+      .join('') + '<a class="admin-nav-logout" href="/_auth/logout">退出</a>';
     var intro = document.querySelector('.main-intro');
     if (intro) intro.insertBefore(nav, intro.firstChild);
   }
