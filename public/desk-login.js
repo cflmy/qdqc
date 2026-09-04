@@ -12,6 +12,26 @@
     return m ? m[1] : '';
   }
 
+  function parseFlashErr(html) {
+    if (!html) return '';
+    var m = html.match(/class=["'][^"']*flash[^"']*err[^"']*["'][^>]*>([^<]+)</i);
+    return m ? m[1].replace(/\s+/g, ' ').trim() : '';
+  }
+
+  function friendlyErr(raw) {
+    var s = String(raw || '');
+    if (/Too many failed/i.test(s)) {
+      return '尝试次数过多，请约 15 分钟后再试（或重启站点进程清除限制）。';
+    }
+    if (/Invalid username or password/i.test(s)) {
+      return '用户名或密码错误。';
+    }
+    if (/Invalid or missing CSRF/i.test(s)) {
+      return '登录令牌失效，请刷新页面后重试。';
+    }
+    return s || '登录失败，请重试。';
+  }
+
   function ensureCsrfInput(form, token) {
     var input = form.querySelector('input[name="_csrf"]');
     if (!input) {
@@ -109,12 +129,15 @@
           });
         })
         .then(function (resp) {
-          // 登录成功一般为 303 → /desk；部分环境也可能直接 200
-          if (resp.status === 200 || (resp.status >= 300 && resp.status < 400)) {
+          // 成功：303/302 → /desk；失败多为 200 + flash.err（切勿把 200 当成功）
+          if (resp.status >= 300 && resp.status < 400) {
             goDesk();
-            return;
+            return null;
           }
-          throw new Error('用户名或密码错误。');
+          return resp.text().then(function (html) {
+            var flash = parseFlashErr(html);
+            throw new Error(friendlyErr(flash || '用户名或密码错误。'));
+          });
         })
         .catch(function (err) {
           showErr((err && err.message) || '登录失败，请重试。');
