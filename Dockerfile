@@ -20,10 +20,11 @@ RUN curl -fsSL "https://github.com/cflmy/marqdo/archive/refs/tags/v${MARQDO_VERS
   && test -f Cargo.lock
 
 ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
-# --locked：使用仓库锁文件，避免 crates.io 解析到更新的 edition 2024 依赖
+# v0.3.4 标签内 Cargo.lock 与清单不同步，--locked 会直接失败；
+# 已用 Rust 1.85，允许 cargo 按清单刷新锁文件后再编译。
 # 默认 feature `native` 含 cli / plugin-host，满足 run + web 插件加载
-RUN cargo build --release --locked --bin marqdo \
-  && cargo build --release --locked -p marqdo_plugin_web
+RUN cargo build --release --bin marqdo \
+  && cargo build --release -p marqdo_plugin_web
 
 ENV MARQDO_EXT=/opt/marqdo/ext
 ENV MARQDO_EXT_SOURCE=/build/ext
