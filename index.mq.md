@@ -126,7 +126,7 @@ import db:db/index.mq.md
 | script | "/static/theme.js?v=14" | | | | | |
 | script | "/static/desk-guard.js?v=3" | | | | | |
 | script | "/static/admin.js?v=5" | | | | | |
-| script | "/static/editor.js?v=25" | | | | | |
+| script | "/static/editor.js?v=26" | | | | | |
 
 `发布字段` =
 

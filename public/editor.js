@@ -37,17 +37,38 @@
       .replace(/"/g, '&quot;');
   }
 
+  /** 先抽出 $...$ / $$...$$，避免 * _ ` 等 Markdown 规则破坏公式 */
+  function protectMath(s) {
+    var slots = [];
+    function hold(m) {
+      slots.push(m);
+      return '\u0000M' + (slots.length - 1) + '\u0000';
+    }
+    s = s.replace(/\$\$[\s\S]+?\$\$/g, hold);
+    s = s.replace(/\\\[([\s\S]+?)\\\]/g, hold);
+    s = s.replace(/\\\(([\s\S]+?)\\\)/g, hold);
+    s = s.replace(/\$[^$\n]+\$/g, hold);
+    return { text: s, slots: slots };
+  }
+
+  function restoreMath(s, slots) {
+    return s.replace(/\u0000M(\d+)\u0000/g, function (_, i) {
+      return escapeHtml(slots[Number(i)] || '');
+    });
+  }
+
   function inline(md) {
-    var s = escapeHtml(md);
+    var held = protectMath(md);
+    var s = escapeHtml(held.text);
     s = s.replace(/!\[([^\]]*)\]\(([^)\s"']+)\)/g, '<img src="$2" alt="$1">');
     s = s.replace(/\[([^\]]+)\]\(([^)\s"']+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
     s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
     s = s.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
     s = s.replace(/__([^_\n]+)__/g, '<strong>$1</strong>');
-    s = s.replace(/(^|[^*\w])\*([^*\n*]+)\*(?=[^*\w]|$)/g, '$1<em>$2</em>');
-    s = s.replace(/(^|[^_\w])_([^_\n_]+)_(?=[^_\w]|$)/g, '$1<em>$2</em>');
+    s = s.replace(/(^|[^*\w])\*([^*\n]+)\*(?=[^*\w]|$)/g, '$1<em>$2</em>');
+    s = s.replace(/(^|[^_\w])_([^_\n]+)_(?=[^_\w]|$)/g, '$1<em>$2</em>');
     s = s.replace(/~~([^~\n]+)~~/g, '<del>$1</del>');
-    return s;
+    return restoreMath(s, held.slots);
   }
 
   function splitRow(r) {
@@ -149,6 +170,29 @@
         flushAll();
         out.push('<hr>');
         i++;
+        continue;
+      }
+
+      // 块级公式 $$...$$（单行或多行），单独成块，避免被并入段落
+      if (/^\$\$/.test(L.trim())) {
+        flushAll();
+        var mathBuf = [];
+        if (/^\$\$.*\$\$\s*$/.test(L.trim())) {
+          mathBuf.push(L.trim());
+          i++;
+        } else {
+          mathBuf.push(L);
+          i++;
+          while (i < lines.length && !/\$\$\s*$/.test(lines[i])) {
+            mathBuf.push(lines[i]);
+            i++;
+          }
+          if (i < lines.length) {
+            mathBuf.push(lines[i]);
+            i++;
+          }
+        }
+        out.push('<p>' + escapeHtml(mathBuf.join('\n')) + '</p>');
         continue;
       }
 
@@ -316,25 +360,47 @@
     }
 
     var typing = null;
+    var MATH_OPTS = {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\[', right: '\\]', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      throwOnError: false,
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    };
+
+    function applyMath() {
+      if (typeof renderMathInElement !== 'function') return;
+      try {
+        renderMathInElement(pr, MATH_OPTS);
+      } catch (e) { /* ignore */ }
+    }
+
+    function whenKatexReady(fn) {
+      if (typeof renderMathInElement === 'function') {
+        fn();
+        return;
+      }
+      var n = 0;
+      var timer = setInterval(function () {
+        n += 1;
+        if (typeof renderMathInElement === 'function') {
+          clearInterval(timer);
+          fn();
+        } else if (n > 80) {
+          clearInterval(timer);
+        }
+      }, 50);
+    }
+
     function refresh() {
       ta.value = src.value;      // 同步回隐藏的原字段，保证提交带值
       pr.innerHTML = render(src.value);
       renderLineNumbers();
       updateStatus();
-      if (typeof renderMathInElement === 'function') {
-        try {
-          renderMathInElement(pr, {
-            delimiters: [
-              { left: '$$', right: '$$', display: true },
-              { left: '\\[', right: '\\]', display: true },
-              { left: '$', right: '$', display: false },
-              { left: '\\(', right: '\\)', display: false }
-            ],
-            throwOnError: false,
-            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-          });
-        } catch (e) { /* ignore */ }
-      }
+      whenKatexReady(applyMath);
     }
     function debounceRefresh() {
       ta.value = src.value;
@@ -343,6 +409,7 @@
       if (typing) clearTimeout(typing);
       typing = setTimeout(function () {
         pr.innerHTML = render(src.value);
+        whenKatexReady(applyMath);
         syncPreview();
         typing = null;
       }, 120);
