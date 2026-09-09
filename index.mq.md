@@ -114,7 +114,7 @@ import db:db/index.mq.md
 
 | 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
 |------|------|------|------|------|------|------|
-| script | "/static/desk-login.js?v=5" | | | | | |
+| script | "/static/desk-login.js?v=6" | | | | | |
 
 `发资源` =
 

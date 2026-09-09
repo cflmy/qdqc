@@ -32,6 +32,10 @@
     return s || '登录失败，请重试。';
   }
 
+  function isRedirectStatus(status) {
+    return status >= 300 && status < 400;
+  }
+
   function ensureCsrfInput(form, token) {
     var input = form.querySelector('input[name="_csrf"]');
     if (!input) {
@@ -44,15 +48,45 @@
     return input;
   }
 
+  function alreadyAuthed() {
+    return fetch('/desk', { credentials: 'same-origin', redirect: 'manual', cache: 'no-store' })
+      .then(function (resp) {
+        return resp.status === 200;
+      })
+      .catch(function () {
+        return false;
+      });
+  }
+
+  function goDesk() {
+    window.location.replace('/desk');
+  }
+
+  /**
+   * 取 CSRF。已登录时 /_auth/login 会 303 → /desk；
+   * 若用默认 follow，拿到的是后台 HTML，没有 _csrf，会误报「没有令牌」。
+   */
   function fetchCsrf() {
-    // 不要用 redirect:'manual'：同域重定向时 body 可能为空，导致永远拿不到令牌
-    return fetch(LOGIN_API, { credentials: 'same-origin', cache: 'no-store' }).then(function (resp) {
+    return fetch(LOGIN_API, {
+      credentials: 'same-origin',
+      cache: 'no-store',
+      redirect: 'manual'
+    }).then(function (resp) {
+      if (resp.type === 'opaqueredirect' || isRedirectStatus(resp.status)) {
+        return alreadyAuthed().then(function (ok) {
+          if (ok) {
+            goDesk();
+            return Promise.reject(new Error('__authed__'));
+          }
+          throw new Error('无法获取登录令牌，请刷新后重试。');
+        });
+      }
       if (!resp.ok) throw new Error('登录服务不可用（' + resp.status + '）。');
-      return resp.text();
-    }).then(function (html) {
-      var token = parseCsrf(html);
-      if (!token) throw new Error('无法获取登录令牌，请刷新后重试。');
-      return token;
+      return resp.text().then(function (html) {
+        var token = parseCsrf(html);
+        if (!token) throw new Error('无法获取登录令牌，请刷新后重试。');
+        return token;
+      });
     });
   }
 
@@ -70,27 +104,14 @@
       errEl.hidden = !msg;
     }
 
-    function alreadyAuthed() {
-      return fetch('/desk', { credentials: 'same-origin', redirect: 'manual' })
-        .then(function (resp) {
-          return resp.status === 200;
-        })
-        .catch(function () {
-          return false;
-        });
-    }
-
-    function goDesk() {
-      window.location.replace('/desk');
-    }
-
     // 预取令牌，缩短提交等待
     fetchCsrf()
       .then(function (token) {
         ensureCsrfInput(form, token);
       })
-      .catch(function () {
-        /* 提交时再试 */
+      .catch(function (err) {
+        if (err && err.message === '__authed__') return;
+        /* 提交时再取 */
       });
 
     alreadyAuthed().then(function (ok) {
@@ -110,10 +131,8 @@
       var btn = form.querySelector('button[type="submit"]');
       if (btn) btn.disabled = true;
 
-      var existing = form.querySelector('input[name="_csrf"]');
-      var tokenPromise = existing && existing.value ? Promise.resolve(existing.value) : fetchCsrf();
-
-      tokenPromise
+      // 每次提交前现取令牌，避免预取过期；已登录则直接进后台
+      fetchCsrf()
         .then(function (csrf) {
           ensureCsrfInput(form, csrf);
           var body = new URLSearchParams();
@@ -125,26 +144,36 @@
             credentials: 'same-origin',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: body.toString(),
-            redirect: 'manual'
+            redirect: 'manual',
+            cache: 'no-store'
           });
         })
         .then(function (resp) {
-          // 成功：303/302 → /desk；失败多为 200 + flash.err（切勿把 200 当成功）
-          if (resp.status >= 300 && resp.status < 400) {
-            goDesk();
-            return null;
-          }
-          return resp.text().then(function (html) {
-            var flash = parseFlashErr(html);
-            throw new Error(friendlyErr(flash || '用户名或密码错误。'));
+          // 代理可能把 303 收成 200；以会话是否建立为准，不单看状态码
+          return alreadyAuthed().then(function (ok) {
+            if (ok || resp.type === 'opaqueredirect' || isRedirectStatus(resp.status)) {
+              goDesk();
+              return null;
+            }
+            return resp.text().then(function (html) {
+              var flash = parseFlashErr(html);
+              throw new Error(friendlyErr(flash || '用户名或密码错误。'));
+            });
           });
         })
         .catch(function (err) {
-          showErr((err && err.message) || '登录失败，请重试。');
-          if (btn) btn.disabled = false;
-          // 令牌可能已失效，清掉以便下次重取
-          var input = form.querySelector('input[name="_csrf"]');
-          if (input) input.value = '';
+          if (err && err.message === '__authed__') return;
+          // 最后再确认一次：登录其实已成功时不要报令牌错误
+          return alreadyAuthed().then(function (ok) {
+            if (ok) {
+              goDesk();
+              return;
+            }
+            showErr((err && err.message) || '登录失败，请重试。');
+            if (btn) btn.disabled = false;
+            var input = form.querySelector('input[name="_csrf"]');
+            if (input) input.value = '';
+          });
         });
     });
   }
