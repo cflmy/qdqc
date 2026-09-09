@@ -378,7 +378,7 @@ import text:lib/text.mq.md
 | body.has-sidebar.has-rail main.main | max-width | none |
 | body.has-sidebar.has-rail main.main | width | 100% |
 | body.has-sidebar.has-rail main.main | padding-left | clamp(1rem, 2.2vw, 1.75rem) |
-| body.has-sidebar.has-rail main.main | padding-right | clamp(.85rem, 1.6vw, 1.35rem) |
+| body.has-sidebar.has-rail main.main | padding-right | clamp(.55rem, 1.2vw, 1rem) |
 | body.has-sidebar.has-rail .main-intro.masthead-split | max-width | none |
 | body.has-sidebar.has-rail .main-intro.masthead-split | width | 100% |
 | body.has-sidebar.has-rail .main-intro.masthead-split | display | grid |
@@ -472,13 +472,18 @@ import text:lib/text.mq.md
 | body.has-sidebar.has-rail main.main > .column-gate.column-gate--shelf | margin-top | .15rem |
 | .main-intro > .column-gate.column-gate--shelf | margin-top | 1.5rem |
 | .main-intro > .column-gate.column-gate--shelf | max-width | 36rem |
-| body.has-sidebar.has-rail .content.cards, body.has-sidebar.has-rail .home-toc-label | max-width | min(42rem, 100%) |
+| body.has-sidebar.has-rail .content.cards, body.has-sidebar.has-rail .home-toc-label | max-width | none |
+| body.has-sidebar.has-rail .content.cards | width | 100% |
+| body.has-sidebar.has-rail .article | max-width | none |
+| body.has-sidebar.has-rail .article | width | 100% |
+| body.has-sidebar.has-rail .article p | max-width | none |
+| body.has-sidebar.has-rail .article .article-body.md | max-width | none |
 | aside.side-rail | grid-area | rail |
 | aside.side-rail | align-self | start |
 | aside.side-rail | position | sticky |
 | aside.side-rail | top | 4.25rem |
-| aside.side-rail | margin | 2.25rem clamp(.75rem, 1.5vw, 1.25rem) 2rem 0 |
-| aside.side-rail | padding | 0 0 0 1.15rem |
+| aside.side-rail | margin | 2.25rem clamp(.55rem, 1.2vw, 1rem) 2rem 0 |
+| aside.side-rail | padding | 0 0 0 .95rem |
 | aside.side-rail | border-left | 1px solid var(--line) |
 | aside.side-rail | min-width | 0 |
 | aside.side-rail | max-height | calc(100vh - 5rem) |

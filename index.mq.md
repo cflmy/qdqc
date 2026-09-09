@@ -441,7 +441,7 @@ import db:db/index.mq.md
 *admin_news = > admin_news.样式 样式=`写作台CSS`*
 *admin_news = > admin_news.头装配 表=`发资源`*
 
-*app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_mg" 登录回跳="/desk" 登出回跳="/login" 壳样式="minimal" 资源版本="20260909b" 主机="0.0.0.0" 端口=18085*
+*app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_mg" 登录回跳="/desk" 登出回跳="/login" 壳样式="minimal" 资源版本="20260909c" 主机="0.0.0.0" 端口=18085*
 *app = > app.路由 路径="/about" 页面=about*
 *app = > app.路由 路径="/post/{slug}" 页面=post*
 *app = > app.路由 路径="/tags" 页面=tags*
