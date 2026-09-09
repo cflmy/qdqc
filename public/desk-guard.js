@@ -1,16 +1,20 @@
-/* 前台入口：旧 /admin* 路径跳转到自研后台 /desk* */
+/* 前台入口：旧 /admin*、/_auth* 路径跳转到自研后台 /desk* */
 (function () {
   'use strict';
 
   var p = window.location.pathname || '';
   var q = window.location.search || '';
 
-  if (/^\/admin\/login\/?$/.test(p) || /^\/_auth\/login\/?$/.test(p)) {
+  if (
+    /^\/admin\/login\/?$/.test(p) ||
+    /^\/_auth\/login\/?$/.test(p) ||
+    /^\/_mg\/login\/?$/.test(p)
+  ) {
     window.location.replace('/login' + q);
     return;
   }
-  if (/^\/admin\/logout\/?$/.test(p)) {
-    window.location.replace('/_auth/logout' + q);
+  if (/^\/admin\/logout\/?$/.test(p) || /^\/_auth\/logout\/?$/.test(p)) {
+    window.location.replace('/_mg/logout' + q);
     return;
   }
 

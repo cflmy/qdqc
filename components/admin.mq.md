@@ -27,6 +27,6 @@ description: 求道量子 · 自研后台壳（无侧栏，统一页脚）。
 | 文章 | /desk/posts | |
 | 专栏 | /desk/columns | |
 | 新闻 | /desk/news | |
-| 退出登录 | /_auth/logout | |
+| 退出登录 | /_mg/logout | |
 
 **`后台页脚`**

@@ -1,8 +1,9 @@
-/* 自研登录页：从 /_auth/login 取 CSRF，再 POST 到同一端点进入 /desk */
+/* 自研登录页：取 CSRF 后登录，成功进入 /desk */
 (function () {
   'use strict';
 
-  var LOGIN_API = '/_auth/login';
+  // 避免 /_auth 被广告拦截扩展误杀；与 index.mq.md 后台前缀一致
+  var LOGIN_API = '/_mg/login';
 
   function parseCsrf(html) {
     if (!html) return '';
@@ -29,11 +30,20 @@
     if (/Invalid or missing CSRF/i.test(s)) {
       return '登录令牌失效，请刷新页面后重试。';
     }
+    if (/Failed to fetch|NetworkError|Load failed/i.test(s)) {
+      return '无法连接登录服务，请检查网络后重试。';
+    }
     return s || '登录失败，请重试。';
   }
 
-  function isRedirectStatus(status) {
-    return status >= 300 && status < 400;
+  /** 只认 pathname，避免 /login?next=/desk 被误判为已进入后台 */
+  function isDeskPath(url) {
+    try {
+      var path = new URL(String(url || ''), window.location.origin).pathname || '';
+      return /^\/desk(?:\/|$)/.test(path);
+    } catch (e) {
+      return false;
+    }
   }
 
   function ensureCsrfInput(form, token) {
@@ -49,7 +59,12 @@
   }
 
   function alreadyAuthed() {
-    return fetch('/desk', { credentials: 'same-origin', redirect: 'manual', cache: 'no-store' })
+    // manual：未登录是 303，已登录是 200；不要 follow，否则会落到 /login?next=/desk
+    return fetch('/desk', {
+      credentials: 'same-origin',
+      redirect: 'manual',
+      cache: 'no-store'
+    })
       .then(function (resp) {
         return resp.status === 200;
       })
@@ -62,30 +77,27 @@
     window.location.replace('/desk');
   }
 
-  /**
-   * 取 CSRF。已登录时 /_auth/login 会 303 → /desk；
-   * 若用默认 follow，拿到的是后台 HTML，没有 _csrf，会误报「没有令牌」。
-   */
   function fetchCsrf() {
+    // CSRF 页用 follow；已登录时会跟到 /desk，用 pathname 判断
     return fetch(LOGIN_API, {
       credentials: 'same-origin',
-      cache: 'no-store',
-      redirect: 'manual'
+      cache: 'no-store'
     }).then(function (resp) {
-      if (resp.type === 'opaqueredirect' || isRedirectStatus(resp.status)) {
-        return alreadyAuthed().then(function (ok) {
-          if (ok) {
-            goDesk();
-            return Promise.reject(new Error('__authed__'));
-          }
-          throw new Error('无法获取登录令牌，请刷新后重试。');
-        });
+      if (isDeskPath(resp.url)) {
+        goDesk();
+        return Promise.reject(new Error('__authed__'));
       }
       if (!resp.ok) throw new Error('登录服务不可用（' + resp.status + '）。');
-      return resp.text().then(function (html) {
-        var token = parseCsrf(html);
-        if (!token) throw new Error('无法获取登录令牌，请刷新后重试。');
-        return token;
+      return resp.text();
+    }).then(function (html) {
+      var token = parseCsrf(html);
+      if (token) return token;
+      return alreadyAuthed().then(function (ok) {
+        if (ok) {
+          goDesk();
+          return Promise.reject(new Error('__authed__'));
+        }
+        throw new Error('无法获取登录令牌，请刷新后重试。');
       });
     });
   }
@@ -104,14 +116,12 @@
       errEl.hidden = !msg;
     }
 
-    // 预取令牌，缩短提交等待
     fetchCsrf()
       .then(function (token) {
         ensureCsrfInput(form, token);
       })
       .catch(function (err) {
         if (err && err.message === '__authed__') return;
-        /* 提交时再取 */
       });
 
     alreadyAuthed().then(function (ok) {
@@ -131,7 +141,6 @@
       var btn = form.querySelector('button[type="submit"]');
       if (btn) btn.disabled = true;
 
-      // 每次提交前现取令牌，避免预取过期；已登录则直接进后台
       fetchCsrf()
         .then(function (csrf) {
           ensureCsrfInput(form, csrf);
@@ -144,14 +153,12 @@
             credentials: 'same-origin',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: body.toString(),
-            redirect: 'manual',
             cache: 'no-store'
           });
         })
         .then(function (resp) {
-          // 代理可能把 303 收成 200；以会话是否建立为准，不单看状态码
           return alreadyAuthed().then(function (ok) {
-            if (ok || resp.type === 'opaqueredirect' || isRedirectStatus(resp.status)) {
+            if (ok || isDeskPath(resp && resp.url)) {
               goDesk();
               return null;
             }
@@ -163,13 +170,12 @@
         })
         .catch(function (err) {
           if (err && err.message === '__authed__') return;
-          // 最后再确认一次：登录其实已成功时不要报令牌错误
           return alreadyAuthed().then(function (ok) {
             if (ok) {
               goDesk();
               return;
             }
-            showErr((err && err.message) || '登录失败，请重试。');
+            showErr(friendlyErr((err && err.message) || '登录失败，请重试。'));
             if (btn) btn.disabled = false;
             var input = form.querySelector('input[name="_csrf"]');
             if (input) input.value = '';
