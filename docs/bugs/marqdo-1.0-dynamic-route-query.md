@@ -3,10 +3,25 @@
 | 项 | 内容 |
 |----|------|
 | 产品 | Marqdo `ext/web`（libweb） |
-| 版本 | **v1.0.0**（Go 端口）；相对 Rust `plugins/web-rust-archive` 为回归 |
+| 版本 | **v1.0.0**（Go 端口）引入；**v1.0.1 已修复** |
+| 状态 | **已修复**（2026-09-15 / Marqdo v1.0.1） |
 | 严重度 | 高：官方博客示例路径 `/post/{slug}`、`/tag/{slug}` 主栏无文章 |
 | 类型 | **实现缺口 / 移植遗漏**，不是 Markup 语法或站点用法错误 |
 | 复现环境 | Windows / Linux；`marqdo run`；求道量子与 `examples/marqdo-blog` 同构配置 |
+
+---
+
+## 状态（1.0.1）
+
+升级到 **Marqdo v1.0.1** 后本地复测：
+
+- `GET /post/intro-to-marqdo` SSR 含 `<article class="article">`、`article-title`、Markdown 正文（`.article-body.md`）
+- `data-slot-src` 为 `/post/intro-to-marqdo/_part/...`，**不再**残留 `/{slug}`
+- `/tag/quantum` SSR 有卡片列表
+
+求道量子已将 Docker / DEPLOY 依赖改为 `1.0.1`。前端 `/api/posts` 回填仍保留为兜底（若主栏已有 `.article` 则跳过）。
+
+以下为 1.0.0 时期的缺陷说明，供对照。
 
 ---
 

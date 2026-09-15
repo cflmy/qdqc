@@ -1,9 +1,8 @@
-# 求道量子 · Marqdo 站点
-# Marqdo ≥1.0.0：Markup v0.3 宪法（**代码** / *返回*）；网页插件为 Go libweb；
+# Marqdo ≥1.0.1：Markup v0.3 宪法（**代码** / *返回*）；网页插件为 Go libweb；
 # 官方 Release 提供 Linux 预编译包，构建阶段直接解压，无需本机 cargo。
 # syntax=docker/dockerfile:1
 
-ARG MARQDO_VERSION=1.0.0
+ARG MARQDO_VERSION=1.0.1
 
 FROM debian:bookworm-slim AS builder
 ARG MARQDO_VERSION

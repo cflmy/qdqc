@@ -293,7 +293,7 @@ def probe(base: str) -> ProbeResult:
 
         if placeholders:
             note(
-                "info",
+                "error",
                 path,
                 "placeholder",
                 "HTML 含未替换路由占位符: " + ", ".join(sorted(set(placeholders))),
@@ -345,17 +345,13 @@ def probe(base: str) -> ProbeResult:
             elif row is None:
                 note("error", path, "post_missing_api", "路径在页面存在但 API 无此 slug")
             else:
-                if not JS_HYDRATED.get("post") and not has_article:
-                    note("error", path, "post_ssr_empty", "详情 SSR 为空")
-                if JS_HYDRATED.get("post") and not has_article:
-                    note(
-                        "info",
-                        path,
-                        "post_needs_js",
-                        "详情依赖前端回填（Marqdo {slug} 缺陷）",
-                    )
+                if not has_article:
+                    note("error", path, "post_ssr_empty", "详情 SSR 为空（Marqdo≥1.0.1 应已修复）")
                 if not str(row.get("content") or "").strip():
                     note("error", path, "post_empty_body", "API 正文为空")
+                # Markdown body class preferred
+                if has_article and "article-body" not in inner and "article-p" not in inner:
+                    note("warn", path, "post_no_body", "有 article 但未见正文容器")
         elif kind == "tag":
             slug = urllib.parse.unquote(path.rsplit("/", 1)[-1])
             matches = [p for p in posts if str(p.get("tag") or "") == slug]
