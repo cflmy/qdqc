@@ -4,6 +4,8 @@
 
 构建使用 **Marqdo v1.0.1+**（含动态路由 `{param}` 查询代入、详情 Markdown、样式数字误报修复）。语法为 Markup v0.3 宪法：`**粗体**` = 可执行代码，`*斜体*` = 返回；相对旧版 `*语句*` / `**返回**` 已对调。本站 `.mq.md` 已按 v1.0 改写。另依赖可配置门禁 / `登录路径` / `后台前缀`、样式表引号约定与 `@keyframes` 装配。
 
+镜像基础系统为 **Ubuntu 24.04**（GLIBC ≥ 2.39）。官方 Marqdo Linux 包在 `ubuntu-latest` 上构建，**不能**跑在 Debian bookworm（GLIBC 2.36）上。
+
 ## 前置
 
 - 已安装 [Docker Desktop](https://www.docker.com/products/docker-desktop/)（或兼容的 Docker Engine + Compose）
