@@ -22,7 +22,7 @@ topics / replies 为历史表，界面已下线讨论区。
 | created_at | text | true |
 | updated_at | text | true |
 
-**`posts`**
+*`posts`*
 
 ## columns
 
@@ -40,7 +40,7 @@ topics / replies 为历史表，界面已下线讨论区。
 | status | text | true |
 | created_at | text | true |
 
-**`columns`**
+*`columns`*
 
 ## news
 
@@ -58,7 +58,7 @@ topics / replies 为历史表，界面已下线讨论区。
 | published_at | text | true |
 | created_at | text | true |
 
-**`news`**
+*`news`*
 
 ## tags
 
@@ -72,7 +72,7 @@ topics / replies 为历史表，界面已下线讨论区。
 | name | text | false |
 | slug | text | false |
 
-**`tags`**
+*`tags`*
 
 ## post_tags
 
@@ -86,7 +86,7 @@ topics / replies 为历史表，界面已下线讨论区。
 | post_id | integer | false |
 | tag_id | integer | false |
 
-**`post_tags`**
+*`post_tags`*
 
 ## topics
 
@@ -104,7 +104,7 @@ topics / replies 为历史表，界面已下线讨论区。
 | created_at | text | true |
 | updated_at | text | true |
 
-**`topics`**
+*`topics`*
 
 ## replies
 
@@ -120,4 +120,4 @@ topics / replies 为历史表，界面已下线讨论区。
 | content | text | true |
 | created_at | text | true |
 
-**`replies`**
+*`replies`*

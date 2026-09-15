@@ -43,6 +43,10 @@
     if (/^\/news\/?$/.test(p)) return { mode: 'news' };
     var m = p.match(/^\/column\/([^/?#]+)\/?$/);
     if (m) return { mode: 'volume', slug: decodeURIComponent(m[1]) };
+    m = p.match(/^\/post\/([^/?#]+)\/?$/);
+    if (m) return { mode: 'post', slug: decodeURIComponent(m[1]) };
+    m = p.match(/^\/tag\/([^/?#]+)\/?$/);
+    if (m) return { mode: 'tag', slug: decodeURIComponent(m[1]) };
     if (p === '/' || p === '') return { mode: 'home' };
     return { mode: '' };
   }
@@ -452,6 +456,145 @@
     });
   }
 
+  var MATH_OPTS = {
+    delimiters: [
+      { left: '$$', right: '$$', display: true },
+      { left: '\\[', right: '\\]', display: true },
+      { left: '$', right: '$', display: false },
+      { left: '\\(', right: '\\)', display: false }
+    ],
+    throwOnError: false,
+    ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  };
+
+  function applyMath(el) {
+    if (!el || typeof renderMathInElement !== 'function') return;
+    try {
+      renderMathInElement(el, MATH_OPTS);
+    } catch (e) { /* ignore */ }
+  }
+
+  function whenKatexReady(fn) {
+    if (typeof renderMathInElement === 'function') {
+      fn();
+      return;
+    }
+    var n = 0;
+    var timer = setInterval(function () {
+      n += 1;
+      if (typeof renderMathInElement === 'function') {
+        clearInterval(timer);
+        fn();
+      } else if (n > 80) {
+        clearInterval(timer);
+      }
+    }, 50);
+  }
+
+  function mdHtml(src) {
+    if (window.QdqcMd && typeof window.QdqcMd.render === 'function') {
+      return window.QdqcMd.render(src || '');
+    }
+    return '<p>' + esc(src || '') + '</p>';
+  }
+
+  /* Marqdo 1.0 Go 端口未把路由 {slug} 写入查询条件，详情/标签 SSR 为空；用 API 回填。 */
+  function mountPost(slug, posts) {
+    var main = mainEl();
+    if (!main || main.querySelector('.article')) return;
+
+    var post = null;
+    for (var i = 0; i < (posts || []).length; i++) {
+      if (String(posts[i].slug) === String(slug)) {
+        post = posts[i];
+        break;
+      }
+    }
+
+    if (!post) {
+      var miss = document.createElement('article');
+      miss.className = 'article';
+      miss.innerHTML =
+        '<h1 class="article-title">未找到文章</h1>' +
+        '<div class="article-body md"><p>没有 slug 为 <code>' + esc(slug) + '</code> 的文章。</p>' +
+        '<p><a href="/">返回首页</a></p></div>';
+      main.appendChild(miss);
+      return;
+    }
+
+    var date = String(post.created_at || '').slice(0, 10);
+    var tag = String(post.tag || '').trim();
+    var body = mdHtml(post.content || '');
+    var art = document.createElement('article');
+    art.className = 'article';
+    art.innerHTML =
+      (date ? '<div class="article-meta">' + esc(date) + '</div>' : '') +
+      '<h1 class="article-title">' + esc(post.title || post.slug || '') + '</h1>' +
+      (tag
+        ? '<div class="article-tags"><a href="/tag/' + esc(tag) + '">' + esc(tag) + '</a></div>'
+        : '') +
+      '<div class="article-body md">' + body + '</div>';
+
+    var firstP = art.querySelector('.article-body.md > p');
+    if (firstP) firstP.classList.add('has-dropcap');
+
+    main.appendChild(art);
+    document.title = (post.title || post.slug || '文章') + ' · 求道量子';
+    whenKatexReady(function () { applyMath(art); });
+  }
+
+  function mountTagged(slug, posts) {
+    var main = mainEl();
+    if (!main || main.querySelector('.content.cards')) return;
+
+    var label = slug;
+    for (var t = 0; t < TAGS.length; t++) {
+      if (String(TAGS[t].slug) === String(slug)) {
+        label = TAGS[t].name;
+        break;
+      }
+    }
+
+    if (!main.querySelector('.main-intro')) {
+      var intro = document.createElement('div');
+      intro.className = 'main-intro';
+      intro.innerHTML =
+        '<p class="kicker">// tag</p>' +
+        '<h1>' + esc(label) + '</h1>' +
+        '<p class="lede">标签下的文章。</p>';
+      main.appendChild(intro);
+    }
+
+    var rows = (posts || []).filter(function (p) {
+      return String(p.tag || '') === String(slug);
+    });
+
+    var sec = document.createElement('section');
+    sec.className = 'content cards';
+    if (!rows.length) {
+      sec.innerHTML = '<p class="lede">该标签下暂无文章。</p>';
+    } else {
+      sec.innerHTML = rows
+        .map(function (p) {
+          var href = '/post/' + encodeURIComponent(p.slug || '');
+          var date = String(p.created_at || '').slice(0, 10);
+          return (
+            '<article class="card">' +
+              '<a href="' + esc(href) + '">' +
+                (date ? '<div class="card-meta">' + esc(date) + '</div>' : '') +
+                '<h2 class="card-title">' + esc(p.title || p.slug || '') + '</h2>' +
+                (p.tag ? '<div class="card-tag">' + esc(p.tag) + '</div>' : '') +
+                (p.summary ? '<p>' + esc(p.summary) + '</p>' : '') +
+              '</a>' +
+            '</article>'
+          );
+        })
+        .join('');
+    }
+    main.appendChild(sec);
+    document.title = label + ' · 求道量子';
+  }
+
   function boot() {
     var info = pathInfo();
     if (info.mode === 'desk') return;
@@ -474,6 +617,20 @@
     enhanceSidePanel();
 
     if (!info.mode) return;
+
+    if (info.mode === 'post') {
+      fetchJson('/api/posts').then(function (posts) {
+        mountPost(info.slug, posts);
+      });
+      return;
+    }
+
+    if (info.mode === 'tag') {
+      fetchJson('/api/posts').then(function (posts) {
+        mountTagged(info.slug, posts);
+      });
+      return;
+    }
 
     Promise.all([fetchJson('/api/columns'), fetchJson('/api/posts')]).then(function (pair) {
       var columns = pair[0];

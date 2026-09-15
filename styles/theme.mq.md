@@ -87,7 +87,7 @@ import text:lib/text.mq.md
 | #qd-progress | transform-origin | left center |
 | #qd-progress | pointer-events | none |
 
-**`基础`**
+*`基础`*
 
 ## 顶栏
 
@@ -201,7 +201,7 @@ import text:lib/text.mq.md
 | .nav-drawer-veil | cursor | pointer |
 | .nav-drawer-veil | -webkit-tap-highlight-color | transparent |
 
-**`顶栏`**
+*`顶栏`*
 
 ## 侧栏
 
@@ -238,7 +238,7 @@ import text:lib/text.mq.md
 | ul.side-nav a:hover | transform | translateX(3px) |
 | ul.side-nav a:hover | background | transparent |
 
-**`侧栏`**
+*`侧栏`*
 
 ## 主体
 
@@ -327,7 +327,7 @@ import text:lib/text.mq.md
 | .mq-img.brand-logo img | border-radius | 0 |
 | .mq-img.brand-logo img | filter | none |
 
-**`主体`**
+*`主体`*
 
 ## 卡片
 
@@ -410,7 +410,7 @@ import text:lib/text.mq.md
 | .content.cards .card p | -webkit-box-orient | vertical |
 | .content.cards .card p | overflow | hidden |
 
-**`卡片`**
+*`卡片`*
 
 ## 文章
 
@@ -506,7 +506,7 @@ import text:lib/text.mq.md
 | .article hr | background | var(--line) |
 | .article hr | margin | 2.4rem 0 |
 
-**`文章`**
+*`文章`*
 
 ## 表单
 
@@ -560,7 +560,7 @@ import text:lib/text.mq.md
 | .site-form .meta | color | var(--faint) |
 | .site-form .meta | font-size | .82rem |
 
-**`表单`**
+*`表单`*
 
 ## 页脚
 
@@ -586,7 +586,7 @@ import text:lib/text.mq.md
 | ul.foot-nav a:hover | color | var(--ink) |
 | ul.foot-nav li:first-child a | color | var(--muted) |
 
-**`页脚`**
+*`页脚`*
 
 ## 分页
 
@@ -615,7 +615,7 @@ import text:lib/text.mq.md
 | .pagination .page-status | font-family | var(--mono) |
 | .pagination .page-status | font-size | .75rem |
 
-**`分页`**
+*`分页`*
 
 ## 响应式
 
@@ -690,31 +690,31 @@ import text:lib/text.mq.md
 | (prefers-reduced-motion: reduce) | html | scroll-behavior | auto |
 | (prefers-reduced-motion: reduce) | body.has-sidebar aside.side | transition | none |
 
-**`响应式`**
+*`响应式`*
 
 ## 全局
 
-*基础表 = > 基础*
-*顶栏表 = > 顶栏*
-*侧栏表 = > 侧栏*
-*主体表 = > 主体*
-*卡片表 = > 卡片*
-*文章表 = > 文章*
-*表单表 = > 表单*
-*页脚表 = > 页脚*
-*分页表 = > 分页*
-*响应式表 = > 响应式*
+**基础表 = > 基础**
+**顶栏表 = > 顶栏**
+**侧栏表 = > 侧栏**
+**主体表 = > 主体**
+**卡片表 = > 卡片**
+**文章表 = > 文章**
+**表单表 = > 表单**
+**页脚表 = > 页脚**
+**分页表 = > 分页**
+**响应式表 = > 响应式**
 
-*css基础 = > 网页.样式装配 名="基础" 表=`基础表`*
-*css顶栏 = > 网页.样式装配 名="顶栏" 表=`顶栏表`*
-*css侧栏 = > 网页.样式装配 名="侧栏" 表=`侧栏表`*
-*css主体 = > 网页.样式装配 名="主体" 表=`主体表`*
-*css卡片 = > 网页.样式装配 名="卡片" 表=`卡片表`*
-*css文章 = > 网页.样式装配 名="文章" 表=`文章表`*
-*css表单 = > 网页.样式装配 名="表单" 表=`表单表`*
-*css页脚 = > 网页.样式装配 名="页脚" 表=`页脚表`*
-*css分页 = > 网页.样式装配 名="分页" 表=`分页表`*
-*css响应式 = > 网页.样式装配 名="响应式" 表=`响应式表`*
+**css基础 = > 网页.样式装配 名="基础" 表=`基础表`**
+**css顶栏 = > 网页.样式装配 名="顶栏" 表=`顶栏表`**
+**css侧栏 = > 网页.样式装配 名="侧栏" 表=`侧栏表`**
+**css主体 = > 网页.样式装配 名="主体" 表=`主体表`**
+**css卡片 = > 网页.样式装配 名="卡片" 表=`卡片表`**
+**css文章 = > 网页.样式装配 名="文章" 表=`文章表`**
+**css表单 = > 网页.样式装配 名="表单" 表=`表单表`**
+**css页脚 = > 网页.样式装配 名="页脚" 表=`页脚表`**
+**css分页 = > 网页.样式装配 名="分页" 表=`分页表`**
+**css响应式 = > 网页.样式装配 名="响应式" 表=`响应式表`**
 
 `css段` =
 
@@ -731,5 +731,5 @@ import text:lib/text.mq.md
 | `css分页` |
 | `css响应式` |
 
-*css = > text.str_join xs=`css段` sep=""*
-**css**
+**css = > text.str_join xs=`css段` sep=""**
+*css*

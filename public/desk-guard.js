@@ -8,7 +8,8 @@
   if (
     /^\/admin\/login\/?$/.test(p) ||
     /^\/_auth\/login\/?$/.test(p) ||
-    /^\/_mg\/login\/?$/.test(p)
+    /^\/_mg\/login\/?$/.test(p) ||
+    /^\/desk\/login\/?$/.test(p)
   ) {
     window.location.replace('/login' + q);
     return;

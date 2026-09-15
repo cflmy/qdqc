@@ -1,37 +1,40 @@
 # 求道量子 · Marqdo 站点
-# 官方 Release 暂无 Linux 二进制，构建阶段从源码编译 marqdo + web 插件。
-# 需 Rust ≥1.85（依赖可能使用 edition 2024）；勿再使用 1.81。
-# Marqdo ≥0.3.4：C0–C4 定制（壳样式 / 门禁 / 后台前缀）；0.3.2+ 样式表引号与 @keyframes。
+# Marqdo ≥1.0.0：Markup v0.3 宪法（**代码** / *返回*）；网页插件为 Go libweb；
+# 官方 Release 提供 Linux 预编译包，构建阶段直接解压，无需本机 cargo。
 # syntax=docker/dockerfile:1
 
-ARG MARQDO_VERSION=0.3.4
-ARG RUST_IMAGE=rust:1.85-bookworm
+ARG MARQDO_VERSION=1.0.0
 
-FROM ${RUST_IMAGE} AS builder
+FROM debian:bookworm-slim AS builder
 ARG MARQDO_VERSION
 WORKDIR /build
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends ca-certificates curl pkg-config \
+  && apt-get install -y --no-install-recommends ca-certificates curl unzip \
   && rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL "https://github.com/cflmy/marqdo/archive/refs/tags/v${MARQDO_VERSION}.tar.gz" \
-  | tar -xz --strip-components=1 \
-  && test -f Cargo.lock
-
-ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
-# v0.3.4 标签内 Cargo.lock 与清单不同步，--locked 会直接失败；
-# 已用 Rust 1.85，允许 cargo 按清单刷新锁文件后再编译。
-# 默认 feature `native` 含 cli / plugin-host，满足 run + web 插件加载
-RUN cargo build --release --bin marqdo \
-  && cargo build --release -p marqdo_plugin_web
+# 官方 Linux bundle：CLI + lib/ + ext/ + 原生 .so
+RUN curl -fsSL \
+    "https://github.com/cflmy/marqdo/releases/download/v${MARQDO_VERSION}/marqdo-${MARQDO_VERSION}-x86_64-unknown-linux-gnu.zip" \
+    -o /tmp/marqdo.zip \
+  && mkdir -p /opt/marqdo \
+  && unzip -q /tmp/marqdo.zip -d /tmp/marqdo-dist \
+  && if [ -x /tmp/marqdo-dist/marqdo ]; then \
+       cp -a /tmp/marqdo-dist/. /opt/marqdo/; \
+     else \
+       sub="$(find /tmp/marqdo-dist -maxdepth 2 -type f -name marqdo | head -n1 | xargs dirname)"; \
+       cp -a "$sub"/. /opt/marqdo/; \
+     fi \
+  && test -x /opt/marqdo/marqdo \
+  && /opt/marqdo/marqdo version \
+  && rm -rf /tmp/marqdo.zip /tmp/marqdo-dist
 
 ENV MARQDO_EXT=/opt/marqdo/ext
-ENV MARQDO_EXT_SOURCE=/build/ext
-RUN mkdir -p "${MARQDO_EXT}" \
-  && ./target/release/marqdo ext add web \
-  && test -f "${MARQDO_EXT}/web/网页.mq.md" \
-  && test -f "${MARQDO_EXT}/native/libweb.so"
+ENV PATH="/opt/marqdo:${PATH}"
+RUN test -d "${MARQDO_EXT}/web" \
+  && (test -f "${MARQDO_EXT}/native/libweb.so" \
+      || test -f "${MARQDO_EXT}/native/web.so" \
+      || ls "${MARQDO_EXT}/native"/*.so >/dev/null 2>&1)
 
 FROM debian:bookworm-slim AS runtime
 
@@ -40,17 +43,23 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && useradd --system --uid 10001 --home-dir /app --shell /usr/sbin/nologin qdqc
 
-COPY --from=builder /build/target/release/marqdo /usr/local/bin/marqdo
+COPY --from=builder /opt/marqdo/marqdo /usr/local/bin/marqdo
+COPY --from=builder /opt/marqdo/lib /opt/marqdo/lib
 COPY --from=builder /opt/marqdo/ext /opt/marqdo/ext
 
 WORKDIR /app
 COPY --chown=qdqc:qdqc . /app/
 RUN mkdir -p /app/data && chown qdqc:qdqc /app/data \
-  && chmod +x /app/docker/entrypoint.sh
+  && chmod +x /app/docker/entrypoint.sh \
+  && if [ ! -f /opt/marqdo/ext/native/libweb.so ]; then \
+       so="$(ls /opt/marqdo/ext/native/*.so 2>/dev/null | head -n1)"; \
+       test -n "$so" && ln -sf "$(basename "$so")" /opt/marqdo/ext/native/libweb.so; \
+     fi
 
 ENV HOME=/app \
   MARQDO_EXT=/opt/marqdo/ext \
-  MARQDO_WEB_PLUGIN=/opt/marqdo/ext/native/libweb.so
+  MARQDO_WEB_PLUGIN=/opt/marqdo/ext/native/libweb.so \
+  MARQDO_LIB=/opt/marqdo/lib
 
 USER qdqc
 EXPOSE 18085

@@ -596,7 +596,7 @@ import text:lib/text.mq.md
 | .news-archive-summary | line-height | 1.55 |
 | .news-archive-summary | max-width | 36rem |
 
-**`规则`**
+*`规则`*
 
 ## 响应式
 
@@ -665,15 +665,15 @@ import text:lib/text.mq.md
 | (prefers-reduced-motion: reduce) | .vol-book, .column-gate.column-gate--shelf .column-gate-list a | transition | none |
 | (prefers-reduced-motion: reduce) | .vol-book:hover, .column-gate.column-gate--shelf .column-gate-list a:hover | transform | none |
 
-**`响应式`**
+*`响应式`*
 
 ## 全局
 
-*表规则 = > 规则*
-*表响应式 = > 响应式*
+**表规则 = > 规则**
+**表响应式 = > 响应式**
 
-*css规则 = > 网页.样式装配 名="规则" 表=`表规则`*
-*css响应式 = > 网页.样式装配 名="响应式" 表=`表响应式`*
+**css规则 = > 网页.样式装配 名="规则" 表=`表规则`**
+**css响应式 = > 网页.样式装配 名="响应式" 表=`表响应式`**
 
 `css段` =
 
@@ -682,5 +682,5 @@ import text:lib/text.mq.md
 | `css规则` |
 | `css响应式` |
 
-*css = > text.str_join xs=`css段` sep=""*
-**css**
+**css = > text.str_join xs=`css段` sep=""**
+*css*

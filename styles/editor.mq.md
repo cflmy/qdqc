@@ -498,7 +498,7 @@ import text:lib/text.mq.md
 | .site-form.editor-skin.is-editing .actions button:disabled | opacity | 0.55 |
 | .site-form.editor-skin.is-editing .actions button:disabled | cursor | wait |
 
-**`规则`**
+*`规则`*
 
 ## 响应式
 
@@ -526,7 +526,7 @@ import text:lib/text.mq.md
 | (max-width: 860px) | .admin-nav-logout | margin-left | 0 |
 | (prefers-reduced-motion: reduce) | .site-form.editor-skin .actions button:hover | transform | none |
 
-**`响应式`**
+*`响应式`*
 
 ## 登录
 
@@ -558,7 +558,7 @@ import text:lib/text.mq.md
 | .desk-login-err | color | #b91c1c |
 | .desk-login-err | font-size | .9rem |
 
-**`登录`**
+*`登录`*
 
 ## 后台
 
@@ -620,19 +620,19 @@ import text:lib/text.mq.md
 | .site-form.meta-form | border-radius | 12px |
 | .site-form.meta-form | background | color-mix(in srgb, var(--card) 90%, transparent) |
 
-**`后台`**
+*`后台`*
 
 ## 全局
 
-*表规则 = > 规则*
-*表响应式 = > 响应式*
-*表登录 = > 登录*
-*表后台 = > 后台*
+**表规则 = > 规则**
+**表响应式 = > 响应式**
+**表登录 = > 登录**
+**表后台 = > 后台**
 
-*css规则 = > 网页.样式装配 名="规则" 表=`表规则`*
-*css响应式 = > 网页.样式装配 名="响应式" 表=`表响应式`*
-*css登录 = > 网页.样式装配 名="登录" 表=`表登录`*
-*css后台 = > 网页.样式装配 名="后台" 表=`表后台`*
+**css规则 = > 网页.样式装配 名="规则" 表=`表规则`**
+**css响应式 = > 网页.样式装配 名="响应式" 表=`表响应式`**
+**css登录 = > 网页.样式装配 名="登录" 表=`表登录`**
+**css后台 = > 网页.样式装配 名="后台" 表=`表后台`**
 
 `css段` =
 
@@ -643,5 +643,5 @@ import text:lib/text.mq.md
 | `css登录` |
 | `css后台` |
 
-*css = > text.str_join xs=`css段` sep=""*
-**css**
+**css = > text.str_join xs=`css段` sep=""**
+*css*

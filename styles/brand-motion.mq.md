@@ -66,7 +66,7 @@ import text:lib/text.mq.md
 | ul.nav a:hover::after | transform | scaleX(1) |
 | ul.nav li:first-child a::after | background | var(--accent, #0f6e6a) |
 
-**`规则`**
+*`规则`*
 
 ## 动画
 
@@ -85,7 +85,7 @@ import text:lib/text.mq.md
 | @keyframes qd-grid-drift | 0% | background-position: 0 0, 0 0 |
 | @keyframes qd-grid-drift | 100% | background-position: 48px 48px, 48px 48px |
 
-**`动画`**
+*`动画`*
 
 ## 响应式
 
@@ -149,17 +149,17 @@ import text:lib/text.mq.md
 | (prefers-reduced-motion: reduce) | .main-intro .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | filter | none !important |
 | (prefers-reduced-motion: reduce) | .main-intro .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | clip-path | none !important |
 
-**`响应式`**
+*`响应式`*
 
 ## 全局
 
-*表规则 = > 规则*
-*表动画 = > 动画*
-*表响应式 = > 响应式*
+**表规则 = > 规则**
+**表动画 = > 动画**
+**表响应式 = > 响应式**
 
-*css规则 = > 网页.样式装配 名="规则" 表=`表规则`*
-*css动画 = > 网页.样式装配 名="动画" 表=`表动画`*
-*css响应式 = > 网页.样式装配 名="响应式" 表=`表响应式`*
+**css规则 = > 网页.样式装配 名="规则" 表=`表规则`**
+**css动画 = > 网页.样式装配 名="动画" 表=`表动画`**
+**css响应式 = > 网页.样式装配 名="响应式" 表=`表响应式`**
 
 `css段` =
 
@@ -169,5 +169,5 @@ import text:lib/text.mq.md
 | `css动画` |
 | `css响应式` |
 
-*css = > text.str_join xs=`css段` sep=""*
-**css**
+**css = > text.str_join xs=`css段` sep=""**
+*css*
