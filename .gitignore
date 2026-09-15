@@ -6,6 +6,7 @@ Thumbs.db
 .DS_Store
 *.log
 
-# 临时脚本
+# 临时脚本 / 本地启动日志
 _*.ps1
 _tmp*
+_run_*.txt
