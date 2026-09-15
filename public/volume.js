@@ -101,9 +101,21 @@
     return COVER[keys[i % keys.length]] || COVER.marqdo;
   }
 
+  function isTagSlug(s) {
+    return /^[a-z0-9][a-z0-9-]{0,62}$/i.test(String(s || ''));
+  }
+
+  function clearMainChrome(main) {
+    var intro = main.querySelector(':scope > .main-intro');
+    if (intro) intro.remove();
+    var cards = main.querySelector(':scope > .content.cards');
+    if (cards) cards.remove();
+  }
+
   function mountShelf(columns) {
     var main = mainEl();
     if (!main || main.querySelector('.vol-shelf')) return;
+    clearMainChrome(main);
     document.body.classList.add('layout-shelf');
 
     var books = sortColumns(columns.length ? columns : FALLBACK)
@@ -161,6 +173,7 @@
   function mountVolume(slug, columns, posts) {
     var main = mainEl();
     if (!main || main.querySelector('.vol-open')) return;
+    clearMainChrome(main);
     document.body.classList.add('layout-volume');
 
     var list = sortColumns(columns.length ? columns : FALLBACK);
@@ -339,6 +352,7 @@
   function mountNewsArchive(newsRows) {
     var main = mainEl();
     if (!main || main.querySelector('.news-archive')) return;
+    clearMainChrome(main);
     document.body.classList.add('layout-news');
 
     var news = Array.isArray(newsRows) ? newsRows : [];
@@ -530,7 +544,7 @@
     art.innerHTML =
       (date ? '<div class="article-meta">' + esc(date) + '</div>' : '') +
       '<h1 class="article-title">' + esc(post.title || post.slug || '') + '</h1>' +
-      (tag
+      (isTagSlug(tag)
         ? '<div class="article-tags"><a href="/tag/' + esc(tag) + '">' + esc(tag) + '</a></div>'
         : '') +
       '<div class="article-body md">' + body + '</div>';

@@ -109,7 +109,7 @@ import db:db/index.mq.md
 | script | "/static/theme.js?v=14" | | | | | |
 | script | "/static/desk-guard.js?v=4" | | | | | |
 | script | "/static/md.js?v=1" | | | | | |
-| script | "/static/volume.js?v=15" | | | | | |
+| script | "/static/volume.js?v=16" | | | | | |
 
 `登录资源` =
 
