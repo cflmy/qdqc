@@ -4,7 +4,8 @@
 |------|--------|
 | Production URL | **https://qdqc.com** |
 | Source | **https://github.com/cflmy/qdqc** |
-| ICP filing | **Completed**（已备案） |
+| ICP filing | **In progress** — wait for formal launch |
+| Checkpoint | **Paused 2026-09-16** until qdqc.com live |
 | Stack | Marqdo `ext/web` (GFM table-driven) |
 | Local Docker | see [DEPLOY.md](../DEPLOY.md) → http://127.0.0.1:18085 |
 

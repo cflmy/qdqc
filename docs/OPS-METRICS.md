@@ -1,5 +1,11 @@
 # Ops metrics for Industry evidence
 
+## Status (2026-09-16)
+
+**Paused:** do not start production cron until **ICP is approved** and
+**https://qdqc.com is formally online**. Tools below stay ready; resume then.
+Thesis checkpoint: `docs/09-checkpoint-2026-09-16.md` in the Track D thesis tree.
+
 ## Do we need access logs?
 
 **Yes, for Industry Track**—reviewers may ask for signals beyond “we deployed.”
