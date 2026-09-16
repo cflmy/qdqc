@@ -1,5 +1,7 @@
 # Docker 快速部署
 
+生产站点：**https://qdqc.com**（已备案）。公开源码即本仓库。论文/Industry 证据说明见 [docs/PUBLIC-SITE.md](docs/PUBLIC-SITE.md)。
+
 本站基于 [Marqdo](https://github.com/cflmy/marqdo) `ext/web`（Go `libweb`）。镜像在构建阶段下载官方 **Linux 预编译包**（CLI + `ext/` + `libweb.so`），无需本机 Rust/Cargo。
 
 构建使用 **Marqdo v1.0.1+**（含动态路由 `{param}` 查询代入、详情 Markdown、样式数字误报修复）。语法为 Markup v0.3 宪法：`**粗体**` = 可执行代码，`*斜体*` = 返回；相对旧版 `*语句*` / `**返回**` 已对调。本站 `.mq.md` 已按 v1.0 改写。另依赖可配置门禁 / `登录路径` / `后台前缀`、样式表引号约定与 `@keyframes` 装配。
