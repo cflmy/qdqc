@@ -10,8 +10,12 @@
 | Local Docker | see [DEPLOY.md](../DEPLOY.md) → http://127.0.0.1:18085 |
 
 Used as the **Industry Track** deployment artifact for The Web Conference 2027
-(Track D thesis docs). Optional: expand a **site network** under qdqc.com if the
-submission needs more Web-delivery evidence—build only what the gap list requires.
+(Track D thesis docs). Site network under qdqc.com:
+
+| Site | URL | Role |
+|------|-----|------|
+| 求道量子 | https://qdqc.com | Primary Industry artifact |
+| 求道启程 | https://edu.qdqc.com | 考研/考公信息公开（Marqdo 同方言第二站；见 `edu` 仓） |
 
 Thesis checklist (source of truth for authors):
 `MarqdoThesis/.../docs/07-industry-deployment-facts.md`

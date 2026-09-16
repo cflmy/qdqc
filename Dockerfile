@@ -1,9 +1,9 @@
-# Marqdo ≥1.0.1：Markup v0.3 宪法（**代码** / *返回*）；网页插件为 Go libweb；
+# Marqdo ≥1.0.2：Markup v0.3 宪法（**代码** / *返回*）；网页插件为 Go libweb；
 # 官方 Release 提供 Linux 预编译包，构建阶段直接解压，无需本机 cargo。
 # CI 在 Ubuntu 24.04 上构建，需 GLIBC ≥ 2.39 → 运行时用 ubuntu:24.04（勿用 bookworm）。
 # syntax=docker/dockerfile:1
 
-ARG MARQDO_VERSION=1.0.1
+ARG MARQDO_VERSION=1.0.2
 
 FROM ubuntu:24.04 AS builder
 ARG MARQDO_VERSION
