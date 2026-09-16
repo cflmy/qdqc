@@ -1,6 +1,10 @@
 # 运行时数据（由 db/index.mq.md 幂等重建）
 data/
 
+# Industry ops samples (uptime JSONL; may grow large)
+ops/*.jsonl
+ops/cron.out
+
 # 编辑器 / 系统临时文件
 Thumbs.db
 .DS_Store

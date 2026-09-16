@@ -14,3 +14,8 @@ submission needs more Web-delivery evidence—build only what the gap list requi
 
 Thesis checklist (source of truth for authors):
 `MarqdoThesis/.../docs/07-industry-deployment-facts.md`
+
+## Ops metrics
+
+See [OPS-METRICS.md](OPS-METRICS.md): uptime probes (`tools/ops_uptime.py`) for
+Industry evidence; full visitor access logs via reverse proxy when needed.
