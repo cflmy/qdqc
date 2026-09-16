@@ -46,8 +46,8 @@ def main() -> int:
     print("LaTeX sketch:")
     pct = f"{100.0 * ok / n:.1f}\\%" if n else "n/a"
     print(
-        f"  Probe samples $n={n}$, HTTP 200 rate {pct}"
-        + (f", mean latency ${avg:.0f}$\,ms" if avg is not None else "")
+        rf"  Probe samples $n={n}$, HTTP 200 rate {pct}"
+        + (rf", mean latency ${avg:.0f}\,\mathrm{{ms}}$" if avg is not None else "")
         + "."
     )
     return 0
