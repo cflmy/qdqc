@@ -23,5 +23,6 @@ qdqc 数据库迁移
 | 13 | UPDATE posts SET tag = 'quantum' WHERE slug = 'qubit-intro' AND (tag IS NULL OR tag NOT IN ('quantum','algorithm','hardware','sci-pop','marqdo')) |
 | 14 | INSERT INTO posts (title, slug, summary, content, tag, column_slug, pinned, created_at, updated_at) SELECT '线性代数开篇：为什么量子计算需要向量', 'la-why-vectors', '从「数组」走到「态矢」：线性代数如何成为量子语言的语法。', '量子态写在向量里，演化写在矩阵里。若把量子比特想象成二维复向量，叠加不过是线性组合，测量则与内积和范数有关。下一篇将从二维向量与基讲起。', 'sci-pop', 'linear-algebra', 0, '2026-08-31', '2026-08-31' WHERE NOT EXISTS (SELECT 1 FROM posts WHERE slug = 'la-why-vectors') |
 | 15 | DELETE FROM post_tags WHERE post_id NOT IN (SELECT id FROM posts) |
+| 16 | CREATE TABLE IF NOT EXISTS "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "post_slug" TEXT NOT NULL, "author" TEXT NOT NULL, "body" TEXT NOT NULL, "created_at" TEXT) |
 
 *`迁移步骤`*

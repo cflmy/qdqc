@@ -17,6 +17,7 @@ import migrate:migrate.mq.md
 **关联字段 = > schema.post_tags**
 **主题字段 = > schema.topics**
 **回复字段 = > schema.replies**
+**评论字段 = > schema.comments**
 > `store`.初始化 名=posts 字段=`字段`
 > `store`.初始化 名=columns 字段=`专栏字段`
 > `store`.初始化 名=news 字段=`新闻字段`
@@ -24,6 +25,7 @@ import migrate:migrate.mq.md
 > `store`.初始化 名=post_tags 字段=`关联字段`
 > `store`.初始化 名=topics 字段=`主题字段`
 > `store`.初始化 名=replies 字段=`回复字段`
+> `store`.初始化 名=comments 字段=`评论字段`
 **步骤 = > migrate.迁移步骤**
 > `store`.迁移 步骤=`步骤`
 **行 = > store.查询 表="posts" 上限=1**

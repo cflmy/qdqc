@@ -290,6 +290,27 @@ import db:db/index.mq.md
 | title | required | 请填写标题 |
 | url | required | 请填写原文链接 |
 
+`评论字段` =
+
+| 字段 | 标签 | 类型 | 必填 | 默认 |
+|------|------|------|------|------|
+| post_slug | 文章标识 | text | true | |
+| author | 昵称（请与登录名一致） | text | true | |
+| body | 评论 | textarea | true | |
+
+`评论规则` =
+
+| 字段 | 规则 | 消息 |
+|------|------|------|
+| post_slug | required | 请填写文章 slug |
+| author | required | 请填写昵称 |
+| body | required | 请填写评论 |
+| body | max:2000 | 评论请控制在 2000 字以内 |
+
+**comment_form = > 网页.表单 表="comments" 动作="插入"**
+**comment_form = > comment_form.字段 字段=`评论字段`**
+**comment_form = > comment_form.规则 规则=`评论规则`**
+
 **store = > db.打开**
 
 **主题CSS = > theme.全局**
@@ -330,11 +351,12 @@ import db:db/index.mq.md
 **about = > about.样式 样式=`首页CSS`**
 **about = > about.头装配 表=`头资源`**
 
-**post = > 网页.页面 标题="文章"**
+**post = > 网页.页面 标题="文章" 引言="<section class='post-comments' aria-label='评论'><h2>评论</h2><p class='lede'>登录用户可发表评论（需权限 <code>comments:create</code>）。请填写本文 slug、登录昵称与正文。</p></section>"**
 **post = > post.组件装配 组件=`首页`**
 **post = > post.主体装配 主体=`详情绑定`**
 **post = > post.查询条件 条件=`文章条件`**
 **post = > post.详情 详情=True**
+**post = > post.表单装配 表单=`comment_form` id="comment"**
 **post = > post.样式 样式=`首页CSS`**
 **post = > post.头装配 表=`头资源`**
 
@@ -406,7 +428,7 @@ import db:db/index.mq.md
 **news_edit_form = > news_edit_form.字段 字段=`新闻编辑字段`**
 **news_edit_form = > news_edit_form.规则 规则=`新闻编辑规则`**
 
-**desk_hub = > 网页.页面 标题="后台管理" 引言="<p class='kicker'>// desk</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏与量子新闻。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/desk/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/desk/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/desk/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a></div><p class='admin-hub-note'>需管理员登录；未登录访问本页将自动要求登录。</p>"**
+**desk_hub = > 网页.页面 标题="后台管理" 引言="<p class='kicker'>// desk</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏与量子新闻。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/desk/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/desk/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/desk/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a><a class='admin-hub-card' href='/_rbac/desk'><span class='admin-hub-kicker'>rbac</span><strong>角色权限</strong><span>新建角色 · 勾选权限 · 赋给用户</span></a></div><p class='admin-hub-note'>需管理员登录；未登录访问本页将自动要求登录。</p>"**
 **desk_hub = > desk_hub.组件装配 组件=admin.`后台壳`**
 **desk_hub = > desk_hub.样式 样式=`写作台CSS`**
 **desk_hub = > desk_hub.头装配 表=`发资源`**
@@ -459,16 +481,20 @@ import db:db/index.mq.md
 **app = > app.挂载表单 id="post-edit" 表单=`edit_form`**
 **app = > app.挂载表单 id="column-edit" 表单=`column_edit_form`**
 **app = > app.挂载表单 id="news-edit" 表单=`news_edit_form`**
+**app = > app.挂载表单 id="comment" 表单=`comment_form`**
 **app = > app.装配 接口=`站点接口`**
 **app = > app.静态 目录="public" 挂载="/static"**
 **app = > app.图标 表=`站点图标`**
-**app = > app.门禁 路径="/_mg" 角色="admin" 匹配="prefix" 拒绝="redirect" 排除="/_mg/login"**
-**app = > app.鉴权 用户表=`管理员` 会话时长=3600 登录路径="/login" 登录回跳="/desk" 登出回跳="/login"**
-**app = > app.门禁 路径="/desk" 角色="admin" 匹配="prefix" 拒绝="redirect" 排除="/login"**
-**app = > app.门禁 路径="/_form/post" 角色="admin" 匹配="exact" 拒绝="redirect"**
-**app = > app.门禁 路径="/_form/post-edit" 角色="admin" 匹配="exact" 拒绝="redirect"**
-**app = > app.门禁 路径="/_form/column" 角色="admin" 匹配="exact" 拒绝="redirect"**
-**app = > app.门禁 路径="/_form/column-edit" 角色="admin" 匹配="exact" 拒绝="redirect"**
-**app = > app.门禁 路径="/_form/news" 角色="admin" 匹配="exact" 拒绝="redirect"**
-**app = > app.门禁 路径="/_form/news-edit" 角色="admin" 匹配="exact" 拒绝="redirect"**
+**app = > app.启用权限**
+**app = > app.门禁 路径="/_mg" 权限="desk:access" 匹配="prefix" 拒绝="redirect" 排除="/_mg/login"**
+**app = > app.鉴权 用户表=`管理员` 会话时长=3600 登录路径="/login" 登录回跳="/desk" 登出回跳="/login" 注册=真 注册路径="/register" 默认角色="member"**
+**app = > app.门禁 路径="/desk" 权限="desk:access" 匹配="prefix" 拒绝="redirect" 排除="/login,/register"**
+**app = > app.门禁 路径="/_rbac" 权限="roles:manage" 匹配="prefix" 拒绝="redirect"**
+**app = > app.门禁 路径="/_form/post" 权限="posts:edit" 匹配="exact" 拒绝="redirect"**
+**app = > app.门禁 路径="/_form/post-edit" 权限="posts:edit" 匹配="exact" 拒绝="redirect"**
+**app = > app.门禁 路径="/_form/column" 权限="desk:access" 匹配="exact" 拒绝="redirect"**
+**app = > app.门禁 路径="/_form/column-edit" 权限="desk:access" 匹配="exact" 拒绝="redirect"**
+**app = > app.门禁 路径="/_form/news" 权限="desk:access" 匹配="exact" 拒绝="redirect"**
+**app = > app.门禁 路径="/_form/news-edit" 权限="desk:access" 匹配="exact" 拒绝="redirect"**
+**app = > app.门禁 路径="/_form/comment" 权限="comments:create" 匹配="exact" 拒绝="redirect"**
 > `app`.监听

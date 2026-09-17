@@ -121,3 +121,19 @@ topics / replies 为历史表，界面已下线讨论区。
 | created_at | text | true |
 
 *`replies`*
+
+## comments
+
+文章评论（登录用户发表）。`post_slug` 关联 posts.slug；`author` 为用户名。
+
+`comments` =
+
+| 字段 | 类型 | 可空 |
+|------|------|------|
+| id | integer | false |
+| post_slug | text | false |
+| author | text | false |
+| body | text | false |
+| created_at | text | true |
+
+*`comments`*
