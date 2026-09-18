@@ -311,7 +311,7 @@ import db:db/index.mq.md
 
 | 字段 | 标签 | 类型 | 必填 | 默认 | 来源 |
 |------|------|------|------|------|------|
-| body | 写下你的想法 | textarea | true | | client |
+| body | 写下回信 | textarea | true | | client |
 | author | | text | true | | session.username |
 | post_slug | | text | true | | route.slug |
 | created_at | | text | false | | now |
@@ -328,7 +328,7 @@ import db:db/index.mq.md
 **comment_form = > 网页.表单 表="comments" 动作="插入"**
 **comment_form = > comment_form.字段 字段=`评论字段`**
 **comment_form = > comment_form.规则 规则=`评论规则`**
-**comment_form = > comment_form.文案 提交="发表评论" 取消=" " 取消链接="#"**
+**comment_form = > comment_form.文案 提交="投递" 取消=" " 取消链接="#"**
 
 **store = > db.打开**
 
@@ -381,7 +381,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **about = > about.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **about = > about.样式 样式=`首页CSS`**
 
-**post = > 网页.页面 标题="文章" 引言="<section class='post-comments' aria-label='评论'><h2>评论</h2><div id='comment-list' class='comment-list'></div><p id='comment-guest' class='comment-guest lede'>登录后即可参与讨论。<a href='/login'>登录</a> · <a href='/register'>注册</a></p><div id='comment-form-mount'></div></section>"**
+**post = > 网页.页面 标题="文章" 引言="<section class='post-comments' aria-label='评论'><header class='comments-head'><p class='comments-kicker'>// letters</p><h2 class='comments-title'>读者来信</h2><p class='comments-lede'>文末讨论栏 · 登录后即可回信</p></header><div id='comment-list' class='comment-list'></div><p id='comment-guest' class='comment-guest'>登录后即可参与讨论。<a href='/login'>登录</a><span class='comments-sep' aria-hidden='true'>·</span><a href='/register'>注册</a></p><div id='comment-form-mount' class='comment-compose'></div></section>"**
 **post = > post.组件装配 组件=`首页`**
 **post = > 装刊壳 p=post**
 **post = > post.主体装配 主体=`详情绑定`**

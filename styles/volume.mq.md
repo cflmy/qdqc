@@ -477,12 +477,19 @@ import text:lib/text.mq.md
 | .main-intro > .column-gate.column-gate--shelf | margin-top | 1.5rem |
 | .main-intro > .column-gate.column-gate--shelf | max-width | none |
 | .main-intro > .column-gate.column-gate--shelf | width | 100% |
+| body.has-sidebar.has-rail .main-intro.masthead-split > .column-gate.column-gate--shelf | grid-column | "1 / -1" |
+| body.has-sidebar.has-rail .main-intro.masthead-split > .column-gate.column-gate--shelf | width | 100% |
+| body.has-sidebar.has-rail .main-intro.masthead-split > .column-gate.column-gate--shelf | max-width | none |
 | body.has-sidebar.has-rail .content.cards, body.has-sidebar.has-rail .home-toc-label | max-width | none |
 | body.has-sidebar.has-rail .content.cards | width | 100% |
 | body.has-sidebar.has-rail .article | max-width | none |
 | body.has-sidebar.has-rail .article | width | 100% |
 | body.has-sidebar.has-rail .article p | max-width | none |
 | body.has-sidebar.has-rail .article .article-body.md | max-width | none |
+| body.has-sidebar.has-rail .main-intro:has(> .post-comments) | max-width | none |
+| body.has-sidebar.has-rail .main-intro:has(> .post-comments) | width | 100% |
+| body.has-sidebar.has-rail .post-comments | max-width | none |
+| body.has-sidebar.has-rail .post-comments | width | 100% |
 | aside.side-rail | grid-area | rail |
 | aside.side-rail | align-self | start |
 | aside.side-rail | position | sticky |

@@ -602,76 +602,153 @@ import text:lib/text.mq.md
 | .auth-switch | font-size | .9rem |
 | .auth-switch | color | var(--muted) |
 | .auth-switch | text-align | center |
-| .post-comments | margin | 2.5rem 0 1rem |
-| .post-comments | padding-top | 1.5rem |
-| .post-comments | border-top | 1px solid var(--line) |
-| .post-comments h2 | margin | 0 0 1rem |
-| .post-comments h2 | font-size | 1.15rem |
-| .comment-list | margin | 0 0 1.25rem |
+| .post-comments | margin | 3rem 0 1.25rem |
+| .post-comments | max-width | none |
+| .post-comments | width | 100% |
+| .post-comments | padding | 0 |
+| .post-comments | border-top | 0 |
+| .comments-head | margin | 0 0 1.65rem |
+| .comments-head | padding | 1.35rem 0 1.15rem |
+| .comments-head | border-top | 2px solid var(--ink) |
+| .comments-head | border-bottom | 1px solid var(--line) |
+| .comments-kicker | margin | 0 0 .55rem |
+| .comments-kicker | font-family | var(--mono) |
+| .comments-kicker | font-size | .68rem |
+| .comments-kicker | letter-spacing | .24em |
+| .comments-kicker | text-transform | uppercase |
+| .comments-kicker | color | var(--mark) |
+| .comments-title | margin | 0 |
+| .comments-title | font-family | var(--serif) |
+| .comments-title | font-size | clamp(1.35rem, 2.4vw, 1.7rem) |
+| .comments-title | font-weight | 700 |
+| .comments-title | letter-spacing | .02em |
+| .comments-title | line-height | 1.25 |
+| .comments-title | color | var(--ink) |
+| .comments-lede | margin | .45rem 0 0 |
+| .comments-lede | font-size | .9rem |
+| .comments-lede | color | var(--muted) |
+| .comments-lede | max-width | 28rem |
+| .comment-list | margin | 0 0 1.5rem |
 | .comment-empty | color | var(--muted) |
-| .comment-empty | font-size | .92rem |
-| .comment-guest | margin | 0 0 1rem |
+| .comment-empty | font-family | var(--serif) |
+| .comment-empty | font-style | italic |
+| .comment-empty | font-size | .95rem |
+| .comment-guest | margin | 0 0 1.35rem |
+| .comment-guest | padding | .95rem 0 |
+| .comment-guest | border-top | 1px dashed var(--line) |
+| .comment-guest | border-bottom | 1px dashed var(--line) |
+| .comment-guest | font-size | .92rem |
+| .comment-guest | color | var(--muted) |
+| .comment-guest a | font-family | var(--mono) |
+| .comment-guest a | font-size | .78rem |
+| .comment-guest a | letter-spacing | .08em |
+| .comment-guest a | text-transform | uppercase |
+| .comment-guest a | color | var(--mark) |
+| .comment-guest a | text-decoration | none |
+| .comment-guest a:hover | color | var(--ink) |
+| .comments-sep | margin | 0 .45rem |
+| .comments-sep | color | var(--faint) |
 | body:not(:has(header.topnav a[href*="logout"])) #comment-form-mount | display | none |
 | body:has(header.topnav a[href*="logout"]) #comment-guest | display | none |
+| .comment-compose, #comment-form-mount | margin-top | .25rem |
 | #comment-form-mount .site-form | max-width | 100% |
 | #comment-form-mount .site-form | margin | 0 |
-| #comment-form-mount .site-form | padding | 0 |
+| #comment-form-mount .site-form | padding | 1.15rem 0 0 |
 | #comment-form-mount .site-form | background | transparent |
 | #comment-form-mount .site-form | border | 0 |
+| #comment-form-mount .site-form | border-top | 1px solid var(--line) |
 | #comment-form-mount .site-form | box-shadow | none |
 | #comment-form-mount .site-form .meta | display | none |
 | #comment-form-mount .site-form form | display | grid |
-| #comment-form-mount .site-form form | gap | .75rem |
+| #comment-form-mount .site-form form | gap | .85rem |
 | #comment-form-mount .site-form label | display | grid |
-| #comment-form-mount .site-form label | gap | .35rem |
-| #comment-form-mount .site-form label | font-size | .85rem |
-| #comment-form-mount .site-form label | color | var(--muted) |
+| #comment-form-mount .site-form label | gap | .55rem |
+| #comment-form-mount .site-form label | font-family | var(--mono) |
+| #comment-form-mount .site-form label | font-size | .68rem |
+| #comment-form-mount .site-form label | letter-spacing | .18em |
+| #comment-form-mount .site-form label | text-transform | uppercase |
+| #comment-form-mount .site-form label | color | var(--faint) |
 | #comment-form-mount .site-form textarea | width | 100% |
 | #comment-form-mount .site-form textarea | box-sizing | border-box |
-| #comment-form-mount .site-form textarea | min-height | 6.5rem |
-| #comment-form-mount .site-form textarea | padding | .75rem .9rem |
-| #comment-form-mount .site-form textarea | border | 1px solid var(--line) |
+| #comment-form-mount .site-form textarea | min-height | 5.5rem |
+| #comment-form-mount .site-form textarea | padding | .35rem 0 .85rem |
+| #comment-form-mount .site-form textarea | border | 0 |
+| #comment-form-mount .site-form textarea | border-bottom | 1px solid var(--line) |
 | #comment-form-mount .site-form textarea | border-radius | 0 |
-| #comment-form-mount .site-form textarea | background | var(--card) |
+| #comment-form-mount .site-form textarea | background | transparent |
 | #comment-form-mount .site-form textarea | color | var(--ink) |
-| #comment-form-mount .site-form textarea | font | inherit |
-| #comment-form-mount .site-form textarea | line-height | 1.55 |
+| #comment-form-mount .site-form textarea | font-family | var(--serif) |
+| #comment-form-mount .site-form textarea | font-size | 1.05rem |
+| #comment-form-mount .site-form textarea | line-height | 1.65 |
 | #comment-form-mount .site-form textarea | resize | vertical |
+| #comment-form-mount .site-form textarea | transition | border-color .18s ease, box-shadow .18s ease |
+| #comment-form-mount .site-form textarea::placeholder | color | var(--faint) |
 | #comment-form-mount .site-form textarea:focus | outline | none |
-| #comment-form-mount .site-form textarea:focus | border-color | var(--accent) |
+| #comment-form-mount .site-form textarea:focus | border-bottom-color | var(--accent) |
+| #comment-form-mount .site-form textarea:focus | box-shadow | 0 1px 0 var(--accent) |
 | #comment-form-mount .actions | display | flex |
 | #comment-form-mount .actions | align-items | center |
+| #comment-form-mount .actions | justify-content | flex-end |
 | #comment-form-mount .actions | gap | .85rem |
-| #comment-form-mount .actions | margin-top | .15rem |
+| #comment-form-mount .actions | margin-top | .35rem |
 | #comment-form-mount .actions a | display | none |
-| #comment-form-mount button[type="submit"] | padding | .65rem 1.35rem |
-| #comment-form-mount button[type="submit"] | border | 0 |
+| #comment-form-mount button[type="submit"] | padding | .45rem 1.1rem |
+| #comment-form-mount button[type="submit"] | border | 1px solid var(--ink) |
 | #comment-form-mount button[type="submit"] | border-radius | 0 |
-| #comment-form-mount button[type="submit"] | background | var(--accent) |
-| #comment-form-mount button[type="submit"] | color | #fff |
-| #comment-form-mount button[type="submit"] | font | inherit |
-| #comment-form-mount button[type="submit"] | font-size | .92rem |
-| #comment-form-mount button[type="submit"] | font-weight | 600 |
-| #comment-form-mount button[type="submit"] | letter-spacing | .06em |
+| #comment-form-mount button[type="submit"] | background | transparent |
+| #comment-form-mount button[type="submit"] | color | var(--ink) |
+| #comment-form-mount button[type="submit"] | font-family | var(--mono) |
+| #comment-form-mount button[type="submit"] | font-size | .68rem |
+| #comment-form-mount button[type="submit"] | font-weight | 500 |
+| #comment-form-mount button[type="submit"] | letter-spacing | .16em |
+| #comment-form-mount button[type="submit"] | text-transform | uppercase |
 | #comment-form-mount button[type="submit"] | cursor | pointer |
-| #comment-form-mount button[type="submit"]:hover | filter | brightness(1.06) |
+| #comment-form-mount button[type="submit"] | transition | color .18s ease, background-color .18s ease, border-color .18s ease |
+| #comment-form-mount button[type="submit"]:hover | background | var(--ink) |
+| #comment-form-mount button[type="submit"]:hover | color | var(--bg) |
+| #comment-form-mount button[type="submit"]:hover | filter | none |
 | .comment-thread | list-style | none |
 | .comment-thread | margin | 0 |
 | .comment-thread | padding | 0 |
-| .comment-item | padding | .85rem 0 |
-| .comment-item | border-bottom | 1px dashed var(--line) |
+| .comment-thread | counter-reset | qd-letter |
+| .comment-item | display | grid |
+| .comment-item | grid-template-columns | 2.6rem minmax(0, 1fr) |
+| .comment-item | column-gap | .85rem |
+| .comment-item | align-items | start |
+| .comment-item | padding | 1.15rem 0 1.2rem |
+| .comment-item | border-bottom | 1px solid var(--line) |
 | .comment-item:last-child | border-bottom | 0 |
+| .comment-item::before | counter-increment | qd-letter |
+| .comment-item::before | content | counter(qd-letter, decimal-leading-zero) |
+| .comment-item::before | font-family | var(--mono) |
+| .comment-item::before | font-size | .68rem |
+| .comment-item::before | letter-spacing | .1em |
+| .comment-item::before | color | var(--mark) |
+| .comment-item::before | line-height | 1.7 |
+| .comment-item::before | padding-top | .12rem |
 | .comment-meta | display | flex |
-| .comment-meta | gap | .75rem |
+| .comment-meta | flex-wrap | wrap |
+| .comment-meta | gap | .35rem .85rem |
 | .comment-meta | align-items | baseline |
-| .comment-meta | margin-bottom | .35rem |
-| .comment-author | font-weight | 600 |
+| .comment-meta | margin-bottom | .4rem |
+| .comment-meta | grid-column | 2 |
+| .comment-author | font-family | var(--serif) |
+| .comment-author | font-size | 1.05rem |
+| .comment-author | font-weight | 700 |
+| .comment-author | letter-spacing | .02em |
 | .comment-author | color | var(--ink) |
-| .comment-meta time | font-size | .8rem |
+| .comment-meta time | font-family | var(--mono) |
+| .comment-meta time | font-size | .68rem |
+| .comment-meta time | letter-spacing | .1em |
+| .comment-meta time | text-transform | uppercase |
 | .comment-meta time | color | var(--faint) |
 | .comment-body | margin | 0 |
+| .comment-body | grid-column | 2 |
+| .comment-body | max-width | none |
 | .comment-body | color | var(--ink-soft) |
-| .comment-body | line-height | 1.65 |
+| .comment-body | font-family | var(--serif) |
+| .comment-body | font-size | 1.02rem |
+| .comment-body | line-height | 1.7 |
 | .comment-body | white-space | pre-wrap |
 
 *`表单`*
@@ -795,6 +872,11 @@ import text:lib/text.mq.md
 | (max-width: 860px) | .article | padding | 1.25rem 1rem 1.75rem |
 | (max-width: 860px) | .article .article-body.md | font-size | 1.02rem |
 | (max-width: 860px) | .article .article-body.md | line-height | 1.8 |
+| (max-width: 860px) | .post-comments | max-width | none |
+| (max-width: 860px) | .comment-item | grid-template-columns | 2.1rem minmax(0, 1fr) |
+| (max-width: 860px) | .comment-item | column-gap | .65rem |
+| (max-width: 860px) | #comment-form-mount .actions | justify-content | stretch |
+| (max-width: 860px) | #comment-form-mount button[type="submit"] | width | 100% |
 | (max-width: 860px) | footer.foot | width | 100% |
 | (max-width: 560px) | .main-intro h1 | font-size | clamp(2rem, 8.5vw, 2.55rem) |
 | (max-width: 560px) | .nav-brand-text | display | none |
