@@ -135,13 +135,12 @@ import db:db/index.mq.md
 | 关系 | 地址 | 推迟 | 版本 |
 |------|------|------|------|
 | script | "/static/theme.js" | true | 16 |
-| script | "/static/site-auth.js" | true | 2 |
 
 `登录资源` =
 
 | 关系 | 地址 | 推迟 | 版本 |
 |------|------|------|------|
-| script | "/static/desk-login.js" | true | 9 |
+| script | "/static/theme.js" | true | 16 |
 
 `文章资源` =
 
@@ -473,17 +472,20 @@ import db:db/index.mq.md
 **desk_hub = > desk_hub.样式 样式=`写作台CSS`**
 **desk_hub = > desk_hub.头装配 表=`发资源`**
 
-**login = > 网页.页面 标题="登录" 引言="<div class='auth-panel'><p class='kicker'>// account</p><h1>登录</h1><p class='lede'>使用账号登录后即可发表评论。管理后台请从页脚「管理」进入。</p><form id='site-login-form' class='auth-form' method='post' action='/login'><label>用户名<input name='username' autocomplete='username' required autofocus/></label><label>密码<input name='password' type='password' autocomplete='current-password' required/></label><button type='submit'>登录</button></form><p id='site-auth-err' class='auth-err' hidden></p><p class='auth-switch'>还没有账号？<a href='/register'>注册</a></p></div>"**
+**login = > 网页.页面 标题="登录" 引言="<div class='auth-panel'><p class='kicker'>// account</p><h1>登录</h1><p class='lede'>使用账号登录后即可发表评论。管理后台请从页脚「管理」进入。</p><div id='auth-form-mount'></div><p class='auth-switch'>还没有账号？<a href='/register'>注册</a></p></div>"**
+**login = > login.鉴权表单 动作="/login" 提交="登录" 表单id="site-login-form" 错误id="site-auth-err" 表单插槽="#auth-form-mount" 种类="login"**
 **login = > login.组件装配 组件=`首页`**
 **login = > login.样式 样式=`首页CSS`**
 **login = > login.头装配 表=`鉴权资源`**
 
-**register = > 网页.页面 标题="注册" 引言="<div class='auth-panel'><p class='kicker'>// account</p><h1>注册</h1><p class='lede'>创建读者账号，即可在文章页参与评论。</p><form id='site-register-form' class='auth-form' method='post' action='/register'><label>用户名<input name='username' autocomplete='username' required autofocus minlength='2'/></label><label>密码<input name='password' type='password' autocomplete='new-password' required minlength='4'/></label><button type='submit'>注册</button></form><p id='site-auth-err' class='auth-err' hidden></p><p class='auth-switch'>已有账号？<a href='/login'>登录</a></p></div>"**
+**register = > 网页.页面 标题="注册" 引言="<div class='auth-panel'><p class='kicker'>// account</p><h1>注册</h1><p class='lede'>创建读者账号，即可在文章页参与评论。</p><div id='auth-form-mount'></div><p class='auth-switch'>已有账号？<a href='/login'>登录</a></p></div>"**
+**register = > register.鉴权表单 动作="/register" 提交="注册" 表单id="site-register-form" 错误id="site-auth-err" 表单插槽="#auth-form-mount" 种类="register"**
 **register = > register.组件装配 组件=`首页`**
 **register = > register.样式 样式=`首页CSS`**
 **register = > register.头装配 表=`鉴权资源`**
 
-**desk_login = > 网页.页面 标题="后台登录" 引言="<div class='desk-login'><p class='kicker'>// desk</p><h1>后台登录</h1><p class='lede'>管理员登录后进入写作台，管理文章、专栏与新闻。</p><form id='desk-login-form' class='desk-login-form' method='post' action='/_mg/login'><label>用户名<input name='username' autocomplete='username' required autofocus/></label><label>密码<input name='password' type='password' autocomplete='current-password' required/></label><button type='submit'>进入后台</button></form><p id='desk-login-err' class='desk-login-err' hidden></p><p class='auth-switch'><a href='/login'>返回读者登录</a></p></div>"**
+**desk_login = > 网页.页面 标题="后台登录" 引言="<div class='desk-login'><p class='kicker'>// desk</p><h1>后台登录</h1><p class='lede'>管理员登录后进入写作台，管理文章、专栏与新闻。</p><div id='desk-auth-mount'></div><p class='auth-switch'><a href='/login'>返回读者登录</a></p></div>"**
+**desk_login = > desk_login.鉴权表单 动作="/desk/login" 提交="进入后台" 表单id="desk-login-form" 错误id="desk-login-err" 表单插槽="#desk-auth-mount" 回跳="/desk" 种类="login"**
 **desk_login = > desk_login.样式 样式=`写作台CSS`**
 **desk_login = > desk_login.头装配 表=`登录资源`**
 
