@@ -134,7 +134,7 @@ import db:db/index.mq.md
 | script | "/static/katex/auto-render.min.js" | | | | | |
 | script | "/static/theme.js?v=14" | | | | | |
 | script | "/static/desk-guard.js?v=5" | | | | | |
-| script | "/static/site-auth.js?v=1" | | | | | |
+| script | "/static/site-auth.js?v=2" | | | | | |
 
 `登录资源` =
 

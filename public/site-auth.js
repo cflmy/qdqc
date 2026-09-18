@@ -5,9 +5,21 @@
   function parseCsrf(html) {
     if (!html) return '';
     var m =
+      html.match(/name=["']csrf-token["']\s*content=["']([^"']+)["']/i) ||
+      html.match(/content=["']([^"']+)["']\s*name=["']csrf-token["']/i) ||
       html.match(/name=["']_csrf["']\s*value=["']([^"']+)["']/i) ||
       html.match(/value=["']([^"']+)["']\s*name=["']_csrf["']/i);
     return m ? m[1] : '';
+  }
+
+  function csrfFromDoc() {
+    var el = document.querySelector('meta[name="csrf-token"]');
+    if (el) {
+      var v = el.getAttribute('content') || '';
+      if (v) return v;
+    }
+    var input = document.querySelector('input[name="_csrf"]');
+    return input && input.value ? input.value : '';
   }
 
   function parseFlashErr(html) {
@@ -102,13 +114,16 @@
       errEl.hidden = !msg;
     }
 
-    fetchCsrf(endpoint)
-      .then(function (pack) {
-        if (pack.token) ensureCsrf(form, pack.token);
-        ensureNext(form, next);
-      })
-      .catch(function () {});
-
+    var boot = csrfFromDoc();
+    if (boot) ensureCsrf(form, boot);
+    ensureNext(form, next);
+    if (!boot) {
+      fetchCsrf(endpoint)
+        .then(function (pack) {
+          if (pack.token) ensureCsrf(form, pack.token);
+        })
+        .catch(function () {});
+    }
     form.addEventListener('submit', function (ev) {
       ev.preventDefault();
       showErr('');
@@ -122,7 +137,12 @@
       var btn = form.querySelector('button[type="submit"]');
       if (btn) btn.disabled = true;
 
-      fetchCsrf(endpoint)
+      var tokenPromise = Promise.resolve(csrfFromDoc()).then(function (tok) {
+        if (tok) return { token: tok };
+        return fetchCsrf(endpoint);
+      });
+
+      tokenPromise
         .then(function (pack) {
           if (!pack.token) throw new Error('无法获取登录令牌，请刷新后重试。');
           ensureCsrf(form, pack.token);
@@ -175,12 +195,15 @@
       errEl.hidden = !msg;
     }
 
-    fetchCsrf(endpoint)
-      .then(function (pack) {
-        if (pack.token) ensureCsrf(form, pack.token);
-      })
-      .catch(function () {});
-
+    var boot = csrfFromDoc();
+    if (boot) ensureCsrf(form, boot);
+    if (!boot) {
+      fetchCsrf(endpoint)
+        .then(function (pack) {
+          if (pack.token) ensureCsrf(form, pack.token);
+        })
+        .catch(function () {});
+    }
     form.addEventListener('submit', function (ev) {
       ev.preventDefault();
       showErr('');
@@ -194,7 +217,12 @@
       var btn = form.querySelector('button[type="submit"]');
       if (btn) btn.disabled = true;
 
-      fetchCsrf(endpoint)
+      var tokenPromise = Promise.resolve(csrfFromDoc()).then(function (tok) {
+        if (tok) return { token: tok };
+        return fetchCsrf(endpoint);
+      });
+
+      tokenPromise
         .then(function (pack) {
           if (!pack.token) throw new Error('无法获取注册令牌，请刷新后重试。');
           ensureCsrf(form, pack.token);
