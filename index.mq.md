@@ -33,6 +33,16 @@ import db:db/index.mq.md
 | meta | posts.created_at | |
 | tag | posts.tag | |
 | href | posts.slug | |
+| pinned | posts.pinned | |
+
+`新闻轨列表` =
+
+| 属性 | 值 | 样式 |
+|------|-----|------|
+| title | news.title | |
+| meta | news.published_at | |
+| tag | news.source | |
+| href | news.url | |
 
 `详情绑定` =
 
@@ -127,20 +137,19 @@ import db:db/index.mq.md
 
 | 关系 | 地址 | 推迟 | 版本 |
 |------|------|------|------|
-| script | "/static/theme.js" | true | 16 |
-| script | "/static/volume.js" | true | 18 |
+| script | "/static/theme.js" | true | 17 |
 
 `鉴权资源` =
 
 | 关系 | 地址 | 推迟 | 版本 |
 |------|------|------|------|
-| script | "/static/theme.js" | true | 16 |
+| script | "/static/theme.js" | true | 17 |
 
 `登录资源` =
 
 | 关系 | 地址 | 推迟 | 版本 |
 |------|------|------|------|
-| script | "/static/theme.js" | true | 16 |
+| script | "/static/theme.js" | true | 17 |
 
 `文章资源` =
 
@@ -149,8 +158,7 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | |
 | script | "/static/katex/katex.min.js" | true | |
 | script | "/static/katex/auto-render.min.js" | true | |
-| script | "/static/theme.js" | true | 16 |
-| script | "/static/volume.js" | true | 18 |
+| script | "/static/theme.js" | true | 17 |
 
 `发资源` =
 
@@ -159,7 +167,7 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | |
 | script | "/static/katex/katex.min.js" | true | |
 | script | "/static/katex/auto-render.min.js" | true | |
-| script | "/static/theme.js" | true | 16 |
+| script | "/static/theme.js" | true | 17 |
 | script | "/static/md.js" | true | 1 |
 | script | "/static/admin.js" | true | 5 |
 | script | "/static/editor.js" | true | 26 |
@@ -374,16 +382,18 @@ import db:db/index.mq.md
 **首页CSS = > text.str_join xs=`前台样式段` sep=""**
 **写作台CSS = > text.str_join xs=`写作台样式段` sep=""**
 
-**page = > 网页.页面 标题="求道量子" 引言="<p class='kicker'>// Journal</p><h1>求道量子</h1><p class='lede slogan'>以求道之心，探量子之密。</p><section class='column-gate column-gate--shelf' aria-label='专栏入口'><p class='column-gate-label'>本刊三卷</p><ul class='column-gate-list'><li><a href='/column/marqdo'><div class='cg-media'><img src='/static/covers/vol-marqdo.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 01</span><span class='cg-name'>Marqdo 专栏</span><span class='cg-desc'>文档即代码，把站点写进 .mq.md</span></div></a></li><li><a href='/column/linear-algebra'><div class='cg-media'><img src='/static/covers/vol-linear-algebra.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 02</span><span class='cg-name'>线性代数专栏</span><span class='cg-desc'>向量与矩阵——量子语言的语法</span></div></a></li><li><a href='/column/quantum-algorithms'><div class='cg-media'><img src='/static/covers/vol-quantum.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 03</span><span class='cg-name'>量子算法专栏</span><span class='cg-desc'>门线路、Shor / Grover 与纠错入门</span></div></a></li></ul><p class='column-gate-more'><a href='/columns'>进入专栏书架 →</a></p></section>"**
+**page = > 网页.页面 标题="求道量子" 引言="<div class='masthead-brand'><p class='kicker'>// Journal</p><h1>求道量子</h1><p class='lede slogan'>以求道之心，探量子之密。</p></div><aside class='masthead-guide' aria-label='导读'><p class='mg-label'>导读</p><p class='mg-blurb'>以求道之心，探量子之密。<a href='/about'>关于本刊</a></p><p class='mg-sub'>建议读序</p><ol class='mg-path'><li><a href='/column/linear-algebra'>线性代数</a></li><li><a href='/column/quantum-algorithms'>量子算法</a></li><li class='mg-path-soft'><a href='/column/marqdo'>Marqdo</a></li></ol><div class='mg-tags'><a class='side-tag' href='/tag/quantum'>量子基础</a><a class='side-tag' href='/tag/algorithm'>算法</a><a class='side-tag' href='/tag/hardware'>硬件</a><a class='side-tag' href='/tag/sci-pop'>科普</a><a class='side-tag' href='/tag/marqdo'>Marqdo</a></div><div id='mg-pins'></div></aside><section class='column-gate column-gate--shelf' aria-label='专栏入口'><p class='column-gate-label'>本刊三卷</p><ul class='column-gate-list'><li><a href='/column/marqdo'><div class='cg-media'><img src='/static/covers/vol-marqdo.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 01</span><span class='cg-name'>Marqdo 专栏</span><span class='cg-desc'>文档即代码，把站点写进 .mq.md</span></div></a></li><li><a href='/column/linear-algebra'><div class='cg-media'><img src='/static/covers/vol-linear-algebra.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 02</span><span class='cg-name'>线性代数专栏</span><span class='cg-desc'>向量与矩阵——量子语言的语法</span></div></a></li><li><a href='/column/quantum-algorithms'><div class='cg-media'><img src='/static/covers/vol-quantum.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 03</span><span class='cg-name'>量子算法专栏</span><span class='cg-desc'>门线路、Shor / Grover 与纠错入门</span></div></a></li></ul><p class='column-gate-more'><a href='/columns'>进入专栏书架 →</a></p></section>"**
 **page = > page.组件装配 组件=`首页`**
 **page = > page.主体装配 主体=`列表`**
 **page = > page.排序 排序="-pinned,-created_at"**
+**page = > page.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **page = > page.样式 样式=`首页CSS`**
 **page = > page.头装配 表=`头资源`**
 **page = > page.图片装配 表=`品牌图`**
 
 **about = > 网页.页面 标题="关于" 引言="<p class='kicker'>// about</p><h1>关于本刊</h1><p class='lede slogan'>求道量子，以求道之心，探量子之密。</p><p>我们关注可核对的概念、可复述的直觉，以及算法与硬件之间正在发生的事。内容按三条专栏组织：<strong>Marqdo</strong>（工具与表达）、<strong>线性代数</strong>（量子前置数学）、<strong>量子算法</strong>（门线路与算法入门）；标签仍作横切检索。正文采用论文阅读栏的版式。</p>"**
 **about = > about.组件装配 组件=`首页`**
+**about = > about.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **about = > about.样式 样式=`首页CSS`**
 **about = > about.头装配 表=`头资源`**
 
@@ -393,6 +403,7 @@ import db:db/index.mq.md
 **post = > post.查询条件 条件=`文章条件`**
 **post = > post.详情 详情=True**
 **post = > post.列表装配 主体=`评论卡片` 条件=`评论条件` 排序="-created_at" 插槽="#comment-list"**
+**post = > post.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **post = > post.表单装配 表单=`comment_form` id="comment" 表单插槽="#comment-form-mount"**
 **post = > post.样式 样式=`首页CSS`**
 **post = > post.头装配 表=`文章资源`**
@@ -401,6 +412,7 @@ import db:db/index.mq.md
 **tags = > tags.组件装配 组件=`首页`**
 **tags = > tags.主体装配 主体=`标签列表`**
 **tags = > tags.链接前缀 前缀="/tag/"**
+**tags = > tags.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **tags = > tags.样式 样式=`首页CSS`**
 **tags = > tags.头装配 表=`头资源`**
 
@@ -409,14 +421,16 @@ import db:db/index.mq.md
 **tagged = > tagged.主体装配 主体=`列表`**
 **tagged = > tagged.查询条件 条件=`标签条件`**
 **tagged = > tagged.排序 排序="-pinned,-created_at"**
+**tagged = > tagged.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **tagged = > tagged.样式 样式=`首页CSS`**
 **tagged = > tagged.头装配 表=`头资源`**
 
-**columns = > 网页.页面 标题="专栏书架" 引言="<p class='kicker'>// library</p><h1>专栏书架</h1><p class='lede'>装载中…</p>"**
+**columns = > 网页.页面 标题="专栏书架" 引言="<p class='kicker'>// library</p><h1>专栏书架</h1><p class='lede'>本刊三卷，按序开卷。</p>"**
 **columns = > columns.组件装配 组件=`首页`**
 **columns = > columns.主体装配 主体=`专栏列表`**
 **columns = > columns.排序 排序="sort_order"**
 **columns = > columns.链接前缀 前缀="/column/"**
+**columns = > columns.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **columns = > columns.样式 样式=`首页CSS`**
 **columns = > columns.头装配 表=`头资源`**
 
@@ -427,11 +441,12 @@ import db:db/index.mq.md
 **news = > news.样式 样式=`首页CSS`**
 **news = > news.头装配 表=`头资源`**
 
-**column = > 网页.页面 标题="开卷" 引言="<p class='kicker'>// volume</p><h1>开卷</h1><p class='lede'>装载目录…</p>"**
+**column = > 网页.页面 标题="开卷" 引言="<p class='kicker'>// volume</p><h1>开卷</h1><p class='lede'>本专栏目录。</p>"**
 **column = > column.组件装配 组件=`首页`**
 **column = > column.主体装配 主体=`列表`**
 **column = > column.查询条件 条件=`专栏条件`**
 **column = > column.排序 排序="created_at"**
+**column = > column.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **column = > column.样式 样式=`首页CSS`**
 **column = > column.头装配 表=`头资源`**
 

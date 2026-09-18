@@ -319,69 +319,6 @@
     p.classList.add('has-dropcap');
   }
 
-  function renderMath() {
-    if (typeof renderMathInElement !== 'function') return;
-    var roots = document.querySelectorAll('.article .article-body.md, .md-preview');
-    if (!roots.length) return;
-    var opts = {
-      delimiters: [
-        { left: '$$', right: '$$', display: true },
-        { left: '\\[', right: '\\]', display: true },
-        { left: '$', right: '$', display: false },
-        { left: '\\(', right: '\\)', display: false }
-      ],
-      throwOnError: false,
-      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    };
-    Array.prototype.forEach.call(roots, function (root) {
-      try { renderMathInElement(root, opts); } catch (e) { /* ignore */ }
-    });
-  }
-
-  function whenKatexReady(fn) {
-    if (typeof renderMathInElement === 'function') {
-      fn();
-      return;
-    }
-    var n = 0;
-    var timer = setInterval(function () {
-      n += 1;
-      if (typeof renderMathInElement === 'function') {
-        clearInterval(timer);
-        fn();
-      } else if (n > 60) {
-        clearInterval(timer);
-      }
-    }, 50);
-  }
-
-  function markPinnedCards() {
-    var cards = document.querySelectorAll('main.main > .content.cards .card');
-    if (!cards.length) return;
-    fetch('/api/posts', { credentials: 'same-origin', headers: { Accept: 'application/json' } })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (payload) {
-        if (!payload) return;
-        var rows = Array.isArray(payload.rows) ? payload.rows : [];
-        var pinned = {};
-        rows.forEach(function (row) {
-          if (row && (row.pinned === 1 || row.pinned === '1') && row.slug) {
-            pinned[String(row.slug)] = true;
-          }
-        });
-        Array.prototype.forEach.call(cards, function (card) {
-          var a = card.querySelector('a.card-link');
-          if (!a) return;
-          var href = a.getAttribute('href') || '';
-          var m = href.match(/\/post\/([^/?#]+)/);
-          if (!m) return;
-          var slug = decodeURIComponent(m[1]);
-          if (pinned[slug]) card.classList.add('is-pinned');
-        });
-      })
-      .catch(function () { /* 静默 */ });
-  }
-
   function boot() {
     mountBrand();
     mountToggle();
@@ -389,13 +326,9 @@
     mountMasthead();
     formatDates();
     tuneDropcap();
-    markPinnedCards();
     markReady();
     mountProgress();
     mountReveal();
-    whenKatexReady(renderMath);
-    // volume.js 可能稍后改 body class，再同步一次抽屉可用性
-    setTimeout(mountDrawer, 0);
   }
 
   if (document.readyState === 'loading') {

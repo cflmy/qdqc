@@ -19,11 +19,11 @@ from html.parser import HTMLParser
 from typing import Any
 
 JS_HYDRATED = {
-    "post": True,
-    "tag": True,
-    "column": True,
-    "columns": True,  # 书架由 volume.js 追加 .vol-shelf
-    "news": True,
+    "post": False,
+    "tag": False,
+    "column": False,
+    "columns": False,
+    "news": False,
 }
 
 PLACEHOLDER_RE = re.compile(r"/\{[a-zA-Z_][a-zA-Z0-9_]*\}")
@@ -207,7 +207,6 @@ def probe(base: str) -> ProbeResult:
     # --- static ---
     statics = [
         "/static/theme.js",
-        "/static/volume.js",
         "/static/md.js",
         "/static/katex/katex.min.js",
         "/static/katex/auto-render.min.js",
@@ -252,7 +251,7 @@ def probe(base: str) -> ProbeResult:
             seen.add(p)
             ordered.append(p)
 
-    required_scripts = ("theme.js", "volume.js")
+    required_scripts = ("theme.js",)
     crawled_hrefs: set[str] = set()
 
     for path in ordered:
@@ -369,12 +368,13 @@ def probe(base: str) -> ProbeResult:
                 if n == 0:
                     note("warn", path, "column_empty", f"专栏 {slug} 下没有归属文章")
         elif kind == "columns":
-            if "lede" in inner and "装载" in inner and not has_cards:
-                note("info", path, "shelf_js", "书架主栏依赖 volume.js 注入")
+            if not has_cards and "lede" in inner and "装载" in inner:
+                note("warn", path, "shelf_empty", "专栏书架主栏缺少卡片")
         elif kind == "news":
-            if "装载" in inner:
-                note("info", path, "news_js", "新闻归档依赖 volume.js 注入")
-
+            if not has_cards and "装载" in inner:
+                note("warn", path, "news_empty", "新闻页主栏缺少卡片")
+            if "side-rail" in html:
+                note("info", path, "news_rail", "新闻页仍带 side-rail（可接受或应隐藏）")
         if kind in ("home", "about", "tags") and len(text) < 8 and not has_intro:
             note("error", path, "empty_main", "主栏几乎为空且无引言")
 
