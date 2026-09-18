@@ -127,9 +127,21 @@ import text:lib/text.mq.md
 | .site-form.editor-skin .pub-meta input::placeholder, .site-form.editor-skin .pub-meta textarea::placeholder | color | var(--faint) |
 | .site-form.editor-skin .pub-meta input::placeholder, .site-form.editor-skin .pub-meta textarea::placeholder | opacity | 1 |
 | .md-field | display | grid |
+| .md-field | grid-template-columns | repeat(auto-fit, minmax(16rem, 1fr)) |
 | .md-field | gap | 0 |
+| .md-field | border | 1px solid var(--line) |
+| .md-field | border-radius | 2px |
+| .md-field | overflow | hidden |
+| .md-field | min-height | min(52vh, 34rem) |
 | .md-field > .md-field-label | display | none |
 | .md-field .md-hidden | display | none |
+| .md-field > textarea.mq-markdown | border-right | 1px solid var(--line) |
+| .md-field > .mq-md-preview | min-height | min(52vh, 34rem) |
+| .md-field > .mq-md-preview | overflow | auto |
+| .md-field > .mq-md-preview | padding | .85rem 1.2rem 1.4rem |
+| .md-field > .mq-md-preview | background | linear-gradient(165deg, var(--card), color-mix(in srgb, var(--card-2) 80%, var(--card))) |
+| .mq-md-empty | color | var(--faint) |
+| .mq-md-empty | font-style | italic |
 | .md-editor | display | flex |
 | .md-editor | flex-direction | column |
 | .md-editor | border | 1px solid var(--line) |
