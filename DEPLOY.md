@@ -8,9 +8,23 @@
 
 镜像基础系统为 **Ubuntu 24.04**（GLIBC ≥ 2.39）。官方 Marqdo Linux 包在 `ubuntu-latest` 上构建，**不能**跑在 Debian bookworm（GLIBC 2.36）上。
 
-## 前置
+## 数据库
 
-- 已安装 [Docker Desktop](https://www.docker.com/products/docker-desktop/)（或兼容的 Docker Engine + Compose）
+默认使用本地 SQLite：`sqlite:data/qdqc.db`。
+
+切换到 Postgres：在项目根创建 `.env`（已 gitignore）：
+
+```bash
+QDQC_DATABASE_URL=postgres://USER:PASS@HOST:5432/qdqc
+```
+
+从本地 SQLite 迁移：
+
+```bash
+python tools/migrate_sqlite_to_postgres.py
+```
+
+`db.migrate` 仅在默认 SQLite 路径下执行；Postgres 请用上述脚本或外部迁移工具。
 
 ## 一键拉起
 

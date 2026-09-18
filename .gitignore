@@ -1,6 +1,10 @@
 # 运行时数据（由 db/index.mq.md 幂等重建）
 data/
 
+# Local secrets (Postgres URL etc.)
+.env
+.env.*
+
 # Industry ops samples (uptime JSONL; may grow large)
 ops/*.jsonl
 ops/cron.out

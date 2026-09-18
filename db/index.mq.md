@@ -1,7 +1,8 @@
 ---
 title: db/index
-description: 打开 sqlite、建表、迁移专栏/置顶字段、幂等种子。
+description: 打开数据库（默认 sqlite；可用 QDQC_DATABASE_URL 切到 Postgres）、建表、迁移、幂等种子。
 导入 网页:ext/web/网页.mq.md
+导入 系统:lib/系统.mq.md
 import schema:schema.mq.md
 import seed:seed.mq.md
 import migrate:migrate.mq.md
@@ -9,7 +10,11 @@ import migrate:migrate.mq.md
 
 ## 打开
 
-**store = > 网页.数据库 地址="sqlite:data/qdqc.db"**
+> 系统.加载环境 路径=".env"
+**url = > 系统.取环境 名="QDQC_DATABASE_URL"**
+1. url == None
+    **url = "sqlite:data/qdqc.db"**
+**store = > 网页.数据库 地址=url**
 **字段 = > schema.posts**
 **专栏字段 = > schema.columns**
 **新闻字段 = > schema.news**
@@ -27,7 +32,8 @@ import migrate:migrate.mq.md
 > `store`.初始化 名=replies 字段=`回复字段`
 > `store`.初始化 名=comments 字段=`评论字段`
 **步骤 = > migrate.迁移步骤**
-> `store`.迁移 步骤=`步骤`
+1. url == "sqlite:data/qdqc.db"
+    > `store`.迁移 步骤=`步骤`
 **行 = > store.查询 表="posts" 上限=1**
 1. `行`
   *store*
