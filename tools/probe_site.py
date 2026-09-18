@@ -206,7 +206,9 @@ def probe(base: str) -> ProbeResult:
 
     # --- static ---
     statics = [
-        "/static/theme.js",
+        "/static/client.mq.md",
+        "/static/marqdo-bridge.js",
+        "/static/marqdo_wasm.wasm",
         "/static/md.js",
         "/static/katex/katex.min.js",
         "/static/katex/auto-render.min.js",
@@ -251,7 +253,8 @@ def probe(base: str) -> ProbeResult:
             seen.add(p)
             ordered.append(p)
 
-    required_scripts = ("theme.js",)
+    required_scripts = ("marqdo-bridge.js",)
+    required_markers = ("data-mq-source-url=\"/static/client.mq.md\"", 'id="nav-brand"', 'id="theme-toggle"')
     crawled_hrefs: set[str] = set()
 
     for path in ordered:
@@ -302,6 +305,13 @@ def probe(base: str) -> ProbeResult:
                 continue
             if not any(name in s for s in scripts):
                 note("error", path, "script_missing", f"未挂载 {name}")
+
+        for marker in required_markers:
+            if kind == "login":
+                # desk/login bare may still have client; public login has chrome
+                pass
+            if marker not in html:
+                note("error", path, "chrome_missing", f"缺少 {marker}")
 
         imgs = [abs_asset(x) for x in IMG_SRC_RE.findall(html)]
         for img in imgs:

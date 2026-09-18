@@ -76,6 +76,7 @@
   function injectNav() {
     if (!/^\/desk/.test(path())) return;
     stripFrontChrome();
+    // SSR already emits .admin-nav via page intro; keep inject as fallback only.
     if (document.querySelector('.admin-nav')) return;
     var p = path();
     var links = [

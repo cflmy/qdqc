@@ -133,24 +133,6 @@ import db:db/index.mq.md
 |----|------|----|------|------|------|
 | "/static/logo.png" | 求道量子 | brand-logo | "/" | 96 | eager |
 
-`头资源` =
-
-| 关系 | 地址 | 推迟 | 版本 |
-|------|------|------|------|
-| script | "/static/theme.js" | true | 17 |
-
-`鉴权资源` =
-
-| 关系 | 地址 | 推迟 | 版本 |
-|------|------|------|------|
-| script | "/static/theme.js" | true | 17 |
-
-`登录资源` =
-
-| 关系 | 地址 | 推迟 | 版本 |
-|------|------|------|------|
-| script | "/static/theme.js" | true | 17 |
-
 `文章资源` =
 
 | 关系 | 地址 | 推迟 | 版本 |
@@ -158,7 +140,6 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | |
 | script | "/static/katex/katex.min.js" | true | |
 | script | "/static/katex/auto-render.min.js" | true | |
-| script | "/static/theme.js" | true | 17 |
 
 `发资源` =
 
@@ -167,7 +148,6 @@ import db:db/index.mq.md
 | stylesheet | "/static/katex/katex.min.css" | | |
 | script | "/static/katex/katex.min.js" | true | |
 | script | "/static/katex/auto-render.min.js" | true | |
-| script | "/static/theme.js" | true | 17 |
 | script | "/static/md.js" | true | 1 |
 | script | "/static/admin.js" | true | 5 |
 | script | "/static/editor.js" | true | 26 |
@@ -182,7 +162,7 @@ import db:db/index.mq.md
 | column_slug | 专栏 | text | false | |
 | pinned | 置顶 | text | false | 0 |
 | summary | 摘要 | textarea | false | |
-| content | 正文 | textarea | true | |
+| content | 正文 | markdown | true | |
 
 `编辑字段` =
 
@@ -195,7 +175,7 @@ import db:db/index.mq.md
 | column_slug | 专栏 | text | false | |
 | pinned | 置顶 | text | false | 0 |
 | summary | 摘要 | textarea | false | |
-| content | 正文 | textarea | true | |
+| content | 正文 | markdown | true | |
 
 `发布规则` =
 
@@ -382,23 +362,33 @@ import db:db/index.mq.md
 **首页CSS = > text.str_join xs=`前台样式段` sep=""**
 **写作台CSS = > text.str_join xs=`写作台样式段` sep=""**
 
+## 装刊壳
+    + `p`
+
+SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
+
+**p = > p.导航品牌 标题="求道量子" 链接="/" 标志="/static/logo.png" 浅色标志="/static/logo-light.png" 主题键="mq-theme"**
+**p = > p.客户端 源="/static/client.mq.md"**
+*`p`*
+
 **page = > 网页.页面 标题="求道量子" 引言="<div class='masthead-brand'><p class='kicker'>// Journal</p><h1>求道量子</h1><p class='lede slogan'>以求道之心，探量子之密。</p></div><aside class='masthead-guide' aria-label='导读'><p class='mg-label'>导读</p><p class='mg-blurb'>以求道之心，探量子之密。<a href='/about'>关于本刊</a></p><p class='mg-sub'>建议读序</p><ol class='mg-path'><li><a href='/column/linear-algebra'>线性代数</a></li><li><a href='/column/quantum-algorithms'>量子算法</a></li><li class='mg-path-soft'><a href='/column/marqdo'>Marqdo</a></li></ol><div class='mg-tags'><a class='side-tag' href='/tag/quantum'>量子基础</a><a class='side-tag' href='/tag/algorithm'>算法</a><a class='side-tag' href='/tag/hardware'>硬件</a><a class='side-tag' href='/tag/sci-pop'>科普</a><a class='side-tag' href='/tag/marqdo'>Marqdo</a></div><div id='mg-pins'></div></aside><section class='column-gate column-gate--shelf' aria-label='专栏入口'><p class='column-gate-label'>本刊三卷</p><ul class='column-gate-list'><li><a href='/column/marqdo'><div class='cg-media'><img src='/static/covers/vol-marqdo.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 01</span><span class='cg-name'>Marqdo 专栏</span><span class='cg-desc'>文档即代码，把站点写进 .mq.md</span></div></a></li><li><a href='/column/linear-algebra'><div class='cg-media'><img src='/static/covers/vol-linear-algebra.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 02</span><span class='cg-name'>线性代数专栏</span><span class='cg-desc'>向量与矩阵——量子语言的语法</span></div></a></li><li><a href='/column/quantum-algorithms'><div class='cg-media'><img src='/static/covers/vol-quantum.jpg' alt='' loading='lazy'></div><div class='cg-copy'><span class='cg-vol'>Vol. 03</span><span class='cg-name'>量子算法专栏</span><span class='cg-desc'>门线路、Shor / Grover 与纠错入门</span></div></a></li></ul><p class='column-gate-more'><a href='/columns'>进入专栏书架 →</a></p></section>"**
 **page = > page.组件装配 组件=`首页`**
+**page = > 装刊壳 p=page**
 **page = > page.主体装配 主体=`列表`**
 **page = > page.排序 排序="-pinned,-created_at"**
 **page = > page.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **page = > page.样式 样式=`首页CSS`**
-**page = > page.头装配 表=`头资源`**
 **page = > page.图片装配 表=`品牌图`**
 
 **about = > 网页.页面 标题="关于" 引言="<p class='kicker'>// about</p><h1>关于本刊</h1><p class='lede slogan'>求道量子，以求道之心，探量子之密。</p><p>我们关注可核对的概念、可复述的直觉，以及算法与硬件之间正在发生的事。内容按三条专栏组织：<strong>Marqdo</strong>（工具与表达）、<strong>线性代数</strong>（量子前置数学）、<strong>量子算法</strong>（门线路与算法入门）；标签仍作横切检索。正文采用论文阅读栏的版式。</p>"**
 **about = > about.组件装配 组件=`首页`**
+**about = > 装刊壳 p=about**
 **about = > about.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **about = > about.样式 样式=`首页CSS`**
-**about = > about.头装配 表=`头资源`**
 
 **post = > 网页.页面 标题="文章" 引言="<section class='post-comments' aria-label='评论'><h2>评论</h2><div id='comment-list' class='comment-list'></div><p id='comment-guest' class='comment-guest lede'>登录后即可参与讨论。<a href='/login'>登录</a> · <a href='/register'>注册</a></p><div id='comment-form-mount'></div></section>"**
 **post = > post.组件装配 组件=`首页`**
+**post = > 装刊壳 p=post**
 **post = > post.主体装配 主体=`详情绑定`**
 **post = > post.查询条件 条件=`文章条件`**
 **post = > post.详情 详情=True**
@@ -410,45 +400,45 @@ import db:db/index.mq.md
 
 **tags = > 网页.页面 标题="标签归档" 引言="<p class='kicker'>// index</p><h1>栏目索引</h1><p class='lede'>按主题浏览全部文章。</p>"**
 **tags = > tags.组件装配 组件=`首页`**
+**tags = > 装刊壳 p=tags**
 **tags = > tags.主体装配 主体=`标签列表`**
 **tags = > tags.链接前缀 前缀="/tag/"**
 **tags = > tags.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **tags = > tags.样式 样式=`首页CSS`**
-**tags = > tags.头装配 表=`头资源`**
 
 **tagged = > 网页.页面 标题="标签"**
 **tagged = > tagged.组件装配 组件=`首页`**
+**tagged = > 装刊壳 p=tagged**
 **tagged = > tagged.主体装配 主体=`列表`**
 **tagged = > tagged.查询条件 条件=`标签条件`**
 **tagged = > tagged.排序 排序="-pinned,-created_at"**
 **tagged = > tagged.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **tagged = > tagged.样式 样式=`首页CSS`**
-**tagged = > tagged.头装配 表=`头资源`**
 
 **columns = > 网页.页面 标题="专栏书架" 引言="<p class='kicker'>// library</p><h1>专栏书架</h1><p class='lede'>本刊三卷，按序开卷。</p>"**
 **columns = > columns.组件装配 组件=`首页`**
+**columns = > 装刊壳 p=columns**
 **columns = > columns.主体装配 主体=`专栏列表`**
 **columns = > columns.排序 排序="sort_order"**
 **columns = > columns.链接前缀 前缀="/column/"**
 **columns = > columns.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **columns = > columns.样式 样式=`首页CSS`**
-**columns = > columns.头装配 表=`头资源`**
 
 **news = > 网页.页面 标题="量子新闻" 引言="<p class='kicker'>// brief</p><h1>量子新闻</h1><p class='lede'>来自 SQLite news 表的外链快讯，按发布时间倒序。</p>"**
 **news = > news.组件装配 组件=`首页`**
+**news = > 装刊壳 p=news**
 **news = > news.主体装配 主体=`新闻列表`**
 **news = > news.排序 排序="-published_at"**
 **news = > news.样式 样式=`首页CSS`**
-**news = > news.头装配 表=`头资源`**
 
 **column = > 网页.页面 标题="开卷" 引言="<p class='kicker'>// volume</p><h1>开卷</h1><p class='lede'>本专栏目录。</p>"**
 **column = > column.组件装配 组件=`首页`**
+**column = > 装刊壳 p=column**
 **column = > column.主体装配 主体=`列表`**
 **column = > column.查询条件 条件=`专栏条件`**
 **column = > column.排序 排序="created_at"**
 **column = > column.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **column = > column.样式 样式=`首页CSS`**
-**column = > column.头装配 表=`头资源`**
 
 `站点接口` =
 
@@ -461,51 +451,61 @@ import db:db/index.mq.md
 **post_form = > 网页.表单 表="posts" 动作="插入"**
 **post_form = > post_form.字段 字段=`发布字段`**
 **post_form = > post_form.规则 规则=`发布规则`**
+**post_form = > post_form.文案 提交="发布文章" 取消="返回列表" 取消链接="/desk/posts"**
 
 **edit_form = > 网页.表单 表="posts" 动作="更新"**
 **edit_form = > edit_form.字段 字段=`编辑字段`**
 **edit_form = > edit_form.规则 规则=`编辑规则`**
+**edit_form = > edit_form.文案 提交="保存文章" 取消="返回列表" 取消链接="/desk/posts"**
 
 **column_form = > 网页.表单 表="columns" 动作="插入"**
 **column_form = > column_form.字段 字段=`专栏发布字段`**
 **column_form = > column_form.规则 规则=`专栏发布规则`**
+**column_form = > column_form.文案 提交="创建专栏" 取消="返回列表" 取消链接="/desk/columns"**
 
 **column_edit_form = > 网页.表单 表="columns" 动作="更新"**
 **column_edit_form = > column_edit_form.字段 字段=`专栏编辑字段`**
 **column_edit_form = > column_edit_form.规则 规则=`专栏编辑规则`**
+**column_edit_form = > column_edit_form.文案 提交="保存专栏" 取消="返回列表" 取消链接="/desk/columns"**
 
 **news_form = > 网页.表单 表="news" 动作="插入"**
 **news_form = > news_form.字段 字段=`新闻发布字段`**
 **news_form = > news_form.规则 规则=`新闻发布规则`**
+**news_form = > news_form.文案 提交="发布快讯" 取消="返回列表" 取消链接="/desk/news"**
 
 **news_edit_form = > 网页.表单 表="news" 动作="更新"**
 **news_edit_form = > news_edit_form.字段 字段=`新闻编辑字段`**
 **news_edit_form = > news_edit_form.规则 规则=`新闻编辑规则`**
+**news_edit_form = > news_edit_form.文案 提交="保存快讯" 取消="返回列表" 取消链接="/desk/news"**
 
-**desk_hub = > 网页.页面 标题="后台管理" 引言="<p class='kicker'>// desk</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏与量子新闻。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/desk/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/desk/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/desk/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a><a class='admin-hub-card' href='/_rbac/desk'><span class='admin-hub-kicker'>rbac</span><strong>角色权限</strong><span>新建角色 · 勾选权限 · 赋给用户</span></a></div><p class='admin-hub-note'>需具备 desk:access；读者请使用顶栏登录，管理入口在页脚。</p>"**
+**desk_hub = > 网页.页面 标题="后台管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk' aria-current='page'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// desk</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏与量子新闻。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/desk/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/desk/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/desk/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a><a class='admin-hub-card' href='/_rbac/desk'><span class='admin-hub-kicker'>rbac</span><strong>角色权限</strong><span>新建角色 · 勾选权限 · 赋给用户</span></a></div><p class='admin-hub-note'>需具备 desk:access；读者请使用顶栏登录，管理入口在页脚。</p>"**
 **desk_hub = > desk_hub.组件装配 组件=admin.`后台壳`**
+**desk_hub = > 装刊壳 p=desk_hub**
+**desk_hub = > desk_hub.壳HTML 体类="desk-admin"**
 **desk_hub = > desk_hub.样式 样式=`写作台CSS`**
 **desk_hub = > desk_hub.头装配 表=`发资源`**
 
 **login = > 网页.页面 标题="登录" 引言="<div class='auth-panel'><p class='kicker'>// account</p><h1>登录</h1><p class='lede'>使用账号登录后即可发表评论。管理后台请从页脚「管理」进入。</p><div id='auth-form-mount'></div><p class='auth-switch'>还没有账号？<a href='/register'>注册</a></p></div>"**
 **login = > login.鉴权表单 动作="/login" 提交="登录" 表单id="site-login-form" 错误id="site-auth-err" 表单插槽="#auth-form-mount" 种类="login"**
 **login = > login.组件装配 组件=`首页`**
+**login = > 装刊壳 p=login**
 **login = > login.样式 样式=`首页CSS`**
-**login = > login.头装配 表=`鉴权资源`**
 
 **register = > 网页.页面 标题="注册" 引言="<div class='auth-panel'><p class='kicker'>// account</p><h1>注册</h1><p class='lede'>创建读者账号，即可在文章页参与评论。</p><div id='auth-form-mount'></div><p class='auth-switch'>已有账号？<a href='/login'>登录</a></p></div>"**
 **register = > register.鉴权表单 动作="/register" 提交="注册" 表单id="site-register-form" 错误id="site-auth-err" 表单插槽="#auth-form-mount" 种类="register"**
 **register = > register.组件装配 组件=`首页`**
+**register = > 装刊壳 p=register**
 **register = > register.样式 样式=`首页CSS`**
-**register = > register.头装配 表=`鉴权资源`**
 
 **desk_login = > 网页.页面 标题="后台登录" 引言="<div class='desk-login'><p class='kicker'>// desk</p><h1>后台登录</h1><p class='lede'>管理员登录后进入写作台，管理文章、专栏与新闻。</p><div id='desk-auth-mount'></div><p class='auth-switch'><a href='/login'>返回读者登录</a></p></div>"**
 **desk_login = > desk_login.鉴权表单 动作="/desk/login" 提交="进入后台" 表单id="desk-login-form" 错误id="desk-login-err" 表单插槽="#desk-auth-mount" 回跳="/desk" 种类="login"**
+**desk_login = > 装刊壳 p=desk_login**
 **desk_login = > desk_login.样式 样式=`写作台CSS`**
-**desk_login = > desk_login.头装配 表=`登录资源`**
 
-**publish = > 网页.页面 标题="文章管理" 引言="<p class='kicker'>// posts</p><h1>文章管理</h1><p class='lede'>查看已发布文章，或撰写新稿。</p>"**
+**publish = > 网页.页面 标题="文章管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts' aria-current='page'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>文章管理</h1><p class='lede'>查看已发布文章，或撰写新稿。</p>"**
 **publish = > publish.组件装配 组件=admin.`后台壳`**
+**publish = > 装刊壳 p=publish**
+**publish = > publish.壳HTML 体类="desk-admin"**
 **publish = > publish.表单装配 表单=`post_form` id="post"**
 **publish = > publish.主体装配 主体=`管理列表`**
 **publish = > publish.排序 排序="-updated_at"**
@@ -513,8 +513,10 @@ import db:db/index.mq.md
 **publish = > publish.样式 样式=`写作台CSS`**
 **publish = > publish.头装配 表=`发资源`**
 
-**admin_columns = > 网页.页面 标题="专栏管理" 引言="<p class='kicker'>// columns</p><h1>专栏管理</h1><p class='lede'>维护书架上的专栏元数据。</p>"**
+**admin_columns = > 网页.页面 标题="专栏管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns' aria-current='page'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>专栏管理</h1><p class='lede'>维护书架上的专栏元数据。</p>"**
 **admin_columns = > admin_columns.组件装配 组件=admin.`后台壳`**
+**admin_columns = > 装刊壳 p=admin_columns**
+**admin_columns = > admin_columns.壳HTML 体类="desk-admin"**
 **admin_columns = > admin_columns.表单装配 表单=`column_form` id="column"**
 **admin_columns = > admin_columns.主体装配 主体=`专栏管理列表`**
 **admin_columns = > admin_columns.排序 排序="sort_order"**
@@ -522,8 +524,10 @@ import db:db/index.mq.md
 **admin_columns = > admin_columns.样式 样式=`写作台CSS`**
 **admin_columns = > admin_columns.头装配 表=`发资源`**
 
-**admin_news = > 网页.页面 标题="新闻管理" 引言="<p class='kicker'>// news</p><h1>新闻管理</h1><p class='lede'>维护侧栏与 /news 页的量子快讯。</p>"**
+**admin_news = > 网页.页面 标题="新闻管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news' aria-current='page'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// news</p><h1>新闻管理</h1><p class='lede'>维护侧栏与 /news 页的量子快讯。</p>"**
 **admin_news = > admin_news.组件装配 组件=admin.`后台壳`**
+**admin_news = > 装刊壳 p=admin_news**
+**admin_news = > admin_news.壳HTML 体类="desk-admin"**
 **admin_news = > admin_news.表单装配 表单=`news_form` id="news"**
 **admin_news = > admin_news.主体装配 主体=`新闻管理列表`**
 **admin_news = > admin_news.排序 排序="-published_at"**
