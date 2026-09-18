@@ -125,7 +125,6 @@ import db:db/index.mq.md
 |------|------|------|------|------|
 | "public/favicon.ico" | icon | "image/x-icon" | any | "/favicon.ico" |
 | "public/favicon.svg" | icon | "image/svg+xml" | any | "/icons/favicon.svg" |
-| "public/logo.png" | icon | "image/png" | any | "/icons/logo.png" |
 
 `品牌图` =
 
@@ -569,7 +568,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_news_edit = > admin_news_edit.表单载入 表="news"**
 **admin_news_edit = > admin_news_edit.样式 样式=`写作台CSS`**
 
-**app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_mg" 登录回跳="/" 登出回跳="/login" 壳样式="minimal" 资源版本="20260918c" 主机="0.0.0.0" 端口=18085**
+**app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_mg" 登录回跳="/" 登出回跳="/login" 壳样式="minimal" 资源版本="20260918d" 主机="0.0.0.0" 端口=18085**
 **app = > app.路由 路径="/about" 页面=about**
 **app = > app.路由 路径="/post/{slug}" 页面=post**
 **app = > app.路由 路径="/tags" 页面=tags**
