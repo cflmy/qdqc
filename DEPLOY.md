@@ -24,6 +24,17 @@ QDQC_DATABASE_URL=postgres://USER:PASS@HOST:5432/qdqc
 QDQC_REDIS_URL=redis://:PASSWORD@127.0.0.1:6379/0
 ```
 
+登录 / 注册走 [CFLMY 统一身份](https://id.cflmy.cn/api-docs)（OAuth 授权码）时：
+
+```bash
+QDQC_OIDC_ISSUER=https://id.cflmy.cn
+QDQC_OIDC_CLIENT_ID=app_…
+QDQC_OIDC_CLIENT_SECRET=…
+QDQC_OIDC_REDIRECT_URI=http://localhost:18085/oidc/callback
+```
+
+回调地址须与 IdP 后台登记完全一致。IdP 的 `is_admin` / `admin_role` 用户获得本站 `admin`（写作台）权限。
+
 从本地 SQLite 迁移：
 
 ```bash
@@ -42,7 +53,7 @@ docker compose up -d --build
 
 浏览器打开：http://127.0.0.1:18085
 
-后台入口：**/login**（登录后进入 `/desk`）。
+后台入口：**/login**（登录后进入 `/admin`）。
 
 换端口：
 
