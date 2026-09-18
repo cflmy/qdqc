@@ -565,6 +565,13 @@ import text:lib/text.mq.md
 | .auth-panel | max-width | 22rem |
 | .auth-panel | margin | 1.5rem auto 2.5rem |
 | .auth-panel | width | 100% |
+| body.auth-page .main-intro, body.desk-login .main-intro | max-width | 22rem |
+| body.auth-page .main-intro, body.desk-login .main-intro | margin | 1.5rem auto 2.5rem |
+| body.auth-page .main-intro, body.desk-login .main-intro | width | 100% |
+| body.auth-page .main-intro .auth-switch, body.desk-login .main-intro .auth-switch | margin-top | 1.1rem |
+| body.auth-page .main-intro .auth-switch, body.desk-login .main-intro .auth-switch | font-size | .9rem |
+| body.auth-page .main-intro .auth-switch, body.desk-login .main-intro .auth-switch | color | var(--muted) |
+| body.auth-page .main-intro .auth-switch, body.desk-login .main-intro .auth-switch | text-align | center |
 | .auth-form | display | grid |
 | .auth-form | gap | .9rem |
 | .auth-form | margin-top | 1.1rem |
@@ -888,6 +895,83 @@ import text:lib/text.mq.md
 | (prefers-reduced-motion: reduce) | body.has-sidebar aside.side | transition | none |
 
 *`响应式`*
+
+## slogan
+
+刊头口号（挂在 `导语` 的样式列：`theme.`slogan``）。
+
+`slogan` =
+
+| 属性 | 值 |
+|------|-----|
+| font-family | var(--serif) |
+| font-size | clamp(1.05rem, 2vw, 1.22rem) |
+| letter-spacing | .03em |
+| max-width | 24rem |
+
+*`slogan`*
+
+## auth_switch
+
+登录 / 注册页「未自动跳转」提示。
+
+`auth_switch` =
+
+| 属性 | 值 |
+|------|-----|
+| margin-top | 1.1rem |
+| font-size | .9rem |
+| color | var(--muted) |
+| text-align | center |
+
+*`auth_switch`*
+
+## comment_guest
+
+文章页未登录提示。
+
+`comment_guest` =
+
+| 属性 | 值 |
+|------|-----|
+| margin | 0 0 1.35rem |
+| padding | .95rem 0 |
+| border-top | 1px dashed var(--line) |
+| border-bottom | 1px dashed var(--line) |
+| font-size | .92rem |
+| color | var(--muted) |
+
+*`comment_guest`*
+
+## pub_new
+
+后台「新建」主操作链接所在段落。
+
+`pub_new` =
+
+| 属性 | 值 |
+|------|-----|
+| margin | .35rem 0 .5rem |
+| font-family | var(--mono) |
+| font-size | .78rem |
+| letter-spacing | .12em |
+| text-transform | uppercase |
+
+*`pub_new`*
+
+## pub_hint
+
+后台新建按钮旁的说明。
+
+`pub_hint` =
+
+| 属性 | 值 |
+|------|-----|
+| margin | 0 0 1rem |
+| color | var(--muted) |
+| font-size | .9rem |
+
+*`pub_hint`*
 
 ## 全局
 

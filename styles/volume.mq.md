@@ -383,6 +383,10 @@ import text:lib/text.mq.md
 | body.has-sidebar.has-rail main.main | width | 100% |
 | body.has-sidebar.has-rail main.main | padding-left | clamp(1rem, 2.2vw, 1.75rem) |
 | body.has-sidebar.has-rail main.main | padding-right | clamp(.55rem, 1.2vw, 1rem) |
+| .main-intro > p.claim | display | flex |
+| .main-intro > p.claim | flex-wrap | wrap |
+| .main-intro > p.claim | gap | .25rem .5rem |
+| .main-intro > p.claim > span | display | inline-flex |
 | body.has-sidebar.has-rail .main-intro.masthead-split | max-width | none |
 | body.has-sidebar.has-rail .main-intro.masthead-split | width | 100% |
 | body.has-sidebar.has-rail .main-intro.masthead-split | display | grid |

@@ -1,7 +1,7 @@
 # 求道量子 · 一键拉起
 # 用法：docker compose up -d --build
 # 访问：http://127.0.0.1:18085
-# 需 Marqdo 1.0.2+（Markup v0.3：**代码** / *返回*；Go libweb；含动态路由 {param} 与 compose_intro）
+# 需 Marqdo 1.0.3+（Markup v0.3：**代码** / *返回*；Go libweb；表驱动 引言装配 / compose_intro）
 
 services:
   qdqc:
@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        MARQDO_VERSION: "1.0.2"
+        MARQDO_VERSION: "1.0.3"
     image: qdqc:local
     container_name: qdqc
     ports:
