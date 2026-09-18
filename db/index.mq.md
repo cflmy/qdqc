@@ -34,23 +34,25 @@ import migrate:migrate.mq.md
 **步骤 = > migrate.迁移步骤**
 1. url == "sqlite:data/qdqc.db"
     > `store`.迁移 步骤=`步骤`
-**行 = > store.查询 表="posts" 上限=1**
-1. `行`
-  *store*
+**有帖 = > store.查询 表="posts" 上限=1**
+**有新闻 = > store.查询 表="news" 上限=1**
+1. `有帖`
 2. *
   **文章 = > seed.posts**
-  **新闻 = > seed.news**
   **标签 = > seed.tags**
   **关联 = > seed.post_tags**
   **主题 = > seed.topics**
   **回复 = > seed.replies**
   > `store`.插入 表=posts 行=`文章`
-  > `store`.插入 表=news 行=`新闻`
   > `store`.插入 表=tags 行=`标签`
   > `store`.插入 表=post_tags 行=`关联`
   > `store`.插入 表=topics 行=`主题`
   > `store`.插入 表=replies 行=`回复`
-  *store*
+1. `有新闻`
+2. *
+  **新闻 = > seed.news**
+  > `store`.插入 表=news 行=`新闻`
+*store*
 
 ## 会话地址
 
