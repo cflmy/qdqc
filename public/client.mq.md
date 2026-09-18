@@ -58,36 +58,20 @@ import table:lib/table.mq.md
     **`aria` = "切换到浅色模式"**
     **`src` = logo_dark**
 
-`html_attrs` =
-
-| data-theme |
-|------------|
-| `theme` |
-
-`btn_attrs` =
-
-| aria-label |
-|------------|
-| `aria` |
-
-**`a` = > browser.set_attr sel="html" attrs=html_attrs**
+**`html_attrs` = > table.put in=None at="data-theme" value=theme**
+**`btn_attrs` = > table.put in=None at="aria-label" value=aria**
+**`logo_attrs` = > table.put in=None at="src" value=src**
+**`attrs` = > table.put in=None at="html" value=html_attrs**
+**`attrs` = > table.put in=attrs at="#theme-toggle" value=btn_attrs**
+**`attrs` = > table.put in=attrs at=".nav-brand-logo, .mq-img.brand-logo img" value=logo_attrs**
+**`a` = > table.put in=None at="set_attr" value=attrs**
 **`t` = > browser.set_text sel="#theme-toggle" text=label**
-**`b` = > browser.set_attr sel="#theme-toggle" attrs=btn_attrs**
 **`ret` = > browser.merge a=a b=t**
-**`ret` = > browser.merge a=ret b=b**
 1. `dark`
     **`on` = > browser.add_class sel="#theme-toggle" class="on-dark"**
 2. *
     **`on` = > browser.remove_class sel="#theme-toggle" class="on-dark"**
-**`ret` = > browser.merge a=ret b=on**
-`logo_attrs` =
-
-| src |
-|-----|
-| `src` |
-
-**`logo` = > browser.set_attr sel=".nav-brand-logo, .mq-img.brand-logo img" attrs=logo_attrs**
-*> browser.merge a=ret b=logo*
+*> browser.merge a=ret b=on*
 
 ## on_theme
 *> browser.store_get key=theme_key then="flip_theme" scope="local"*
@@ -134,10 +118,6 @@ import table:lib/table.mq.md
 **`pct` = scroll_ratio * 100**
 **`width` = > str pct**
 **`width` = width + "%"**
-`st` =
-
-| width |
-|-------|
-| `width` |
+**`st` = > table.put in=None at="width" value=width**
 
 *> browser.set_style sel="#qd-progress" style=st*

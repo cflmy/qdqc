@@ -328,6 +328,7 @@ import db:db/index.mq.md
 **comment_form = > 网页.表单 表="comments" 动作="插入"**
 **comment_form = > comment_form.字段 字段=`评论字段`**
 **comment_form = > comment_form.规则 规则=`评论规则`**
+**comment_form = > comment_form.文案 提交="发表评论" 取消=" " 取消链接="#"**
 
 **store = > db.打开**
 
@@ -567,7 +568,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_news_edit = > admin_news_edit.表单载入 表="news"**
 **admin_news_edit = > admin_news_edit.样式 样式=`写作台CSS`**
 
-**app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_mg" 登录回跳="/" 登出回跳="/login" 壳样式="minimal" 资源版本="20260918b" 主机="0.0.0.0" 端口=18085**
+**app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_mg" 登录回跳="/" 登出回跳="/login" 壳样式="minimal" 资源版本="20260918c" 主机="0.0.0.0" 端口=18085**
 **app = > app.路由 路径="/about" 页面=about**
 **app = > app.路由 路径="/post/{slug}" 页面=post**
 **app = > app.路由 路径="/tags" 页面=tags**

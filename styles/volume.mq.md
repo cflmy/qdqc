@@ -301,7 +301,8 @@ import text:lib/text.mq.md
 | .column-gate.column-gate--shelf | max-width | none |
 | .column-gate.column-gate--shelf | width | 100% |
 | .main-intro > .column-gate.column-gate--shelf | margin-top | 1.5rem |
-| .main-intro > .column-gate.column-gate--shelf | max-width | 36rem |
+| .main-intro > .column-gate.column-gate--shelf | max-width | none |
+| .main-intro > .column-gate.column-gate--shelf | width | 100% |
 | .column-gate.column-gate--shelf .column-gate-label | margin-bottom | .85rem |
 | .column-gate.column-gate--shelf .column-gate-list | display | grid |
 | .column-gate.column-gate--shelf .column-gate-list | grid-template-columns | repeat(6, minmax(0, 1fr)) |
@@ -336,11 +337,14 @@ import text:lib/text.mq.md
 | .column-gate.column-gate--shelf .column-gate-list a:hover | color | inherit |
 | .column-gate.column-gate--shelf .cg-media | position | relative |
 | .column-gate.column-gate--shelf .cg-media | min-height | 4.5rem |
+| .column-gate.column-gate--shelf .cg-media | height | 100% |
 | .column-gate.column-gate--shelf .cg-media | overflow | hidden |
 | .column-gate.column-gate--shelf .cg-media | background | var(--bg-2) |
+| .column-gate.column-gate--shelf li:nth-child(1) .cg-media | min-height | clamp(9rem, 22vh, 14rem) |
 | .column-gate.column-gate--shelf .cg-media img | width | 100% |
 | .column-gate.column-gate--shelf .cg-media img | height | 100% |
 | .column-gate.column-gate--shelf .cg-media img | object-fit | cover |
+| .column-gate.column-gate--shelf .cg-media img | object-position | center |
 | .column-gate.column-gate--shelf .cg-media img | display | block |
 | .column-gate.column-gate--shelf .cg-media img | transition | transform .4s ease |
 | .column-gate.column-gate--shelf .column-gate-list a:hover .cg-media img | transform | scale(1.03) |
@@ -471,7 +475,8 @@ import text:lib/text.mq.md
 | body.has-sidebar.has-rail main.main > .column-gate.column-gate--shelf | width | 100% |
 | body.has-sidebar.has-rail main.main > .column-gate.column-gate--shelf | margin-top | .15rem |
 | .main-intro > .column-gate.column-gate--shelf | margin-top | 1.5rem |
-| .main-intro > .column-gate.column-gate--shelf | max-width | 36rem |
+| .main-intro > .column-gate.column-gate--shelf | max-width | none |
+| .main-intro > .column-gate.column-gate--shelf | width | 100% |
 | body.has-sidebar.has-rail .content.cards, body.has-sidebar.has-rail .home-toc-label | max-width | none |
 | body.has-sidebar.has-rail .content.cards | width | 100% |
 | body.has-sidebar.has-rail .article | max-width | none |

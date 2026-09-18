@@ -162,9 +162,12 @@ import text:lib/text.mq.md
 | button.theme-toggle | text-transform | uppercase |
 | button.theme-toggle | cursor | pointer |
 | button.theme-toggle | flex-shrink | 0 |
+| button.theme-toggle | position | relative |
+| button.theme-toggle | z-index | 2 |
 | button.theme-toggle | transition | color .2s ease, border-color .2s ease |
 | button.theme-toggle:hover | color | var(--ink) |
 | button.theme-toggle:hover | border-color | var(--ink) |
+| button.theme-toggle.on-dark | color | var(--ink-soft) |
 | .nav-menu-toggle | display | none |
 | .nav-menu-toggle | align-items | center |
 | .nav-menu-toggle | gap | .4rem |
@@ -560,15 +563,19 @@ import text:lib/text.mq.md
 | .site-form .meta | color | var(--faint) |
 | .site-form .meta | font-size | .82rem |
 | .auth-panel | max-width | 22rem |
-| .auth-panel | margin | "0.5rem 0 2rem" |
+| .auth-panel | margin | 1.5rem auto 2.5rem |
+| .auth-panel | width | 100% |
 | .auth-form | display | grid |
-| .auth-form | gap | ".9rem" |
-| .auth-form | margin-top | "1.1rem" |
+| .auth-form | gap | .9rem |
+| .auth-form | margin-top | 1.1rem |
+| .auth-form | width | 100% |
 | .auth-form label | display | grid |
-| .auth-form label | gap | ".3rem" |
-| .auth-form label | font-size | ".85rem" |
+| .auth-form label | gap | .3rem |
+| .auth-form label | font-size | .85rem |
 | .auth-form label | color | var(--muted) |
-| .auth-form input | padding | ".65rem .75rem" |
+| .auth-form input | width | 100% |
+| .auth-form input | box-sizing | border-box |
+| .auth-form input | padding | .65rem .75rem |
 | .auth-form input | border | 1px solid var(--line) |
 | .auth-form input | border-radius | 0 |
 | .auth-form input | background | var(--card) |
@@ -576,58 +583,96 @@ import text:lib/text.mq.md
 | .auth-form input | font | inherit |
 | .auth-form input:focus | outline | none |
 | .auth-form input:focus | border-color | var(--accent) |
-| .auth-form button | padding | ".7rem 1.2rem" |
+| .auth-form button | width | 100% |
+| .auth-form button | padding | .75rem 1.2rem |
 | .auth-form button | border | 0 |
 | .auth-form button | background | var(--accent) |
-| .auth-form button | color | "#fff" |
+| .auth-form button | color | #fff |
 | .auth-form button | font | inherit |
-| .auth-form button | font-weight | "600" |
+| .auth-form button | font-weight | 600 |
+| .auth-form button | letter-spacing | .04em |
 | .auth-form button | cursor | pointer |
-| .auth-form button:disabled | opacity | ".65" |
+| .auth-form button:hover | filter | brightness(1.06) |
+| .auth-form button:disabled | opacity | .65 |
 | .auth-form button:disabled | cursor | wait |
-| .auth-err | margin-top | ".85rem" |
+| .auth-err | margin-top | .85rem |
 | .auth-err | color | var(--mark) |
-| .auth-err | font-size | ".9rem" |
-| .auth-switch | margin-top | "1.1rem" |
-| .auth-switch | font-size | ".9rem" |
+| .auth-err | font-size | .9rem |
+| .auth-switch | margin-top | 1.1rem |
+| .auth-switch | font-size | .9rem |
 | .auth-switch | color | var(--muted) |
-| .post-comments | margin | "2.5rem 0 1rem" |
-| .post-comments | padding-top | "1.5rem" |
+| .auth-switch | text-align | center |
+| .post-comments | margin | 2.5rem 0 1rem |
+| .post-comments | padding-top | 1.5rem |
 | .post-comments | border-top | 1px solid var(--line) |
-| .post-comments h2 | margin | "0 0 1rem" |
-| .post-comments h2 | font-size | "1.15rem" |
-| .comment-list | margin | "0 0 1.25rem" |
+| .post-comments h2 | margin | 0 0 1rem |
+| .post-comments h2 | font-size | 1.15rem |
+| .comment-list | margin | 0 0 1.25rem |
 | .comment-empty | color | var(--muted) |
-| .comment-empty | font-size | ".92rem" |
-| .comment-guest | margin | "0 0 1rem" |
+| .comment-empty | font-size | .92rem |
+| .comment-guest | margin | 0 0 1rem |
 | body:not(:has(header.topnav a[href*="logout"])) #comment-form-mount | display | none |
 | body:has(header.topnav a[href*="logout"]) #comment-guest | display | none |
+| #comment-form-mount .site-form | max-width | 100% |
+| #comment-form-mount .site-form | margin | 0 |
+| #comment-form-mount .site-form | padding | 0 |
+| #comment-form-mount .site-form | background | transparent |
+| #comment-form-mount .site-form | border | 0 |
+| #comment-form-mount .site-form | box-shadow | none |
+| #comment-form-mount .site-form .meta | display | none |
+| #comment-form-mount .site-form form | display | grid |
+| #comment-form-mount .site-form form | gap | .75rem |
+| #comment-form-mount .site-form label | display | grid |
+| #comment-form-mount .site-form label | gap | .35rem |
+| #comment-form-mount .site-form label | font-size | .85rem |
+| #comment-form-mount .site-form label | color | var(--muted) |
+| #comment-form-mount .site-form textarea | width | 100% |
+| #comment-form-mount .site-form textarea | box-sizing | border-box |
+| #comment-form-mount .site-form textarea | min-height | 6.5rem |
+| #comment-form-mount .site-form textarea | padding | .75rem .9rem |
+| #comment-form-mount .site-form textarea | border | 1px solid var(--line) |
+| #comment-form-mount .site-form textarea | border-radius | 0 |
+| #comment-form-mount .site-form textarea | background | var(--card) |
+| #comment-form-mount .site-form textarea | color | var(--ink) |
+| #comment-form-mount .site-form textarea | font | inherit |
+| #comment-form-mount .site-form textarea | line-height | 1.55 |
+| #comment-form-mount .site-form textarea | resize | vertical |
+| #comment-form-mount .site-form textarea:focus | outline | none |
+| #comment-form-mount .site-form textarea:focus | border-color | var(--accent) |
+| #comment-form-mount .actions | display | flex |
+| #comment-form-mount .actions | align-items | center |
+| #comment-form-mount .actions | gap | .85rem |
+| #comment-form-mount .actions | margin-top | .15rem |
 | #comment-form-mount .actions a | display | none |
-| #comment-form-mount button[type="submit"] | font-size | 0 |
-| #comment-form-mount button[type="submit"]::after | content | "发表评论" |
-| #comment-form-mount button[type="submit"]::after | font-size | .95rem |
+| #comment-form-mount button[type="submit"] | padding | .65rem 1.35rem |
+| #comment-form-mount button[type="submit"] | border | 0 |
+| #comment-form-mount button[type="submit"] | border-radius | 0 |
+| #comment-form-mount button[type="submit"] | background | var(--accent) |
+| #comment-form-mount button[type="submit"] | color | #fff |
+| #comment-form-mount button[type="submit"] | font | inherit |
+| #comment-form-mount button[type="submit"] | font-size | .92rem |
+| #comment-form-mount button[type="submit"] | font-weight | 600 |
+| #comment-form-mount button[type="submit"] | letter-spacing | .06em |
+| #comment-form-mount button[type="submit"] | cursor | pointer |
+| #comment-form-mount button[type="submit"]:hover | filter | brightness(1.06) |
 | .comment-thread | list-style | none |
-| .comment-thread | margin | "0" |
-| .comment-thread | padding | "0" |
-| .comment-item | padding | ".85rem 0" |
+| .comment-thread | margin | 0 |
+| .comment-thread | padding | 0 |
+| .comment-item | padding | .85rem 0 |
 | .comment-item | border-bottom | 1px dashed var(--line) |
-| .comment-item:last-child | border-bottom | "0" |
+| .comment-item:last-child | border-bottom | 0 |
 | .comment-meta | display | flex |
-| .comment-meta | gap | ".75rem" |
+| .comment-meta | gap | .75rem |
 | .comment-meta | align-items | baseline |
-| .comment-meta | margin-bottom | ".35rem" |
-| .comment-author | font-weight | "600" |
+| .comment-meta | margin-bottom | .35rem |
+| .comment-author | font-weight | 600 |
 | .comment-author | color | var(--ink) |
-| .comment-meta time | font-size | ".8rem" |
+| .comment-meta time | font-size | .8rem |
 | .comment-meta time | color | var(--faint) |
-| .comment-body | margin | "0" |
+| .comment-body | margin | 0 |
 | .comment-body | color | var(--ink-soft) |
-| .comment-body | line-height | "1.65" |
-| .comment-body | white-space | "pre-wrap" |
-| .comment-compose.site-form | max-width | "100%" |
-| .comment-compose.site-form | margin | "0" |
-| .comment-compose.site-form .meta | display | none |
-| .comment-compose.site-form textarea | min-height | "6.5rem" |
+| .comment-body | line-height | 1.65 |
+| .comment-body | white-space | pre-wrap |
 
 *`表单`*
 
@@ -704,7 +749,8 @@ import text:lib/text.mq.md
 | (max-width: 860px) | header.topnav | gap | .55rem |
 | (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) .nav-menu-toggle | display | inline-flex |
 | (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news) ul.nav | display | none |
-| (max-width: 860px) | button.theme-toggle | margin-left | 0 |
+| (max-width: 860px) | button.theme-toggle | margin-left | auto |
+| (max-width: 860px) | button.theme-toggle | order | 3 |
 | (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | position | fixed !important |
 | (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | grid-area | auto !important |
 | (max-width: 860px) | body.has-sidebar:not(.layout-shelf):not(.layout-volume):not(.layout-news):not(.desk-admin):not(.desk-list):not(.desk-writing) aside.side | inset | 0 auto 0 0 |
