@@ -4,7 +4,7 @@
 
 本站基于 [Marqdo](https://github.com/cflmy/marqdo) `ext/web`（Go `libweb`）。镜像在构建阶段下载官方 **Linux 预编译包**（CLI + `ext/` + `libweb.so`），无需本机 Rust/Cargo。
 
-构建使用 **Marqdo v1.0.3+**（含动态路由 `{param}`、详情 Markdown、表驱动 `引言装配` / `compose_intro`、可配置门禁）。扩展包建议 **ext ≥ 1.0.5**（`marqdo ext add web`）。语法为 Markup v0.3 宪法：`**粗体**` = 可执行代码，`*斜体*` = 返回。页面英雄区用 GFM「属性 / 值 / 样式」表声明，见 `components/intros.mq.md`。
+构建使用 **Marqdo v1.0.3+**（含动态路由 `{param}`、详情 Markdown、表驱动 `引言装配` / `compose_intro`、可配置门禁）。扩展包建议 **ext ≥ 1.0.6**（`marqdo ext add web`）。语法为 Markup v0.3 宪法：`**粗体**` = 可执行代码，`*斜体*` = 返回。页面英雄区用 GFM「属性 / 值 / 样式」表声明，见 `components/intros.mq.md`。
 
 镜像基础系统为 **Ubuntu 24.04**（GLIBC ≥ 2.39）。官方 Marqdo Linux 包在 `ubuntu-latest` 上构建，**不能**跑在 Debian bookworm（GLIBC 2.36）上。
 
@@ -80,7 +80,7 @@ SQLite 文件在容器内 `/app/data`，通过 Compose 卷 `qdqc-data` 持久化
 
 ## 本机开发（非 Docker）
 
-需本机安装 **Marqdo ≥ 1.0.3** 与 web 插件（扩展包建议 **≥ 1.0.5**）：
+需本机安装 **Marqdo ≥ 1.0.3** 与 web 插件（扩展包建议 **≥ 1.0.6**）：
 
 1. 从 [Releases](https://github.com/cflmy/marqdo/releases/tag/v1.0.3) 下载 `marqdo-1.0.3-x86_64-pc-windows-msvc.zip`（含 CLI + `lib/` + `ext/` + native DLL）
 2. 解压并把目录加入 `PATH`，设置 `MARQDO_EXT` 指向包内 `ext`
