@@ -429,7 +429,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **about = > about.列表装配 主体=`新闻轨列表` 排序="-published_at" 插槽="rail"**
 **about = > about.样式 样式=`首页CSS`**
 
-**post = > 网页.页面 标题="文章" 引言="<section class='post-comments' aria-label='评论'><header class='comments-head'><p class='comments-kicker'>// letters</p><h2 class='comments-title'>读者来信</h2><p class='comments-lede'>文末讨论栏 · 统一身份登录后即可回信</p></header><div id='comment-list' class='comment-list'></div><p id='comment-guest' class='comment-guest'>登录后即可参与讨论。<a href='/login'>统一身份登录</a><span class='comments-sep' aria-hidden='true'>·</span><a href='/register'>注册</a></p><div id='comment-form-mount' class='comment-compose'></div></section>"**
+**post = > 网页.页面 标题="文章" 引言="<section class='post-comments' aria-label='评论'><header class='comments-head'><p class='kicker'>// letters</p><h2 class='comments-title'>读者来信</h2><p class='comments-lede'>文末讨论栏 · 统一身份登录后即可回信</p></header><div id='comment-list' class='comment-list'></div><p id='comment-guest' class='comment-guest'>登录后即可参与讨论。<a href='/login'>统一身份登录</a><span class='comments-sep' aria-hidden='true'>·</span><a href='/register'>注册</a></p><div id='comment-form-mount' class='comment-compose'></div></section>"**
 **post = > post.组件装配 组件=`首页`**
 **post = > 装刊壳 p=post**
 **post = > post.主体装配 主体=`详情绑定`**
@@ -531,11 +531,11 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **register = > 装刊壳 p=register**
 **register = > register.样式 样式=`首页CSS`**
 
-**desk_login = > 网页.页面 标题="后台登录" 引言="<div class='desk-login'><p class='kicker'>// desk</p><h1>后台登录</h1><p class='lede'>使用 CFLMY 统一身份管理员账号进入写作台。</p><p class='auth-switch'><a href='/oidc/login?next=/admin'>若未自动跳转，点此继续</a></p></div>"**
+**desk_login = > 网页.页面 标题="后台登录" 引言="<div class='desk-login'><p class='kicker'>// admin</p><h1>后台登录</h1><p class='lede'>使用 CFLMY 统一身份管理员账号进入写作台。</p><p class='auth-switch'><a href='/oidc/login?next=/admin'>若未自动跳转，点此继续</a></p></div>"**
 **desk_login = > 装刊壳 p=desk_login**
 **desk_login = > desk_login.样式 样式=`写作台CSS`**
 
-**desk_hub = > 网页.页面 标题="后台管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin' aria-current='page'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// desk</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏、新闻与读者评论。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/admin/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/admin/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/admin/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a><a class='admin-hub-card' href='/admin/comments'><span class='admin-hub-kicker'>letters</span><strong>评论</strong><span>读者来信审核 · 删除不当内容</span></a></div><p class='admin-hub-note'>需具备 desk:access；读者请使用顶栏登录，管理入口在页脚。</p>"**
+**desk_hub = > 网页.页面 标题="后台管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin' aria-current='page'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// admin</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏、新闻与读者评论。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/admin/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/admin/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/admin/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a><a class='admin-hub-card' href='/admin/comments'><span class='admin-hub-kicker'>letters</span><strong>评论</strong><span>读者来信审核 · 删除不当内容</span></a></div>"**
 **desk_hub = > desk_hub.组件装配 组件=admin.`后台壳`**
 **desk_hub = > 装刊壳 p=desk_hub**
 **desk_hub = > desk_hub.壳HTML 体类="desk-admin"**
@@ -638,7 +638,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_comments_delete = > admin_comments_delete.表单载入 表="comments"**
 **admin_comments_delete = > admin_comments_delete.样式 样式=`写作台CSS`**
 
-**app = > 网页.应用 页面=page 数据库=store 后台=False 登录回跳="/" 登出回跳="/" 壳样式="minimal" 资源版本="20260918e" 主机="0.0.0.0" 端口=18085**
+**app = > 网页.应用 页面=page 数据库=store 后台=False 登录回跳="/" 登出回跳="/" 壳样式="minimal" 资源版本="20260918f" 主机="0.0.0.0" 端口=18085**
 **app = > app.路由 路径="/about" 页面=about**
 **app = > app.路由 路径="/post/{slug}" 页面=post**
 **app = > app.路由 路径="/tags" 页面=tags**

@@ -101,6 +101,7 @@ import text:lib/text.mq.md
 | (prefers-reduced-motion: no-preference) | body.is-ready .mq-img.brand-logo | animation | qd-rise 0.65s cubic-bezier(0.16, 1, 0.3, 1) both |
 | (prefers-reduced-motion: no-preference) | body.is-ready .masthead-lockup .mq-img.brand-logo | animation | none |
 | (prefers-reduced-motion: no-preference) | body.is-ready .main-intro .kicker | animation | qd-kicker 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both |
+| (prefers-reduced-motion: no-preference) | body.is-ready .comments-head .kicker | animation | qd-kicker 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both |
 | (prefers-reduced-motion: no-preference) | body.is-ready .main-intro h1 | animation | qd-masthead 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both |
 | (prefers-reduced-motion: no-preference) | body.is-ready .masthead-lockup h1 | animation | none |
 | (prefers-reduced-motion: no-preference) | body.is-ready .main-intro .lede | animation | qd-rise 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both |
@@ -143,11 +144,11 @@ import text:lib/text.mq.md
 | (prefers-reduced-motion: no-preference) | html.theme-switching .mq-img.brand-logo img | opacity | 0.55 |
 | (prefers-reduced-motion: reduce) | body | animation | none !important |
 | (prefers-reduced-motion: reduce) | .main-intro | border-bottom | 1px solid var(--line) |
-| (prefers-reduced-motion: reduce) | .main-intro .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | animation | none !important |
-| (prefers-reduced-motion: reduce) | .main-intro .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | opacity | 1 !important |
-| (prefers-reduced-motion: reduce) | .main-intro .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | transform | none !important |
-| (prefers-reduced-motion: reduce) | .main-intro .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | filter | none !important |
-| (prefers-reduced-motion: reduce) | .main-intro .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | clip-path | none !important |
+| (prefers-reduced-motion: reduce) | .main-intro .kicker, .comments-head .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | animation | none !important |
+| (prefers-reduced-motion: reduce) | .main-intro .kicker, .comments-head .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | opacity | 1 !important |
+| (prefers-reduced-motion: reduce) | .main-intro .kicker, .comments-head .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | transform | none !important |
+| (prefers-reduced-motion: reduce) | .main-intro .kicker, .comments-head .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | filter | none !important |
+| (prefers-reduced-motion: reduce) | .main-intro .kicker, .comments-head .kicker, .main-intro h1, .main-intro .lede, .masthead-lockup, .mq-img.brand-logo, .content.cards .card, .article-title, .article-meta, .article-tags, .article .article-body.md, .qd-reveal | clip-path | none !important |
 
 *`响应式`*
 

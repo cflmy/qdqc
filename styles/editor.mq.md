@@ -624,8 +624,6 @@ import text:lib/text.mq.md
 | .admin-hub-card span:last-child | font-size | .88rem |
 | .admin-hub-card span:last-child | color | var(--muted) |
 | .admin-hub-card span:last-child | line-height | 1.45 |
-| .admin-hub-note | font-size | .85rem |
-| .admin-hub-note | color | var(--faint) |
 | .site-form.meta-form | max-width | 42rem |
 | .site-form.meta-form | padding | 1.25rem 1.35rem |
 | .site-form.meta-form | border | 1px solid var(--line) |

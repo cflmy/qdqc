@@ -611,12 +611,12 @@ import text:lib/text.mq.md
 | .comments-head | padding | 1.35rem 0 1.15rem |
 | .comments-head | border-top | 2px solid var(--ink) |
 | .comments-head | border-bottom | 1px solid var(--line) |
-| .comments-kicker | margin | 0 0 .55rem |
-| .comments-kicker | font-family | var(--mono) |
-| .comments-kicker | font-size | .68rem |
-| .comments-kicker | letter-spacing | .24em |
-| .comments-kicker | text-transform | uppercase |
-| .comments-kicker | color | var(--mark) |
+| .comments-head .kicker | margin | 0 0 1.1rem |
+| .comments-head .kicker | font-family | var(--mono) |
+| .comments-head .kicker | font-size | .68rem |
+| .comments-head .kicker | letter-spacing | .24em |
+| .comments-head .kicker | text-transform | uppercase |
+| .comments-head .kicker | color | var(--mark) |
 | .comments-title | margin | 0 |
 | .comments-title | font-family | var(--serif) |
 | .comments-title | font-size | clamp(1.35rem, 2.4vw, 1.7rem) |
