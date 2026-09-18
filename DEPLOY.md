@@ -18,6 +18,12 @@
 QDQC_DATABASE_URL=postgres://USER:PASS@HOST:5432/qdqc
 ```
 
+会话存 Redis（与业务库分离）时再加：
+
+```bash
+QDQC_REDIS_URL=redis://:PASSWORD@127.0.0.1:6379/0
+```
+
 从本地 SQLite 迁移：
 
 ```bash

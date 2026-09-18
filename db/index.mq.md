@@ -1,6 +1,6 @@
 ---
 title: db/index
-description: 打开数据库（默认 sqlite；可用 QDQC_DATABASE_URL 切到 Postgres）、建表、迁移、幂等种子。
+description: 打开数据库（默认 sqlite；可用 QDQC_DATABASE_URL 切到 Postgres）、可选 QDQC_REDIS_URL 会话、建表、迁移、幂等种子。
 导入 网页:ext/web/网页.mq.md
 导入 系统:lib/系统.mq.md
 import schema:schema.mq.md
@@ -51,3 +51,8 @@ import migrate:migrate.mq.md
   > `store`.插入 表=topics 行=`主题`
   > `store`.插入 表=replies 行=`回复`
   *store*
+
+## 会话地址
+
+**url = > 系统.取环境 名="QDQC_REDIS_URL"**
+*url*

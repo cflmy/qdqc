@@ -331,6 +331,7 @@ import db:db/index.mq.md
 **comment_form = > comment_form.文案 提交="投递" 取消=" " 取消链接="#"**
 
 **store = > db.打开**
+**session_url = > db.会话地址**
 
 **主题CSS = > theme.全局**
 **动效CSS = > motion.全局**
@@ -608,7 +609,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **app = > app.图标 表=`站点图标`**
 **app = > app.启用权限**
 **app = > app.门禁 路径="/_mg" 权限="desk:access" 匹配="prefix" 拒绝="redirect" 排除="/_mg/login"**
-**app = > app.鉴权 用户表=`管理员` 会话时长=3600 登录路径="/login" 登录回跳="/" 登出回跳="/login" 注册=真 注册路径="/register" 默认角色="member"**
+**app = > app.鉴权 用户表=`管理员` 会话时长=3600 登录路径="/login" 登录回跳="/" 登出回跳="/login" 注册=真 注册路径="/register" 默认角色="member" 会话地址=session_url**
 **app = > app.门禁 路径="/desk" 权限="desk:access" 匹配="prefix" 拒绝="redirect" 排除="/desk/login,/login,/register"**
 **app = > app.门禁 路径="/_rbac" 权限="roles:manage" 匹配="prefix" 拒绝="redirect"**
 **app = > app.门禁 路径="/_form/post" 权限="posts:edit" 匹配="exact" 拒绝="redirect"**
