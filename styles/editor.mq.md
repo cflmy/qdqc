@@ -32,8 +32,8 @@ import text:lib/text.mq.md
 | body:has(.site-form.editor-skin) .main-intro p.lede, body:has(.site-form.editor-skin) .main-intro p, body.desk-list .main-intro p.lede, body.desk-list .main-intro p, body.desk-admin .main-intro p.lede, body.desk-admin .main-intro p | margin-top | .35rem |
 | body:has(.site-form.editor-skin) footer.foot, body.desk-list footer.foot, body.desk-admin footer.foot | margin-top | 0 |
 | main.main:has(> .site-form):has(> .content.cards):not(.desk-writing) > .site-form | display | none !important |
-| main.main.desk-writing > .site-form | display | block !important |
-| main.main.desk-writing > .content.cards, main.main.desk-writing > .pub-list-head, main.main.desk-writing > .pub-compose-bar | display | none !important |
+| body.desk-writing main.main > .site-form, main.main.desk-writing > .site-form | display | block !important |
+| body.desk-writing main.main > .content.cards, body.desk-writing main.main > .pub-list-head, body.desk-writing main.main > .pub-compose-bar, main.main.desk-writing > .content.cards, main.main.desk-writing > .pub-list-head, main.main.desk-writing > .pub-compose-bar | display | none !important |
 | .site-form.editor-skin | max-width | none |
 | .site-form.editor-skin | margin | 0 |
 | .site-form.editor-skin | width | 100% |
@@ -273,26 +273,26 @@ import text:lib/text.mq.md
 | .line-numbers span | font-family | "\"SF Mono\", \"Fira Code\", \"JetBrains Mono\", \"Cascadia Code\", Monaco, Consolas, monospace" |
 | .line-numbers span | font-size | .875rem |
 | .line-numbers span | line-height | 1.7 |
-| .site-form.editor-skin .md-source | display | block |
-| .site-form.editor-skin .md-source | flex | 1 |
-| .site-form.editor-skin .md-source | width | 100% |
-| .site-form.editor-skin .md-source | min-width | 0 |
-| .site-form.editor-skin .md-source | min-height | min(52vh, 34rem) |
-| .site-form.editor-skin .md-source | padding | .85rem 1.2rem 1.4rem 3.55rem |
-| .site-form.editor-skin .md-source | border | 0 |
-| .site-form.editor-skin .md-source | border-radius | 0 |
-| .site-form.editor-skin .md-source | background | transparent |
-| .site-form.editor-skin .md-source | color | var(--ink) |
-| .site-form.editor-skin .md-source | font-family | "\"SF Mono\", \"Fira Code\", \"JetBrains Mono\", \"Cascadia Code\", Monaco, Consolas, monospace" |
-| .site-form.editor-skin .md-source | font-size | .875rem |
-| .site-form.editor-skin .md-source | line-height | 1.7 |
-| .site-form.editor-skin .md-source | resize | vertical |
-| .site-form.editor-skin .md-source | tab-size | 4 |
-| .site-form.editor-skin .md-source | caret-color | var(--accent) |
-| .site-form.editor-skin .md-source:focus | outline | none |
-| .site-form.editor-skin .md-source:focus | box-shadow | none |
-| .site-form.editor-skin .md-source::placeholder | color | var(--faint) |
-| .site-form.editor-skin .md-source::placeholder | opacity | .8 |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | display | block |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | flex | 1 |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | width | 100% |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | min-width | 0 |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | min-height | min(52vh, 34rem) |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | padding | .85rem 1.2rem 1.4rem 1.2rem |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | border | 0 |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | border-radius | 0 |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | background | transparent |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | color | var(--ink) |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | font-family | "\"SF Mono\", \"Fira Code\", \"JetBrains Mono\", \"Cascadia Code\", Monaco, Consolas, monospace" |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | font-size | .875rem |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | line-height | 1.7 |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | resize | vertical |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | tab-size | 4 |
+| .site-form.editor-skin .md-source, .site-form.editor-skin textarea.mq-markdown | caret-color | var(--accent) |
+| .site-form.editor-skin .md-source:focus, .site-form.editor-skin textarea.mq-markdown:focus | outline | none |
+| .site-form.editor-skin .md-source:focus, .site-form.editor-skin textarea.mq-markdown:focus | box-shadow | none |
+| .site-form.editor-skin .md-source::placeholder, .site-form.editor-skin textarea.mq-markdown::placeholder | color | var(--faint) |
+| .site-form.editor-skin .md-source::placeholder, .site-form.editor-skin textarea.mq-markdown::placeholder | opacity | .8 |
 | .md-pane-preview | background | linear-gradient(165deg, var(--card), color-mix(in srgb, var(--card-2) 80%, var(--card))) |
 | .md-preview-scroll | flex | 1 1 auto |
 | .md-preview-scroll | min-height | 0 |

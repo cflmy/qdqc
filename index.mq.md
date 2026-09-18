@@ -145,12 +145,6 @@ import db:db/index.mq.md
 
 | 关系 | 地址 | 推迟 | 版本 |
 |------|------|------|------|
-| stylesheet | "/static/katex/katex.min.css" | | |
-| script | "/static/katex/katex.min.js" | true | |
-| script | "/static/katex/auto-render.min.js" | true | |
-| script | "/static/md.js" | true | 1 |
-| script | "/static/admin.js" | true | 5 |
-| script | "/static/editor.js" | true | 26 |
 
 `发布字段` =
 
@@ -168,7 +162,7 @@ import db:db/index.mq.md
 
 | 字段 | 标签 | 类型 | 必填 | 默认 |
 |------|------|------|------|------|
-| id | 文章编号 | text | true | |
+| id | 文章编号 | hidden | true | |
 | title | 标题 | text | true | |
 | slug | 链接标识 | text | false | |
 | tag | 标签 | text | false | |
@@ -245,7 +239,7 @@ import db:db/index.mq.md
 
 | 字段 | 标签 | 类型 | 必填 | 默认 |
 |------|------|------|------|------|
-| id | 编号 | text | true | |
+| id | 编号 | hidden | true | |
 | name | 名称 | text | true | |
 | slug | 链接标识 | text | true | |
 | summary | 摘要 | textarea | false | |
@@ -268,7 +262,7 @@ import db:db/index.mq.md
 
 | 字段 | 标签 | 类型 | 必填 | 默认 |
 |------|------|------|------|------|
-| id | 编号 | text | true | |
+| id | 编号 | hidden | true | |
 | title | 标题 | text | true | |
 | url | 原文链接 | text | true | |
 | source | 来源 | text | false | |
@@ -478,13 +472,6 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **news_edit_form = > news_edit_form.规则 规则=`新闻编辑规则`**
 **news_edit_form = > news_edit_form.文案 提交="保存快讯" 取消="返回列表" 取消链接="/desk/news"**
 
-**desk_hub = > 网页.页面 标题="后台管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk' aria-current='page'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// desk</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏与量子新闻。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/desk/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/desk/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/desk/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a><a class='admin-hub-card' href='/_rbac/desk'><span class='admin-hub-kicker'>rbac</span><strong>角色权限</strong><span>新建角色 · 勾选权限 · 赋给用户</span></a></div><p class='admin-hub-note'>需具备 desk:access；读者请使用顶栏登录，管理入口在页脚。</p>"**
-**desk_hub = > desk_hub.组件装配 组件=admin.`后台壳`**
-**desk_hub = > 装刊壳 p=desk_hub**
-**desk_hub = > desk_hub.壳HTML 体类="desk-admin"**
-**desk_hub = > desk_hub.样式 样式=`写作台CSS`**
-**desk_hub = > desk_hub.头装配 表=`发资源`**
-
 **login = > 网页.页面 标题="登录" 引言="<div class='auth-panel'><p class='kicker'>// account</p><h1>登录</h1><p class='lede'>使用账号登录后即可发表评论。管理后台请从页脚「管理」进入。</p><div id='auth-form-mount'></div><p class='auth-switch'>还没有账号？<a href='/register'>注册</a></p></div>"**
 **login = > login.鉴权表单 动作="/login" 提交="登录" 表单id="site-login-form" 错误id="site-auth-err" 表单插槽="#auth-form-mount" 种类="login"**
 **login = > login.组件装配 组件=`首页`**
@@ -502,38 +489,83 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **desk_login = > 装刊壳 p=desk_login**
 **desk_login = > desk_login.样式 样式=`写作台CSS`**
 
-**publish = > 网页.页面 标题="文章管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts' aria-current='page'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>文章管理</h1><p class='lede'>查看已发布文章，或撰写新稿。</p>"**
+**desk_hub = > 网页.页面 标题="后台管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk' aria-current='page'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// desk</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏与量子新闻。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/desk/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/desk/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/desk/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a><a class='admin-hub-card' href='/_rbac/desk'><span class='admin-hub-kicker'>rbac</span><strong>角色权限</strong><span>新建角色 · 勾选权限 · 赋给用户</span></a></div><p class='admin-hub-note'>需具备 desk:access；读者请使用顶栏登录，管理入口在页脚。</p>"**
+**desk_hub = > desk_hub.组件装配 组件=admin.`后台壳`**
+**desk_hub = > 装刊壳 p=desk_hub**
+**desk_hub = > desk_hub.壳HTML 体类="desk-admin"**
+**desk_hub = > desk_hub.样式 样式=`写作台CSS`**
+
+**publish = > 网页.页面 标题="文章管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts' aria-current='page'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>文章管理</h1><p class='lede'>查看已发布文章，或撰写新稿。</p><div class='pub-compose-bar'><a class='pub-new-btn' href='/desk/posts/new'>撰写新稿</a><p class='pub-compose-hint'>Markdown 正文；发布后前台即时可读。</p></div><div class='pub-list-head'><h2>文章列表</h2><p>点击条目进入编辑。</p></div>"**
 **publish = > publish.组件装配 组件=admin.`后台壳`**
 **publish = > 装刊壳 p=publish**
-**publish = > publish.壳HTML 体类="desk-admin"**
-**publish = > publish.表单装配 表单=`post_form` id="post"**
+**publish = > publish.壳HTML 体类="desk-admin desk-list"**
 **publish = > publish.主体装配 主体=`管理列表`**
 **publish = > publish.排序 排序="-updated_at"**
-**publish = > publish.链接前缀 前缀="/desk/posts?id="**
+**publish = > publish.链接前缀 前缀="/desk/posts/"**
 **publish = > publish.样式 样式=`写作台CSS`**
-**publish = > publish.头装配 表=`发资源`**
 
-**admin_columns = > 网页.页面 标题="专栏管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns' aria-current='page'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>专栏管理</h1><p class='lede'>维护书架上的专栏元数据。</p>"**
+**publish_new = > 网页.页面 标题="撰写新稿" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts' aria-current='page'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>撰写新稿</h1><p class='lede'>填写标题与正文后发布。<a href='/desk/posts'>返回列表</a></p>"**
+**publish_new = > publish_new.组件装配 组件=admin.`后台壳`**
+**publish_new = > 装刊壳 p=publish_new**
+**publish_new = > publish_new.壳HTML 体类="desk-admin desk-writing"**
+**publish_new = > publish_new.表单装配 表单=`post_form` id="post"**
+**publish_new = > publish_new.样式 样式=`写作台CSS`**
+
+**publish_edit = > 网页.页面 标题="编辑文章" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts' aria-current='page'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>编辑文章</h1><p class='lede'>修改后保存即可更新前台。<a href='/desk/posts'>返回列表</a></p>"**
+**publish_edit = > publish_edit.组件装配 组件=admin.`后台壳`**
+**publish_edit = > 装刊壳 p=publish_edit**
+**publish_edit = > publish_edit.壳HTML 体类="desk-admin desk-writing"**
+**publish_edit = > publish_edit.表单装配 表单=`edit_form` id="post-edit"**
+**publish_edit = > publish_edit.表单载入 表="posts"**
+**publish_edit = > publish_edit.样式 样式=`写作台CSS`**
+
+**admin_columns = > 网页.页面 标题="专栏管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns' aria-current='page'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>专栏管理</h1><p class='lede'>维护书架上的专栏元数据。</p><div class='pub-compose-bar'><a class='pub-new-btn' href='/desk/columns/new'>新建专栏</a><p class='pub-compose-hint'>slug 须唯一，将用于 /column/{slug} 路径。</p></div><div class='pub-list-head'><h2>专栏列表</h2><p>点击条目编辑名称、摘要、排序与连载状态。</p></div>"**
 **admin_columns = > admin_columns.组件装配 组件=admin.`后台壳`**
 **admin_columns = > 装刊壳 p=admin_columns**
-**admin_columns = > admin_columns.壳HTML 体类="desk-admin"**
-**admin_columns = > admin_columns.表单装配 表单=`column_form` id="column"**
+**admin_columns = > admin_columns.壳HTML 体类="desk-admin desk-list"**
 **admin_columns = > admin_columns.主体装配 主体=`专栏管理列表`**
 **admin_columns = > admin_columns.排序 排序="sort_order"**
-**admin_columns = > admin_columns.链接前缀 前缀="/desk/columns?id="**
+**admin_columns = > admin_columns.链接前缀 前缀="/desk/columns/"**
 **admin_columns = > admin_columns.样式 样式=`写作台CSS`**
-**admin_columns = > admin_columns.头装配 表=`发资源`**
 
-**admin_news = > 网页.页面 标题="新闻管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news' aria-current='page'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// news</p><h1>新闻管理</h1><p class='lede'>维护侧栏与 /news 页的量子快讯。</p>"**
+**admin_columns_new = > 网页.页面 标题="新建专栏" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns' aria-current='page'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>新建专栏</h1><p class='lede'>填写 slug 与排序。<a href='/desk/columns'>返回列表</a></p>"**
+**admin_columns_new = > admin_columns_new.组件装配 组件=admin.`后台壳`**
+**admin_columns_new = > 装刊壳 p=admin_columns_new**
+**admin_columns_new = > admin_columns_new.壳HTML 体类="desk-admin desk-writing"**
+**admin_columns_new = > admin_columns_new.表单装配 表单=`column_form` id="column"**
+**admin_columns_new = > admin_columns_new.样式 样式=`写作台CSS`**
+
+**admin_columns_edit = > 网页.页面 标题="编辑专栏" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns' aria-current='page'>专栏</a><a href='/desk/news'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>编辑专栏</h1><p class='lede'>修改后保存即可更新专栏页。<a href='/desk/columns'>返回列表</a></p>"**
+**admin_columns_edit = > admin_columns_edit.组件装配 组件=admin.`后台壳`**
+**admin_columns_edit = > 装刊壳 p=admin_columns_edit**
+**admin_columns_edit = > admin_columns_edit.壳HTML 体类="desk-admin desk-writing"**
+**admin_columns_edit = > admin_columns_edit.表单装配 表单=`column_edit_form` id="column-edit"**
+**admin_columns_edit = > admin_columns_edit.表单载入 表="columns"**
+**admin_columns_edit = > admin_columns_edit.样式 样式=`写作台CSS`**
+
+**admin_news = > 网页.页面 标题="新闻管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news' aria-current='page'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// news</p><h1>新闻管理</h1><p class='lede'>维护侧栏与 /news 页的量子快讯。</p><div class='pub-compose-bar'><a class='pub-new-btn' href='/desk/news/new'>新建快讯</a><p class='pub-compose-hint'>url 可为外链；published_at 留空则默认今天。</p></div><div class='pub-list-head'><h2>新闻列表</h2><p>点击条目编辑。</p></div>"**
 **admin_news = > admin_news.组件装配 组件=admin.`后台壳`**
 **admin_news = > 装刊壳 p=admin_news**
-**admin_news = > admin_news.壳HTML 体类="desk-admin"**
-**admin_news = > admin_news.表单装配 表单=`news_form` id="news"**
+**admin_news = > admin_news.壳HTML 体类="desk-admin desk-list"**
 **admin_news = > admin_news.主体装配 主体=`新闻管理列表`**
 **admin_news = > admin_news.排序 排序="-published_at"**
-**admin_news = > admin_news.链接前缀 前缀="/desk/news?id="**
+**admin_news = > admin_news.链接前缀 前缀="/desk/news/"**
 **admin_news = > admin_news.样式 样式=`写作台CSS`**
-**admin_news = > admin_news.头装配 表=`发资源`**
+
+**admin_news_new = > 网页.页面 标题="新建快讯" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news' aria-current='page'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// news</p><h1>新建快讯</h1><p class='lede'>标题与原文链接必填。<a href='/desk/news'>返回列表</a></p>"**
+**admin_news_new = > admin_news_new.组件装配 组件=admin.`后台壳`**
+**admin_news_new = > 装刊壳 p=admin_news_new**
+**admin_news_new = > admin_news_new.壳HTML 体类="desk-admin desk-writing"**
+**admin_news_new = > admin_news_new.表单装配 表单=`news_form` id="news"**
+**admin_news_new = > admin_news_new.样式 样式=`写作台CSS`**
+
+**admin_news_edit = > 网页.页面 标题="编辑快讯" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/desk'>概览</a><a href='/desk/posts'>文章</a><a href='/desk/columns'>专栏</a><a href='/desk/news' aria-current='page'>新闻</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// news</p><h1>编辑快讯</h1><p class='lede'>修改后保存即可更新侧栏。<a href='/desk/news'>返回列表</a></p>"**
+**admin_news_edit = > admin_news_edit.组件装配 组件=admin.`后台壳`**
+**admin_news_edit = > 装刊壳 p=admin_news_edit**
+**admin_news_edit = > admin_news_edit.壳HTML 体类="desk-admin desk-writing"**
+**admin_news_edit = > admin_news_edit.表单装配 表单=`news_edit_form` id="news-edit"**
+**admin_news_edit = > admin_news_edit.表单载入 表="news"**
+**admin_news_edit = > admin_news_edit.样式 样式=`写作台CSS`**
 
 **app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_mg" 登录回跳="/" 登出回跳="/login" 壳样式="minimal" 资源版本="20260918b" 主机="0.0.0.0" 端口=18085**
 **app = > app.路由 路径="/about" 页面=about**
@@ -548,10 +580,16 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **app = > app.路由 路径="/desk/login" 页面=desk_login**
 **app = > app.路由 路径="/desk" 页面=desk_hub**
 **app = > app.路由 路径="/desk/posts" 页面=publish**
+**app = > app.路由 路径="/desk/posts/new" 页面=publish_new**
+**app = > app.路由 路径="/desk/posts/{id}" 页面=publish_edit**
 **app = > app.路由 路径="/desk/columns" 页面=admin_columns**
+**app = > app.路由 路径="/desk/columns/new" 页面=admin_columns_new**
+**app = > app.路由 路径="/desk/columns/{id}" 页面=admin_columns_edit**
 **app = > app.路由 路径="/desk/news" 页面=admin_news**
-**app = > app.路由 路径="/admin-publish" 页面=publish**
-**app = > app.路由 路径="/admin-edit" 页面=publish**
+**app = > app.路由 路径="/desk/news/new" 页面=admin_news_new**
+**app = > app.路由 路径="/desk/news/{id}" 页面=admin_news_edit**
+**app = > app.重定向 来源="/admin-publish" 目标="/desk/posts" 永久=真**
+**app = > app.重定向 来源="/admin-edit" 目标="/desk/posts" 永久=真**
 **app = > app.重定向 来源="/admin" 目标="/desk" 永久=真**
 **app = > app.重定向 来源="/admin/login" 目标="/desk/login" 永久=真**
 **app = > app.重定向 来源="/admin/logout" 目标="/_mg/logout" 永久=真**

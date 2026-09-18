@@ -209,7 +209,6 @@ def probe(base: str) -> ProbeResult:
         "/static/client.mq.md",
         "/static/marqdo-bridge.js",
         "/static/marqdo_wasm.wasm",
-        "/static/md.js",
         "/static/katex/katex.min.js",
         "/static/katex/auto-render.min.js",
         "/static/katex/katex.min.css",
