@@ -209,7 +209,6 @@ def probe(base: str) -> ProbeResult:
         "/static/theme.js",
         "/static/volume.js",
         "/static/md.js",
-        "/static/desk-guard.js",
         "/static/katex/katex.min.js",
         "/static/katex/auto-render.min.js",
         "/static/katex/katex.min.css",
@@ -253,7 +252,7 @@ def probe(base: str) -> ProbeResult:
             seen.add(p)
             ordered.append(p)
 
-    required_scripts = ("theme.js", "volume.js", "md.js")
+    required_scripts = ("theme.js", "volume.js")
     crawled_hrefs: set[str] = set()
 
     for path in ordered:

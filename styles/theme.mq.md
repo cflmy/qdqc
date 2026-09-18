@@ -600,6 +600,12 @@ import text:lib/text.mq.md
 | .comment-empty | color | var(--muted) |
 | .comment-empty | font-size | ".92rem" |
 | .comment-guest | margin | "0 0 1rem" |
+| body:not(:has(header.topnav a[href*="logout"])) #comment-form-mount | display | none |
+| body:has(header.topnav a[href*="logout"]) #comment-guest | display | none |
+| #comment-form-mount .actions a | display | none |
+| #comment-form-mount button[type="submit"] | font-size | 0 |
+| #comment-form-mount button[type="submit"]::after | content | "发表评论" |
+| #comment-form-mount button[type="submit"]::after | font-size | .95rem |
 | .comment-thread | list-style | none |
 | .comment-thread | margin | "0" |
 | .comment-thread | padding | "0" |

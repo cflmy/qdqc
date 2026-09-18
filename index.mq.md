@@ -61,6 +61,16 @@ import db:db/index.mq.md
 | tag | columns.slug | |
 | href | columns.slug | |
 
+`新闻列表` =
+
+| 属性 | 值 | 样式 |
+|------|-----|------|
+| title | news.title | |
+| body | news.summary | |
+| meta | news.published_at | |
+| tag | news.source | |
+| href | news.url | |
+
 `文章条件` =
 
 | 字段 | 操作 | 值 |
@@ -115,57 +125,45 @@ import db:db/index.mq.md
 
 `头资源` =
 
-| 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
-|------|------|------|------|------|------|------|
-| stylesheet | "/static/katex/katex.min.css" | | | | | |
-| script | "/static/katex/katex.min.js" | | | | | |
-| script | "/static/katex/auto-render.min.js" | | | | | |
-| script | "/static/theme.js?v=14" | | | | | |
-| script | "/static/desk-guard.js?v=5" | | | | | |
-| script | "/static/md.js?v=1" | | | | | |
-| script | "/static/volume.js?v=16" | | | | | |
+| 关系 | 地址 | 推迟 | 版本 |
+|------|------|------|------|
+| script | "/static/theme.js" | true | 16 |
+| script | "/static/volume.js" | true | 18 |
 
 `鉴权资源` =
 
-| 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
-|------|------|------|------|------|------|------|
-| stylesheet | "/static/katex/katex.min.css" | | | | | |
-| script | "/static/katex/katex.min.js" | | | | | |
-| script | "/static/katex/auto-render.min.js" | | | | | |
-| script | "/static/theme.js?v=14" | | | | | |
-| script | "/static/desk-guard.js?v=5" | | | | | |
-| script | "/static/site-auth.js?v=2" | | | | | |
+| 关系 | 地址 | 推迟 | 版本 |
+|------|------|------|------|
+| script | "/static/theme.js" | true | 16 |
+| script | "/static/site-auth.js" | true | 2 |
 
 `登录资源` =
 
-| 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
-|------|------|------|------|------|------|------|
-| script | "/static/desk-login.js?v=9" | | | | | |
+| 关系 | 地址 | 推迟 | 版本 |
+|------|------|------|------|
+| script | "/static/desk-login.js" | true | 9 |
 
 `文章资源` =
 
-| 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
-|------|------|------|------|------|------|------|
-| stylesheet | "/static/katex/katex.min.css" | | | | | |
-| script | "/static/katex/katex.min.js" | | | | | |
-| script | "/static/katex/auto-render.min.js" | | | | | |
-| script | "/static/theme.js?v=14" | | | | | |
-| script | "/static/desk-guard.js?v=5" | | | | | |
-| script | "/static/md.js?v=1" | | | | | |
-| script | "/static/volume.js?v=16" | | | | | |
-| script | "/static/comments.js?v=2" | | | | | |
+| 关系 | 地址 | 推迟 | 版本 |
+|------|------|------|------|
+| stylesheet | "/static/katex/katex.min.css" | | |
+| script | "/static/katex/katex.min.js" | true | |
+| script | "/static/katex/auto-render.min.js" | true | |
+| script | "/static/theme.js" | true | 16 |
+| script | "/static/volume.js" | true | 18 |
 
 `发资源` =
 
-| 关系 | 地址 | 类型 | 尺寸 | 媒体 | 作为 | 跨域 |
-|------|------|------|------|------|------|------|
-| stylesheet | "/static/katex/katex.min.css" | | | | | |
-| script | "/static/katex/katex.min.js" | | | | | |
-| script | "/static/katex/auto-render.min.js" | | | | | |
-| script | "/static/theme.js?v=14" | | | | | |
-| script | "/static/desk-guard.js?v=5" | | | | | |
-| script | "/static/admin.js?v=5" | | | | | |
-| script | "/static/editor.js?v=26" | | | | | |
+| 关系 | 地址 | 推迟 | 版本 |
+|------|------|------|------|
+| stylesheet | "/static/katex/katex.min.css" | | |
+| script | "/static/katex/katex.min.js" | true | |
+| script | "/static/katex/auto-render.min.js" | true | |
+| script | "/static/theme.js" | true | 16 |
+| script | "/static/md.js" | true | 1 |
+| script | "/static/admin.js" | true | 5 |
+| script | "/static/editor.js" | true | 26 |
 
 `发布字段` =
 
@@ -423,8 +421,10 @@ import db:db/index.mq.md
 **columns = > columns.样式 样式=`首页CSS`**
 **columns = > columns.头装配 表=`头资源`**
 
-**news = > 网页.页面 标题="量子新闻" 引言="<p class='kicker'>// brief</p><h1>量子新闻</h1><p class='lede'>装载快讯…</p>"**
+**news = > 网页.页面 标题="量子新闻" 引言="<p class='kicker'>// brief</p><h1>量子新闻</h1><p class='lede'>来自 SQLite news 表的外链快讯，按发布时间倒序。</p>"**
 **news = > news.组件装配 组件=`首页`**
+**news = > news.主体装配 主体=`新闻列表`**
+**news = > news.排序 排序="-published_at"**
 **news = > news.样式 样式=`首页CSS`**
 **news = > news.头装配 表=`头资源`**
 
@@ -514,7 +514,7 @@ import db:db/index.mq.md
 **admin_news = > admin_news.样式 样式=`写作台CSS`**
 **admin_news = > admin_news.头装配 表=`发资源`**
 
-**app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_mg" 登录回跳="/" 登出回跳="/login" 壳样式="minimal" 资源版本="20260918" 主机="0.0.0.0" 端口=18085**
+**app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_mg" 登录回跳="/" 登出回跳="/login" 壳样式="minimal" 资源版本="20260918b" 主机="0.0.0.0" 端口=18085**
 **app = > app.路由 路径="/about" 页面=about**
 **app = > app.路由 路径="/post/{slug}" 页面=post**
 **app = > app.路由 路径="/tags" 页面=tags**
@@ -531,6 +531,14 @@ import db:db/index.mq.md
 **app = > app.路由 路径="/desk/news" 页面=admin_news**
 **app = > app.路由 路径="/admin-publish" 页面=publish**
 **app = > app.路由 路径="/admin-edit" 页面=publish**
+**app = > app.重定向 来源="/admin" 目标="/desk" 永久=真**
+**app = > app.重定向 来源="/admin/login" 目标="/desk/login" 永久=真**
+**app = > app.重定向 来源="/admin/logout" 目标="/_mg/logout" 永久=真**
+**app = > app.重定向 来源="/admin/posts" 目标="/desk/posts" 永久=真**
+**app = > app.重定向 来源="/admin/columns" 目标="/desk/columns" 永久=真**
+**app = > app.重定向 来源="/admin/news" 目标="/desk/news" 永久=真**
+**app = > app.重定向 来源="/_auth/login" 目标="/desk/login" 永久=真**
+**app = > app.重定向 来源="/_auth/logout" 目标="/_mg/logout" 永久=真**
 **app = > app.挂载表单 id="post-edit" 表单=`edit_form`**
 **app = > app.挂载表单 id="column-edit" 表单=`column_edit_form`**
 **app = > app.挂载表单 id="news-edit" 表单=`news_edit_form`**

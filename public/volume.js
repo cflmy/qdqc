@@ -464,9 +464,17 @@
   }
 
   function enhanceSidePanel() {
-    return Promise.all([fetchJson('/api/news'), fetchJson('/api/posts')]).then(function (pair) {
-      renderNewsRail(pair[0]);
-      renderMastheadGuide(pair[1]);
+    /* 首页导读需要 posts；其余页面侧栏只要新闻 */
+    var info = pathInfo();
+    if (info.mode === 'home') {
+      return Promise.all([fetchJson('/api/news'), fetchJson('/api/posts')]).then(function (pair) {
+        renderNewsRail(pair[0]);
+        renderMastheadGuide(pair[1]);
+      });
+    }
+    if (document.querySelector('aside.side-rail')) return Promise.resolve();
+    return fetchJson('/api/news').then(function (news) {
+      renderNewsRail(news);
     });
   }
 
@@ -512,7 +520,7 @@
     return '<p>' + esc(src || '') + '</p>';
   }
 
-  /* Marqdo 1.0 Go 端口未把路由 {slug} 写入查询条件，详情/标签 SSR 为空；用 API 回填。 */
+  /* 详情/标签已由服务端 compose_main + 查询条件 SSR；仅在空壳时回填（兼容旧插件）。 */
   function mountPost(slug, posts) {
     var main = mainEl();
     if (!main || main.querySelector('.article')) return;
@@ -624,6 +632,10 @@
     }
 
     if (info.mode === 'news') {
+      /* /news 若已 SSR 卡片则不再拉 API */
+      if (document.querySelector('main.main .content.cards, main.main .news-archive')) {
+        return;
+      }
       fetchJson('/api/news').then(mountNewsArchive);
       return;
     }
@@ -633,6 +645,11 @@
     if (!info.mode) return;
 
     if (info.mode === 'post') {
+      var mainPost = mainEl();
+      if (mainPost && mainPost.querySelector('.article')) {
+        whenKatexReady(function () { applyMath(mainPost.querySelector('.article')); });
+        return;
+      }
       fetchJson('/api/posts').then(function (posts) {
         mountPost(info.slug, posts);
       });
@@ -640,18 +657,26 @@
     }
 
     if (info.mode === 'tag') {
+      if (document.querySelector('main.main .content.cards')) return;
       fetchJson('/api/posts').then(function (posts) {
         mountTagged(info.slug, posts);
       });
       return;
     }
 
-    Promise.all([fetchJson('/api/columns'), fetchJson('/api/posts')]).then(function (pair) {
-      var columns = pair[0];
-      var posts = pair[1];
-      if (info.mode === 'shelf') mountShelf(columns);
-      else if (info.mode === 'volume') mountVolume(info.slug, columns, posts);
-    });
+    if (info.mode === 'shelf') {
+      /* /columns 已 SSR 卡片时不再拉 API 重绘书架 */
+      if (document.querySelector('main.main .content.cards, main.main .vol-shelf')) return;
+      fetchJson('/api/columns').then(mountShelf);
+      return;
+    }
+
+    if (info.mode === 'volume') {
+      if (document.querySelector('main.main .content.cards, main.main .vol-open, main.main .article')) return;
+      Promise.all([fetchJson('/api/columns'), fetchJson('/api/posts')]).then(function (pair) {
+        mountVolume(info.slug, pair[0], pair[1]);
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
