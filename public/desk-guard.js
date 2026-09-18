@@ -5,13 +5,13 @@
   var p = window.location.pathname || '';
   var q = window.location.search || '';
 
+  // 旧管理员登录入口 → 后台登录（勿把 /desk/login 再踢回读者登录）
   if (
     /^\/admin\/login\/?$/.test(p) ||
     /^\/_auth\/login\/?$/.test(p) ||
-    /^\/_mg\/login\/?$/.test(p) ||
-    /^\/desk\/login\/?$/.test(p)
+    /^\/_mg\/login\/?$/.test(p)
   ) {
-    window.location.replace('/login' + q);
+    window.location.replace('/desk/login' + q);
     return;
   }
   if (/^\/admin\/logout\/?$/.test(p) || /^\/_auth\/logout\/?$/.test(p)) {

@@ -124,7 +124,7 @@ topics / replies 为历史表，界面已下线讨论区。
 
 ## comments
 
-文章评论（登录用户发表）。`post_slug` 关联 posts.slug；`author` 为用户名。
+文章评论（登录用户发表）。`author` ← `session.username`，`post_slug` ← `route.slug`（字段来源，见 ext/web 请求上下文）；客户端不可伪造。
 
 `comments` =
 

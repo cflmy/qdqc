@@ -12,7 +12,6 @@
 | 关于 | /about | | |
 | 登录 | /login | | guest |
 | 注册 | /register | | guest |
-| 后台 | /desk | | auth |
 | 登出 | /_mg/logout | | auth |
 
 *`导航`*

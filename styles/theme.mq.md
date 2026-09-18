@@ -559,6 +559,69 @@ import text:lib/text.mq.md
 | .site-form .actions a | color | var(--faint) |
 | .site-form .meta | color | var(--faint) |
 | .site-form .meta | font-size | .82rem |
+| .auth-panel | max-width | 22rem |
+| .auth-panel | margin | "0.5rem 0 2rem" |
+| .auth-form | display | grid |
+| .auth-form | gap | ".9rem" |
+| .auth-form | margin-top | "1.1rem" |
+| .auth-form label | display | grid |
+| .auth-form label | gap | ".3rem" |
+| .auth-form label | font-size | ".85rem" |
+| .auth-form label | color | var(--muted) |
+| .auth-form input | padding | ".65rem .75rem" |
+| .auth-form input | border | 1px solid var(--line) |
+| .auth-form input | border-radius | 0 |
+| .auth-form input | background | var(--card) |
+| .auth-form input | color | var(--ink) |
+| .auth-form input | font | inherit |
+| .auth-form input:focus | outline | none |
+| .auth-form input:focus | border-color | var(--accent) |
+| .auth-form button | padding | ".7rem 1.2rem" |
+| .auth-form button | border | 0 |
+| .auth-form button | background | var(--accent) |
+| .auth-form button | color | "#fff" |
+| .auth-form button | font | inherit |
+| .auth-form button | font-weight | "600" |
+| .auth-form button | cursor | pointer |
+| .auth-form button:disabled | opacity | ".65" |
+| .auth-form button:disabled | cursor | wait |
+| .auth-err | margin-top | ".85rem" |
+| .auth-err | color | var(--mark) |
+| .auth-err | font-size | ".9rem" |
+| .auth-switch | margin-top | "1.1rem" |
+| .auth-switch | font-size | ".9rem" |
+| .auth-switch | color | var(--muted) |
+| .post-comments | margin | "2.5rem 0 1rem" |
+| .post-comments | padding-top | "1.5rem" |
+| .post-comments | border-top | 1px solid var(--line) |
+| .post-comments h2 | margin | "0 0 1rem" |
+| .post-comments h2 | font-size | "1.15rem" |
+| .comment-list | margin | "0 0 1.25rem" |
+| .comment-empty | color | var(--muted) |
+| .comment-empty | font-size | ".92rem" |
+| .comment-guest | margin | "0 0 1rem" |
+| .comment-thread | list-style | none |
+| .comment-thread | margin | "0" |
+| .comment-thread | padding | "0" |
+| .comment-item | padding | ".85rem 0" |
+| .comment-item | border-bottom | 1px dashed var(--line) |
+| .comment-item:last-child | border-bottom | "0" |
+| .comment-meta | display | flex |
+| .comment-meta | gap | ".75rem" |
+| .comment-meta | align-items | baseline |
+| .comment-meta | margin-bottom | ".35rem" |
+| .comment-author | font-weight | "600" |
+| .comment-author | color | var(--ink) |
+| .comment-meta time | font-size | ".8rem" |
+| .comment-meta time | color | var(--faint) |
+| .comment-body | margin | "0" |
+| .comment-body | color | var(--ink-soft) |
+| .comment-body | line-height | "1.65" |
+| .comment-body | white-space | "pre-wrap" |
+| .comment-compose.site-form | max-width | "100%" |
+| .comment-compose.site-form | margin | "0" |
+| .comment-compose.site-form .meta | display | none |
+| .comment-compose.site-form textarea | min-height | "6.5rem" |
 
 *`表单`*
 
