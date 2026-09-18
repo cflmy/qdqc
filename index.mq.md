@@ -638,7 +638,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_comments_delete = > admin_comments_delete.表单载入 表="comments"**
 **admin_comments_delete = > admin_comments_delete.样式 样式=`写作台CSS`**
 
-**app = > 网页.应用 页面=page 数据库=store 后台=False 登录回跳="/" 登出回跳="/login" 壳样式="minimal" 资源版本="20260918e" 主机="0.0.0.0" 端口=18085**
+**app = > 网页.应用 页面=page 数据库=store 后台=False 登录回跳="/" 登出回跳="/" 壳样式="minimal" 资源版本="20260918e" 主机="0.0.0.0" 端口=18085**
 **app = > app.路由 路径="/about" 页面=about**
 **app = > app.路由 路径="/post/{slug}" 页面=post**
 **app = > app.路由 路径="/tags" 页面=tags**
@@ -681,7 +681,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **app = > app.静态 目录="public" 挂载="/static"**
 **app = > app.图标 表=`站点图标`**
 **app = > app.启用权限**
-**app = > app.鉴权 用户表=None 会话时长=3600 登录路径="/login" 登录回跳="/" 登出回跳="/login" 注册=真 注册路径="/register" 默认角色="member" 会话地址=session_url**
+**app = > app.鉴权 用户表=None 会话时长=3600 登录路径="/login" 登录回跳="/" 登出回跳="/" 注册=真 注册路径="/register" 默认角色="member" 会话地址=session_url**
 **oidc_issuer = > 系统.取环境 名="QDQC_OIDC_ISSUER"**
 **oidc_client = > 系统.取环境 名="QDQC_OIDC_CLIENT_ID"**
 **oidc_secret = > 系统.取环境 名="QDQC_OIDC_CLIENT_SECRET"**
