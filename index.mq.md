@@ -249,25 +249,25 @@ import db:db/index.mq.md
 
 `新闻发布字段` =
 
-| 字段 | 标签 | 类型 | 必填 | 默认 |
-|------|------|------|------|------|
-| title | 标题 | text | true | |
-| url | 原文链接 | text | true | |
-| source | 来源 | text | false | |
-| summary | 摘要 | textarea | false | |
-| published_at | 发布日期 | text | false | |
-| created_at | 入库时间 | text | false | |
+| 字段 | 标签 | 类型 | 必填 | 默认 | 来源 |
+|------|------|------|------|------|------|
+| title | 标题 | text | true | | |
+| url | 原文链接 | text | true | | |
+| source | 来源 | text | false | | |
+| summary | 摘要 | textarea | false | | |
+| published_at | 发布日期 | text | false | | 空则现在 |
+| created_at | 入库时间 | text | false | | 空则现在 |
 
 `新闻编辑字段` =
 
-| 字段 | 标签 | 类型 | 必填 | 默认 |
-|------|------|------|------|------|
-| id | 编号 | hidden | true | |
-| title | 标题 | text | true | |
-| url | 原文链接 | text | true | |
-| source | 来源 | text | false | |
-| summary | 摘要 | textarea | false | |
-| published_at | 发布日期 | text | false | |
+| 字段 | 标签 | 类型 | 必填 | 默认 | 来源 |
+|------|------|------|------|------|------|
+| id | 编号 | hidden | true | | |
+| title | 标题 | text | true | | |
+| url | 原文链接 | text | true | | |
+| source | 来源 | text | false | | |
+| summary | 摘要 | textarea | false | | |
+| published_at | 发布日期 | text | false | | 空则现在 |
 | created_at | 入库时间 | text | false | |
 
 `专栏发布规则` =

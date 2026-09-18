@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import argparse
+import http.cookiejar
 import json
 import re
 import sys
@@ -402,8 +403,95 @@ def probe(base: str) -> ProbeResult:
         if hc >= 400:
             note("error", "/", "home_link", f"首页链接 {p} -> {hc}")
 
+    # --- desk SSR (login + list/new/edit; no legacy admin/editor JS) ---
+    probe_desk_ssr(base, posts, note)
+
     result.findings = findings
     return result
+
+
+def probe_desk_ssr(base: str, posts: list[dict[str, Any]], note) -> None:
+    jar = http.cookiejar.CookieJar()
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+
+    def jar_fetch(path: str, *, method: str = "GET", data: bytes | None = None) -> tuple[int, dict[str, str], bytes]:
+        url = base.rstrip("/") + path
+        req = urllib.request.Request(url, data=data, method=method)
+        if data is not None:
+            req.add_header("Content-Type", "application/x-www-form-urlencoded")
+        try:
+            with opener.open(req, timeout=8.0) as resp:
+                return resp.status, {k.lower(): v for k, v in resp.headers.items()}, resp.read()
+        except urllib.error.HTTPError as e:
+            body = e.read() if e.fp else b""
+            hdrs = {k.lower(): v for k, v in (e.headers.items() if e.headers else [])}
+            return e.code, hdrs, body
+
+    code, hdrs, body = jar_fetch("/desk/login")
+    html = decode_html(body, hdrs)
+    if code != 200 or "desk-login-form" not in html and "_csrf" not in html:
+        note("error", "/desk/login", "desk_login_page", f"后台登录页异常 HTTP {code}")
+        return
+    m = re.search(r'name="_csrf"\s+value="([^"]+)"', html)
+    if not m:
+        note("error", "/desk/login", "desk_csrf", "缺少 CSRF")
+        return
+    payload = urllib.parse.urlencode(
+        {
+            "username": "admin",
+            "password": "quantum2026",
+            "_csrf": m.group(1),
+            "next": "/desk",
+        }
+    ).encode()
+    code, hdrs, _ = jar_fetch("/desk/login", method="POST", data=payload)
+    loc = hdrs.get("location", "")
+    if code not in (200, 301, 302, 303, 307, 308):
+        note("error", "/desk/login", "desk_login_fail", f"登录失败 HTTP {code}")
+        return
+    if code != 200 and not loc.startswith("/desk"):
+        note("error", "/desk/login", "desk_login_fail", f"登录未回跳后台 loc={loc}")
+        return
+
+    checks = [
+        ("/desk", ("desk-admin", "admin-hub"), ()),
+        ("/desk/posts", ("desk-list", 'class="card"'), ()),
+        ("/desk/posts/new", ("desk-writing", "mq-markdown", "editor-skin"), ()),
+        ("/desk/columns", ("desk-list",), ()),
+        ("/desk/news", ("desk-list",), ()),
+    ]
+    legacy = ("admin.js", "editor.js", "md.js")
+    for path, need, _forbid in checks:
+        code, hdrs, body = jar_fetch(path)
+        html = decode_html(body, hdrs)
+        if code != 200:
+            note("error", path, "desk_ssr", f"登录后期望 200，得到 {code}")
+            continue
+        for marker in need:
+            if marker not in html:
+                note("error", path, "desk_marker", f"缺少 {marker}")
+        scripts = SCRIPT_SRC_RE.findall(html)
+        for bad in legacy:
+            if any(bad in s for s in scripts):
+                note("error", path, "desk_legacy_js", f"仍挂载 {bad}")
+
+    if posts:
+        pid = str(posts[0].get("id") or "")
+        if pid:
+            path = f"/desk/posts/{pid}"
+            code, hdrs, body = jar_fetch(path)
+            html = decode_html(body, hdrs)
+            if code != 200:
+                note("error", path, "desk_edit", f"编辑页 HTTP {code}")
+            else:
+                if "mq-markdown" not in html:
+                    note("error", path, "desk_edit_md", "编辑页缺少 markdown 宿主字段")
+                title = str(posts[0].get("title") or "")
+                if title and title not in html:
+                    note("error", path, "desk_edit_prefill", "编辑页未预填标题（form_load）")
+                for bad in ("admin.js", "editor.js", "md.js"):
+                    if any(bad in s for s in SCRIPT_SRC_RE.findall(html)):
+                        note("error", path, "desk_legacy_js", f"仍挂载 {bad}")
 
 
 def main() -> int:
