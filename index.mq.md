@@ -535,13 +535,13 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **desk_login = > 装刊壳 p=desk_login**
 **desk_login = > desk_login.样式 样式=`写作台CSS`**
 
-**desk_hub = > 网页.页面 标题="后台管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin' aria-current='page'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// desk</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏、新闻与读者评论。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/admin/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/admin/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/admin/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a><a class='admin-hub-card' href='/admin/comments'><span class='admin-hub-kicker'>letters</span><strong>评论</strong><span>读者来信审核 · 删除不当内容</span></a></div><p class='admin-hub-note'>需具备 desk:access；读者请使用顶栏登录，管理入口在页脚。</p>"**
+**desk_hub = > 网页.页面 标题="后台管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin' aria-current='page'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// desk</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏、新闻与读者评论。</p><div class='admin-hub-grid'><a class='admin-hub-card' href='/admin/posts'><span class='admin-hub-kicker'>posts</span><strong>文章</strong><span>Markdown 写作台 · 发布与编辑长文</span></a><a class='admin-hub-card' href='/admin/columns'><span class='admin-hub-kicker'>columns</span><strong>专栏</strong><span>书架 Vol. 元数据 · slug 与排序</span></a><a class='admin-hub-card' href='/admin/news'><span class='admin-hub-kicker'>news</span><strong>新闻</strong><span>侧栏快讯 · 外链与发布日期</span></a><a class='admin-hub-card' href='/admin/comments'><span class='admin-hub-kicker'>letters</span><strong>评论</strong><span>读者来信审核 · 删除不当内容</span></a></div><p class='admin-hub-note'>需具备 desk:access；读者请使用顶栏登录，管理入口在页脚。</p>"**
 **desk_hub = > desk_hub.组件装配 组件=admin.`后台壳`**
 **desk_hub = > 装刊壳 p=desk_hub**
 **desk_hub = > desk_hub.壳HTML 体类="desk-admin"**
 **desk_hub = > desk_hub.样式 样式=`写作台CSS`**
 
-**publish = > 网页.页面 标题="文章管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts' aria-current='page'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>文章管理</h1><p class='lede'>查看已发布文章，或撰写新稿。</p><div class='pub-compose-bar'><a class='pub-new-btn' href='/admin/posts/new'>撰写新稿</a><p class='pub-compose-hint'>Markdown 正文；发布后前台即时可读。</p></div><div class='pub-list-head'><h2>文章列表</h2><p>点击条目进入编辑。</p></div>"**
+**publish = > 网页.页面 标题="文章管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts' aria-current='page'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>文章管理</h1><p class='lede'>查看已发布文章，或撰写新稿。</p><div class='pub-compose-bar'><a class='pub-new-btn' href='/admin/posts/new'>撰写新稿</a><p class='pub-compose-hint'>Markdown 正文；发布后前台即时可读。</p></div><div class='pub-list-head'><h2>文章列表</h2><p>点击条目进入编辑。</p></div>"**
 **publish = > publish.组件装配 组件=admin.`后台壳`**
 **publish = > 装刊壳 p=publish**
 **publish = > publish.壳HTML 体类="desk-admin desk-list"**
@@ -550,14 +550,14 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **publish = > publish.链接前缀 前缀="/admin/posts/"**
 **publish = > publish.样式 样式=`写作台CSS`**
 
-**publish_new = > 网页.页面 标题="撰写新稿" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts' aria-current='page'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>撰写新稿</h1><p class='lede'>填写标题与正文后发布。<a href='/admin/posts'>返回列表</a></p>"**
+**publish_new = > 网页.页面 标题="撰写新稿" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts' aria-current='page'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>撰写新稿</h1><p class='lede'>填写标题与正文后发布。<a href='/admin/posts'>返回列表</a></p>"**
 **publish_new = > publish_new.组件装配 组件=admin.`后台壳`**
 **publish_new = > 装刊壳 p=publish_new**
 **publish_new = > publish_new.壳HTML 体类="desk-admin desk-writing"**
 **publish_new = > publish_new.表单装配 表单=`post_form` id="post"**
 **publish_new = > publish_new.样式 样式=`写作台CSS`**
 
-**publish_edit = > 网页.页面 标题="编辑文章" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts' aria-current='page'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>编辑文章</h1><p class='lede'>修改后保存即可更新前台。<a href='/admin/posts'>返回列表</a></p>"**
+**publish_edit = > 网页.页面 标题="编辑文章" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts' aria-current='page'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// posts</p><h1>编辑文章</h1><p class='lede'>修改后保存即可更新前台。<a href='/admin/posts'>返回列表</a></p>"**
 **publish_edit = > publish_edit.组件装配 组件=admin.`后台壳`**
 **publish_edit = > 装刊壳 p=publish_edit**
 **publish_edit = > publish_edit.壳HTML 体类="desk-admin desk-writing"**
@@ -565,7 +565,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **publish_edit = > publish_edit.表单载入 表="posts"**
 **publish_edit = > publish_edit.样式 样式=`写作台CSS`**
 
-**admin_columns = > 网页.页面 标题="专栏管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns' aria-current='page'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>专栏管理</h1><p class='lede'>维护书架上的专栏元数据。</p><div class='pub-compose-bar'><a class='pub-new-btn' href='/admin/columns/new'>新建专栏</a><p class='pub-compose-hint'>slug 须唯一，将用于 /column/{slug} 路径。</p></div><div class='pub-list-head'><h2>专栏列表</h2><p>点击条目编辑名称、摘要、排序与连载状态。</p></div>"**
+**admin_columns = > 网页.页面 标题="专栏管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns' aria-current='page'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>专栏管理</h1><p class='lede'>维护书架上的专栏元数据。</p><div class='pub-compose-bar'><a class='pub-new-btn' href='/admin/columns/new'>新建专栏</a><p class='pub-compose-hint'>slug 须唯一，将用于 /column/{slug} 路径。</p></div><div class='pub-list-head'><h2>专栏列表</h2><p>点击条目编辑名称、摘要、排序与连载状态。</p></div>"**
 **admin_columns = > admin_columns.组件装配 组件=admin.`后台壳`**
 **admin_columns = > 装刊壳 p=admin_columns**
 **admin_columns = > admin_columns.壳HTML 体类="desk-admin desk-list"**
@@ -574,14 +574,14 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_columns = > admin_columns.链接前缀 前缀="/admin/columns/"**
 **admin_columns = > admin_columns.样式 样式=`写作台CSS`**
 
-**admin_columns_new = > 网页.页面 标题="新建专栏" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns' aria-current='page'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>新建专栏</h1><p class='lede'>填写 slug 与排序。<a href='/admin/columns'>返回列表</a></p>"**
+**admin_columns_new = > 网页.页面 标题="新建专栏" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns' aria-current='page'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>新建专栏</h1><p class='lede'>填写 slug 与排序。<a href='/admin/columns'>返回列表</a></p>"**
 **admin_columns_new = > admin_columns_new.组件装配 组件=admin.`后台壳`**
 **admin_columns_new = > 装刊壳 p=admin_columns_new**
 **admin_columns_new = > admin_columns_new.壳HTML 体类="desk-admin desk-writing"**
 **admin_columns_new = > admin_columns_new.表单装配 表单=`column_form` id="column"**
 **admin_columns_new = > admin_columns_new.样式 样式=`写作台CSS`**
 
-**admin_columns_edit = > 网页.页面 标题="编辑专栏" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns' aria-current='page'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>编辑专栏</h1><p class='lede'>修改后保存即可更新专栏页。<a href='/admin/columns'>返回列表</a></p>"**
+**admin_columns_edit = > 网页.页面 标题="编辑专栏" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns' aria-current='page'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// columns</p><h1>编辑专栏</h1><p class='lede'>修改后保存即可更新专栏页。<a href='/admin/columns'>返回列表</a></p>"**
 **admin_columns_edit = > admin_columns_edit.组件装配 组件=admin.`后台壳`**
 **admin_columns_edit = > 装刊壳 p=admin_columns_edit**
 **admin_columns_edit = > admin_columns_edit.壳HTML 体类="desk-admin desk-writing"**
@@ -589,7 +589,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_columns_edit = > admin_columns_edit.表单载入 表="columns"**
 **admin_columns_edit = > admin_columns_edit.样式 样式=`写作台CSS`**
 
-**admin_news = > 网页.页面 标题="新闻管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news' aria-current='page'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// news</p><h1>新闻管理</h1><p class='lede'>维护侧栏与 /news 页的量子快讯。</p><div class='pub-compose-bar'><a class='pub-new-btn' href='/admin/news/new'>新建快讯</a><p class='pub-compose-hint'>url 可为外链；published_at 留空则默认今天。</p></div><div class='pub-list-head'><h2>新闻列表</h2><p>点击条目编辑。</p></div>"**
+**admin_news = > 网页.页面 标题="新闻管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news' aria-current='page'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// news</p><h1>新闻管理</h1><p class='lede'>维护侧栏与 /news 页的量子快讯。</p><div class='pub-compose-bar'><a class='pub-new-btn' href='/admin/news/new'>新建快讯</a><p class='pub-compose-hint'>url 可为外链；published_at 留空则默认今天。</p></div><div class='pub-list-head'><h2>新闻列表</h2><p>点击条目编辑。</p></div>"**
 **admin_news = > admin_news.组件装配 组件=admin.`后台壳`**
 **admin_news = > 装刊壳 p=admin_news**
 **admin_news = > admin_news.壳HTML 体类="desk-admin desk-list"**
@@ -598,14 +598,14 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_news = > admin_news.链接前缀 前缀="/admin/news/"**
 **admin_news = > admin_news.样式 样式=`写作台CSS`**
 
-**admin_news_new = > 网页.页面 标题="新建快讯" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news' aria-current='page'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// news</p><h1>新建快讯</h1><p class='lede'>标题与原文链接必填。<a href='/admin/news'>返回列表</a></p>"**
+**admin_news_new = > 网页.页面 标题="新建快讯" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news' aria-current='page'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// news</p><h1>新建快讯</h1><p class='lede'>标题与原文链接必填。<a href='/admin/news'>返回列表</a></p>"**
 **admin_news_new = > admin_news_new.组件装配 组件=admin.`后台壳`**
 **admin_news_new = > 装刊壳 p=admin_news_new**
 **admin_news_new = > admin_news_new.壳HTML 体类="desk-admin desk-writing"**
 **admin_news_new = > admin_news_new.表单装配 表单=`news_form` id="news"**
 **admin_news_new = > admin_news_new.样式 样式=`写作台CSS`**
 
-**admin_news_edit = > 网页.页面 标题="编辑快讯" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news' aria-current='page'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// news</p><h1>编辑快讯</h1><p class='lede'>修改后保存即可更新侧栏。<a href='/admin/news'>返回列表</a></p>"**
+**admin_news_edit = > 网页.页面 标题="编辑快讯" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news' aria-current='page'>新闻</a><a href='/admin/comments'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// news</p><h1>编辑快讯</h1><p class='lede'>修改后保存即可更新侧栏。<a href='/admin/news'>返回列表</a></p>"**
 **admin_news_edit = > admin_news_edit.组件装配 组件=admin.`后台壳`**
 **admin_news_edit = > 装刊壳 p=admin_news_edit**
 **admin_news_edit = > admin_news_edit.壳HTML 体类="desk-admin desk-writing"**
@@ -613,7 +613,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_news_edit = > admin_news_edit.表单载入 表="news"**
 **admin_news_edit = > admin_news_edit.样式 样式=`写作台CSS`**
 
-**admin_comments = > 网页.页面 标题="评论管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments' aria-current='page'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// letters</p><h1>评论管理</h1><p class='lede'>审核读者来信；点击条目可修改或删除。</p><div class='pub-list-head'><h2>全部评论</h2><p>按时间倒序。</p></div>"**
+**admin_comments = > 网页.页面 标题="评论管理" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments' aria-current='page'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// letters</p><h1>评论管理</h1><p class='lede'>审核读者来信；点击条目可修改或删除。</p><div class='pub-list-head'><h2>全部评论</h2><p>按时间倒序。</p></div>"**
 **admin_comments = > admin_comments.组件装配 组件=admin.`后台壳`**
 **admin_comments = > 装刊壳 p=admin_comments**
 **admin_comments = > admin_comments.壳HTML 体类="desk-admin desk-list"**
@@ -622,7 +622,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_comments = > admin_comments.链接前缀 前缀="/admin/comments/"**
 **admin_comments = > admin_comments.样式 样式=`写作台CSS`**
 
-**admin_comments_edit = > 网页.页面 标题="编辑评论" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments' aria-current='page'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// letters</p><h1>编辑评论</h1><p class='lede'>修改后保存。<a href='/admin/comments'>返回列表</a> · <a href='/admin/comments/delete/{id}'>删除这条评论</a></p>"**
+**admin_comments_edit = > 网页.页面 标题="编辑评论" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments' aria-current='page'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// letters</p><h1>编辑评论</h1><p class='lede'>修改后保存。<a href='/admin/comments'>返回列表</a> · <a href='/admin/comments/delete/{id}'>删除这条评论</a></p>"**
 **admin_comments_edit = > admin_comments_edit.组件装配 组件=admin.`后台壳`**
 **admin_comments_edit = > 装刊壳 p=admin_comments_edit**
 **admin_comments_edit = > admin_comments_edit.壳HTML 体类="desk-admin desk-writing"**
@@ -630,7 +630,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_comments_edit = > admin_comments_edit.表单载入 表="comments"**
 **admin_comments_edit = > admin_comments_edit.样式 样式=`写作台CSS`**
 
-**admin_comments_delete = > 网页.页面 标题="删除评论" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments' aria-current='page'>评论</a><a class='admin-nav-logout' href='/_mg/logout'>退出</a></nav><p class='kicker'>// letters</p><h1>删除评论</h1><p class='lede'>确认后不可恢复。<a href='/admin/comments/{id}'>返回编辑</a> · <a href='/admin/comments'>返回列表</a></p>"**
+**admin_comments_delete = > 网页.页面 标题="删除评论" 引言="<nav class='admin-nav' aria-label='后台导航'><a href='/admin'>概览</a><a href='/admin/posts'>文章</a><a href='/admin/columns'>专栏</a><a href='/admin/news'>新闻</a><a href='/admin/comments' aria-current='page'>评论</a><a class='admin-nav-logout' href='/admin/logout'>退出</a></nav><p class='kicker'>// letters</p><h1>删除评论</h1><p class='lede'>确认后不可恢复。<a href='/admin/comments/{id}'>返回编辑</a> · <a href='/admin/comments'>返回列表</a></p>"**
 **admin_comments_delete = > admin_comments_delete.组件装配 组件=admin.`后台壳`**
 **admin_comments_delete = > 装刊壳 p=admin_comments_delete**
 **admin_comments_delete = > admin_comments_delete.壳HTML 体类="desk-admin desk-writing"**
@@ -638,7 +638,7 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **admin_comments_delete = > admin_comments_delete.表单载入 表="comments"**
 **admin_comments_delete = > admin_comments_delete.样式 样式=`写作台CSS`**
 
-**app = > 网页.应用 页面=page 数据库=store 后台=True 后台前缀="/_mg" 登录回跳="/" 登出回跳="/login" 壳样式="minimal" 资源版本="20260918e" 主机="0.0.0.0" 端口=18085**
+**app = > 网页.应用 页面=page 数据库=store 后台=False 登录回跳="/" 登出回跳="/login" 壳样式="minimal" 资源版本="20260918e" 主机="0.0.0.0" 端口=18085**
 **app = > app.路由 路径="/about" 页面=about**
 **app = > app.路由 路径="/post/{slug}" 页面=post**
 **app = > app.路由 路径="/tags" 页面=tags**
@@ -669,9 +669,8 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **app = > app.重定向 来源="/desk/posts" 目标="/admin/posts" 永久=真**
 **app = > app.重定向 来源="/desk/columns" 目标="/admin/columns" 永久=真**
 **app = > app.重定向 来源="/desk/news" 目标="/admin/news" 永久=真**
-**app = > app.重定向 来源="/admin/logout" 目标="/_mg/logout" 永久=真**
 **app = > app.重定向 来源="/_auth/login" 目标="/admin/login" 永久=真**
-**app = > app.重定向 来源="/_auth/logout" 目标="/_mg/logout" 永久=真**
+**app = > app.重定向 来源="/_auth/logout" 目标="/admin/logout" 永久=真**
 **app = > app.挂载表单 id="post-edit" 表单=`edit_form`**
 **app = > app.挂载表单 id="column-edit" 表单=`column_edit_form`**
 **app = > app.挂载表单 id="news-edit" 表单=`news_edit_form`**
@@ -682,7 +681,6 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 **app = > app.静态 目录="public" 挂载="/static"**
 **app = > app.图标 表=`站点图标`**
 **app = > app.启用权限**
-**app = > app.门禁 路径="/_mg" 权限="desk:access" 匹配="prefix" 拒绝="redirect" 排除="/_mg/login"**
 **app = > app.鉴权 用户表=None 会话时长=3600 登录路径="/login" 登录回跳="/" 登出回跳="/login" 注册=真 注册路径="/register" 默认角色="member" 会话地址=session_url**
 **oidc_issuer = > 系统.取环境 名="QDQC_OIDC_ISSUER"**
 **oidc_client = > 系统.取环境 名="QDQC_OIDC_CLIENT_ID"**
@@ -691,7 +689,6 @@ SSR 顶栏品牌 + WASM 客户端（主题/抽屉/进度/揭示）。
 1. oidc_client
   **app = > app.统一身份 发行方=oidc_issuer 客户端编号=oidc_client 客户端密钥=oidc_secret 回调=oidc_redirect**
 **app = > app.门禁 路径="/admin" 权限="desk:access" 匹配="prefix" 拒绝="redirect" 排除="/admin/login,/login,/register,/oidc/callback,/oidc/login,/oidc/register"**
-**app = > app.门禁 路径="/_rbac" 权限="roles:manage" 匹配="prefix" 拒绝="redirect"**
 **app = > app.门禁 路径="/_form/post" 权限="posts:edit" 匹配="exact" 拒绝="redirect"**
 **app = > app.门禁 路径="/_form/post-edit" 权限="posts:edit" 匹配="exact" 拒绝="redirect"**
 **app = > app.门禁 路径="/_form/column" 权限="desk:access" 匹配="exact" 拒绝="redirect"**
