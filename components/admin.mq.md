@@ -1,6 +1,6 @@
 ---
 title: components/admin
-description: 求道量子 · 自研后台壳（无侧栏，统一页脚）。
+description: 求道量子 · 自研后台壳（无侧栏，统一页脚）。由 kit.bind_shell 消费。
 ---
 
 后台页面使用本壳：保留顶栏导航，隐藏前台侧栏，页脚链到各管理模块。

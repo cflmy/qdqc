@@ -1,0 +1,16 @@
+# qdqc engineering knowledge (author-owned)
+
+repository: qdqc
+marqdo: ">=1.3.0"
+entry: serve.mq.md
+stack:
+  - ext/web
+  - ext/data
+  - ext/security
+constraints:
+  - no-compose-star
+  - no-app-configure
+  - no-feature-delete
+decisions:
+  - artifact-split-serve-entry
+  - kit-table-put-stamps

@@ -6,7 +6,7 @@
 | Source | **https://github.com/cflmy/qdqc** |
 | ICP filing | **In progress** — wait for formal launch |
 | Checkpoint | **Paused 2026-09-16** until qdqc.com live |
-| Stack | Marqdo `ext/web` (GFM table-driven) |
+| Stack | Marqdo **1.3.0** `ext/web` Artifact（ADR 0007；Document / Endpoint / Resource） |
 | Local Docker | see [DEPLOY.md](../DEPLOY.md) → http://127.0.0.1:18085 |
 
 Used as the **Industry Track** deployment artifact for The Web Conference 2027

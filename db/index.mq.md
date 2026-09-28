@@ -1,60 +1,62 @@
 ---
 title: db/index
-description: 打开数据库（默认 sqlite；可用 QDQC_DATABASE_URL 切到 Postgres）、可选 QDQC_REDIS_URL 会话、建表、迁移、幂等种子。
-导入 网页:ext/web/网页.mq.md
-导入 系统:lib/系统.mq.md
+description: >-
+  Open database (default sqlite; QDQC_DATABASE_URL for Postgres), optional
+  QDQC_REDIS_URL session store, init schema, migrate, idempotent seed.
+import data:ext/data/db.mq.md
+import sys:lib/sys.mq.md
 import schema:schema.mq.md
 import seed:seed.mq.md
 import migrate:migrate.mq.md
 ---
 
-## 打开
+## open
 
-> 系统.加载环境 路径=".env"
-**url = > 系统.取环境 名="QDQC_DATABASE_URL"**
+> sys.load_dotenv path=".env"
+**url = > sys.env_get name="QDQC_DATABASE_URL"**
 1. url == None
     **url = "sqlite:data/qdqc.db"**
-**store = > 网页.数据库 地址=url**
-**字段 = > schema.posts**
-**专栏字段 = > schema.columns**
-**新闻字段 = > schema.news**
-**标签字段 = > schema.tags**
-**关联字段 = > schema.post_tags**
-**主题字段 = > schema.topics**
-**回复字段 = > schema.replies**
-**评论字段 = > schema.comments**
-> `store`.初始化 名=posts 字段=`字段`
-> `store`.初始化 名=columns 字段=`专栏字段`
-> `store`.初始化 名=news 字段=`新闻字段`
-> `store`.初始化 名=tags 字段=`标签字段`
-> `store`.初始化 名=post_tags 字段=`关联字段`
-> `store`.初始化 名=topics 字段=`主题字段`
-> `store`.初始化 名=replies 字段=`回复字段`
-> `store`.初始化 名=comments 字段=`评论字段`
-**步骤 = > migrate.迁移步骤**
+**store = > data.db url=url**
+**fields = > schema.posts**
+**column_fields = > schema.columns**
+**news_fields = > schema.news**
+**tag_fields = > schema.tags**
+**link_fields = > schema.post_tags**
+**topic_fields = > schema.topics**
+**reply_fields = > schema.replies**
+**comment_fields = > schema.comments**
+> `store`.init name=posts fields=`fields`
+> `store`.init name=columns fields=`column_fields`
+> `store`.init name=news fields=`news_fields`
+> `store`.init name=tags fields=`tag_fields`
+> `store`.init name=post_tags fields=`link_fields`
+> `store`.init name=topics fields=`topic_fields`
+> `store`.init name=replies fields=`reply_fields`
+> `store`.init name=comments fields=`comment_fields`
+**steps = > migrate.steps**
 1. url == "sqlite:data/qdqc.db"
-    > `store`.迁移 步骤=`步骤`
-**有帖 = > store.查询 表="posts" 上限=1**
-**有新闻 = > store.查询 表="news" 上限=1**
-1. `有帖`
+    > `store`.migrate steps=`steps`
+**has_posts = > store.select table="posts" limit=1**
+**has_news = > store.select table="news" limit=1**
+1. `has_posts`
 2. *
-  **文章 = > seed.posts**
-  **标签 = > seed.tags**
-  **关联 = > seed.post_tags**
-  **主题 = > seed.topics**
-  **回复 = > seed.replies**
-  > `store`.插入 表=posts 行=`文章`
-  > `store`.插入 表=tags 行=`标签`
-  > `store`.插入 表=post_tags 行=`关联`
-  > `store`.插入 表=topics 行=`主题`
-  > `store`.插入 表=replies 行=`回复`
-1. `有新闻`
+  **articles = > seed.posts**
+  **tags = > seed.tags**
+  **links = > seed.post_tags**
+  **topics = > seed.topics**
+  **replies = > seed.replies**
+  > `store`.insert table=posts rows=`articles`
+  > `store`.insert table=tags rows=`tags`
+  > `store`.insert table=post_tags rows=`links`
+  > `store`.insert table=topics rows=`topics`
+  > `store`.insert table=replies rows=`replies`
+1. `has_news`
 2. *
-  **新闻 = > seed.news**
-  > `store`.插入 表=news 行=`新闻`
+  **news = > seed.news**
+  > `store`.insert table=news rows=`news`
 *store*
 
-## 会话地址
+## session_url
 
-**url = > 系统.取环境 名="QDQC_REDIS_URL"**
+**url = > sys.env_get name="QDQC_REDIS_URL"**
 *url*

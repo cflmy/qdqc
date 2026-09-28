@@ -1,7 +1,7 @@
 ---
 title: styles/editor
 description: 写作台编辑器样式。
-import 网页:ext/web/网页.mq.md
+import web:ext/web/web.mq.md
 import text:lib/text.mq.md
 ---
 
@@ -632,17 +632,17 @@ import text:lib/text.mq.md
 
 *`后台`*
 
-## 全局
+## css
 
 **表规则 = > 规则**
 **表响应式 = > 响应式**
 **表登录 = > 登录**
 **表后台 = > 后台**
 
-**css规则 = > 网页.样式装配 名="规则" 表=`表规则`**
-**css响应式 = > 网页.样式装配 名="响应式" 表=`表响应式`**
-**css登录 = > 网页.样式装配 名="登录" 表=`表登录`**
-**css后台 = > 网页.样式装配 名="后台" 表=`表后台`**
+**css规则 = > web.make_style name="规则" table=`表规则`**
+**css响应式 = > web.make_style name="响应式" table=`表响应式`**
+**css登录 = > web.make_style name="登录" table=`表登录`**
+**css后台 = > web.make_style name="后台" table=`表后台`**
 
 `css段` =
 

@@ -1,7 +1,7 @@
 ---
 title: styles/brand-motion
 description: 刊头与入场动效样式。
-import 网页:ext/web/网页.mq.md
+import web:ext/web/web.mq.md
 import text:lib/text.mq.md
 ---
 
@@ -152,15 +152,15 @@ import text:lib/text.mq.md
 
 *`响应式`*
 
-## 全局
+## css
 
 **表规则 = > 规则**
 **表动画 = > 动画**
 **表响应式 = > 响应式**
 
-**css规则 = > 网页.样式装配 名="规则" 表=`表规则`**
-**css动画 = > 网页.样式装配 名="动画" 表=`表动画`**
-**css响应式 = > 网页.样式装配 名="响应式" 表=`表响应式`**
+**css规则 = > web.make_style name="规则" table=`表规则`**
+**css动画 = > web.make_style name="动画" table=`表动画`**
+**css响应式 = > web.make_style name="响应式" table=`表响应式`**
 
 `css段` =
 

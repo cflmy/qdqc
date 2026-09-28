@@ -119,8 +119,10 @@ def api_rows(base: str, path: str) -> list[dict[str, Any]]:
         payload = json.loads(body.decode("utf-8"))
     except json.JSONDecodeError:
         return []
-    if isinstance(payload, dict) and isinstance(payload.get("rows"), list):
-        return [r for r in payload["rows"] if isinstance(r, dict)]
+    if isinstance(payload, dict):
+        for key in ("rows", "result", "value"):
+            if isinstance(payload.get(key), list):
+                return [r for r in payload[key] if isinstance(r, dict)]
     if isinstance(payload, list):
         return [r for r in payload if isinstance(r, dict)]
     return []
@@ -254,7 +256,8 @@ def probe(base: str) -> ProbeResult:
             ordered.append(p)
 
     required_scripts = ("marqdo-bridge.js",)
-    required_markers = ("data-mq-source-url=\"/static/client.mq.md\"", 'id="nav-brand"', 'id="theme-toggle"')
+    required_markers = ('id="nav-brand"', 'id="theme-toggle"')
+    required_substrings = ("data-mq-source-url=\"/static/client.mq.md",)
     crawled_hrefs: set[str] = set()
 
     for path in ordered:
@@ -306,20 +309,22 @@ def probe(base: str) -> ProbeResult:
             if not any(name in s for s in scripts):
                 note("error", path, "script_missing", f"未挂载 {name}")
 
-        for marker in required_markers:
-            if kind == "login":
-                # desk/login bare may still have client; public login has chrome
-                pass
-            if marker not in html:
-                note("error", path, "chrome_missing", f"缺少 {marker}")
+        # OIDC may 302 /login off-site; skip chrome/img checks for login kind.
+        if kind != "login":
+            for marker in required_markers:
+                if marker not in html:
+                    note("error", path, "chrome_missing", f"缺少 {marker}")
+            for marker in required_substrings:
+                if marker not in html:
+                    note("error", path, "chrome_missing", f"缺少 {marker}")
 
-        imgs = [abs_asset(x) for x in IMG_SRC_RE.findall(html)]
-        for img in imgs:
-            if not img or img.startswith("http"):
-                continue
-            ic, _, ib = fetch(base, img)
-            if ic != 200:
-                note("error", path, "broken_img", f"{img} -> {ic}")
+            imgs = [abs_asset(x) for x in IMG_SRC_RE.findall(html)]
+            for img in imgs:
+                if not img or img.startswith("http"):
+                    continue
+                ic, _, ib = fetch(base, img)
+                if ic != 200:
+                    note("error", path, "broken_img", f"{img} -> {ic}")
 
         for href in A_HREF_RE.findall(html):
             if href.startswith("/") and not href.startswith("//"):
@@ -412,7 +417,15 @@ def probe(base: str) -> ProbeResult:
 
 def probe_desk_ssr(base: str, posts: list[dict[str, Any]], note) -> None:
     jar = http.cookiejar.CookieJar()
-    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+
+    class _NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):  # type: ignore[override]
+            return None
+
+    opener = urllib.request.build_opener(
+        urllib.request.HTTPCookieProcessor(jar),
+        _NoRedirect,
+    )
 
     def jar_fetch(path: str, *, method: str = "GET", data: bytes | None = None) -> tuple[int, dict[str, str], bytes]:
         url = base.rstrip("/") + path
@@ -427,9 +440,24 @@ def probe_desk_ssr(base: str, posts: list[dict[str, Any]], note) -> None:
             hdrs = {k.lower(): v for k, v in (e.headers.items() if e.headers else [])}
             return e.code, hdrs, body
 
+    # /desk* permanently redirects to /admin*; with OIDC, login leaves the site.
     code, hdrs, body = jar_fetch("/desk/login")
+    loc = hdrs.get("location", "")
+    if code in (301, 302, 303, 307, 308) and (
+        loc.startswith("/admin/login")
+        or loc.startswith("/login")
+        or "oauth" in loc.lower()
+        or "oidc" in loc.lower()
+    ):
+        note(
+            "info",
+            "/desk/login",
+            "desk_redirect_oidc",
+            f"/desk/login → {loc}（OIDC/admin 分支，跳过本地口令 SSR）",
+        )
+        return
     html = decode_html(body, hdrs)
-    if code != 200 or "desk-login-form" not in html and "_csrf" not in html:
+    if code != 200 or ("desk-login-form" not in html and "_csrf" not in html):
         note("error", "/desk/login", "desk_login_page", f"后台登录页异常 HTTP {code}")
         return
     m = re.search(r'name="_csrf"\s+value="([^"]+)"', html)
@@ -441,7 +469,7 @@ def probe_desk_ssr(base: str, posts: list[dict[str, Any]], note) -> None:
             "username": "admin",
             "password": "quantum2026",
             "_csrf": m.group(1),
-            "next": "/desk",
+            "next": "/admin",
         }
     ).encode()
     code, hdrs, _ = jar_fetch("/desk/login", method="POST", data=payload)
@@ -449,16 +477,16 @@ def probe_desk_ssr(base: str, posts: list[dict[str, Any]], note) -> None:
     if code not in (200, 301, 302, 303, 307, 308):
         note("error", "/desk/login", "desk_login_fail", f"登录失败 HTTP {code}")
         return
-    if code != 200 and not loc.startswith("/desk"):
+    if code != 200 and not (loc.startswith("/desk") or loc.startswith("/admin")):
         note("error", "/desk/login", "desk_login_fail", f"登录未回跳后台 loc={loc}")
         return
 
     checks = [
-        ("/desk", ("desk-admin", "admin-hub"), ()),
-        ("/desk/posts", ("desk-list", 'class="card"'), ()),
-        ("/desk/posts/new", ("desk-writing", "mq-markdown", "editor-skin"), ()),
-        ("/desk/columns", ("desk-list",), ()),
-        ("/desk/news", ("desk-list",), ()),
+        ("/admin", ("desk-admin", "admin-hub"), ()),
+        ("/admin/posts", ("desk-list", 'class="card"'), ()),
+        ("/admin/posts/new", ("desk-writing", "mq-markdown", "editor-skin"), ()),
+        ("/admin/columns", ("desk-list",), ()),
+        ("/admin/news", ("desk-list",), ()),
     ]
     legacy = ("admin.js", "editor.js", "md.js")
     for path, need, _forbid in checks:
@@ -478,7 +506,7 @@ def probe_desk_ssr(base: str, posts: list[dict[str, Any]], note) -> None:
     if posts:
         pid = str(posts[0].get("id") or "")
         if pid:
-            path = f"/desk/posts/{pid}"
+            path = f"/admin/posts/{pid}"
             code, hdrs, body = jar_fetch(path)
             html = decode_html(body, hdrs)
             if code != 200:

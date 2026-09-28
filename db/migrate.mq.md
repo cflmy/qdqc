@@ -1,10 +1,10 @@
 qdqc 数据库迁移
 
-版本化 SQL（`数据库.迁移`）。已应用版本记入 `_marqdo_migrations`，可重复执行。
+版本化 SQL（`db.migrate`）。已应用版本记入 `_marqdo_migrations`，可重复执行。
 
-## 迁移步骤
+## steps
 
-`迁移步骤` =
+`steps` =
 
 | 版本 | SQL |
 |------|-----|
@@ -25,4 +25,4 @@ qdqc 数据库迁移
 | 15 | DELETE FROM post_tags WHERE post_id NOT IN (SELECT id FROM posts) |
 | 16 | CREATE TABLE IF NOT EXISTS "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "post_slug" TEXT NOT NULL, "author" TEXT NOT NULL, "body" TEXT NOT NULL, "created_at" TEXT) |
 
-*`迁移步骤`*
+*steps*

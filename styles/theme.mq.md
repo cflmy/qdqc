@@ -1,7 +1,7 @@
 ---
 title: styles/theme
 description: 求道量子 · 科技杂志刊 + 论文阅读栏主题。
-import 网页:ext/web/网页.mq.md
+import web:ext/web/web.mq.md
 import text:lib/text.mq.md
 ---
 
@@ -973,7 +973,7 @@ import text:lib/text.mq.md
 
 *`pub_hint`*
 
-## 全局
+## css
 
 **基础表 = > 基础**
 **顶栏表 = > 顶栏**
@@ -986,16 +986,24 @@ import text:lib/text.mq.md
 **分页表 = > 分页**
 **响应式表 = > 响应式**
 
-**css基础 = > 网页.样式装配 名="基础" 表=`基础表`**
-**css顶栏 = > 网页.样式装配 名="顶栏" 表=`顶栏表`**
-**css侧栏 = > 网页.样式装配 名="侧栏" 表=`侧栏表`**
-**css主体 = > 网页.样式装配 名="主体" 表=`主体表`**
-**css卡片 = > 网页.样式装配 名="卡片" 表=`卡片表`**
-**css文章 = > 网页.样式装配 名="文章" 表=`文章表`**
-**css表单 = > 网页.样式装配 名="表单" 表=`表单表`**
-**css页脚 = > 网页.样式装配 名="页脚" 表=`页脚表`**
-**css分页 = > 网页.样式装配 名="分页" 表=`分页表`**
-**css响应式 = > 网页.样式装配 名="响应式" 表=`响应式表`**
+**css基础 = > web.make_style name="基础" table=`基础表`**
+**css顶栏 = > web.make_style name="顶栏" table=`顶栏表`**
+**css侧栏 = > web.make_style name="侧栏" table=`侧栏表`**
+**css主体 = > web.make_style name="主体" table=`主体表`**
+**css卡片 = > web.make_style name="卡片" table=`卡片表`**
+**css文章 = > web.make_style name="文章" table=`文章表`**
+**css表单 = > web.make_style name="表单" table=`表单表`**
+**css页脚 = > web.make_style name="页脚" table=`页脚表`**
+**css分页 = > web.make_style name="分页" table=`分页表`**
+**css响应式 = > web.make_style name="响应式" table=`响应式表`**
+**slogan表 = > slogan**
+**auth表 = > auth_switch**
+**pub_new表 = > pub_new**
+**pub_hint表 = > pub_hint**
+**css_slogan = > web.make_style name="slogan" table=`slogan表`**
+**css_auth = > web.make_style name="auth_switch" table=`auth表`**
+**css_pub_new = > web.make_style name="pub_new" table=`pub_new表`**
+**css_pub_hint = > web.make_style name="pub_hint" table=`pub_hint表`**
 
 `css段` =
 
@@ -1011,6 +1019,10 @@ import text:lib/text.mq.md
 | `css页脚` |
 | `css分页` |
 | `css响应式` |
+| `css_slogan` |
+| `css_auth` |
+| `css_pub_new` |
+| `css_pub_hint` |
 
 **css = > text.str_join xs=`css段` sep=""**
 *css*

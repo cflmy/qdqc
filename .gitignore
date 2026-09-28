@@ -9,6 +9,9 @@ data/
 ops/*.jsonl
 ops/cron.out
 
+# EKC generated projection (author knowledge/ lives in-repo)
+.marqdo/
+
 # 编辑器 / 系统临时文件
 Thumbs.db
 .DS_Store
