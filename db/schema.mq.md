@@ -137,3 +137,18 @@ topics / replies 为历史表，界面已下线讨论区。
 | created_at | text | true |
 
 *`comments`*
+
+## site_ui
+
+前台界面开关（单行）。`1`=显示按钮入口，`0`=隐藏；不关闭 `/login`、`/register` 与评论接口。
+
+`site_ui` =
+
+| 字段 | 类型 | 可空 |
+|------|------|------|
+| id | integer | false |
+| show_login | integer | false |
+| show_register | integer | false |
+| show_comment | integer | false |
+
+*`site_ui`*

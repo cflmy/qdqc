@@ -25,6 +25,7 @@ import migrate:migrate.mq.md
 **topic_fields = > schema.topics**
 **reply_fields = > schema.replies**
 **comment_fields = > schema.comments**
+**ui_fields = > schema.site_ui**
 > `store`.init name=posts fields=`fields`
 > `store`.init name=columns fields=`column_fields`
 > `store`.init name=news fields=`news_fields`
@@ -33,11 +34,13 @@ import migrate:migrate.mq.md
 > `store`.init name=topics fields=`topic_fields`
 > `store`.init name=replies fields=`reply_fields`
 > `store`.init name=comments fields=`comment_fields`
+> `store`.init name=site_ui fields=`ui_fields`
 **steps = > migrate.steps**
 1. url == "sqlite:data/qdqc.db"
     > `store`.migrate steps=`steps`
 **has_posts = > store.select table="posts" limit=1**
 **has_news = > store.select table="news" limit=1**
+**has_ui = > store.select table="site_ui" limit=1**
 1. `has_posts`
 2. *
   **articles = > seed.posts**
@@ -54,6 +57,10 @@ import migrate:migrate.mq.md
 2. *
   **news = > seed.news**
   > `store`.insert table=news rows=`news`
+1. `has_ui`
+2. *
+  **ui_rows = > seed.site_ui**
+  > `store`.insert table=site_ui rows=`ui_rows`
 *store*
 
 ## session_url

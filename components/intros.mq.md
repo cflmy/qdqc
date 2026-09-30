@@ -51,7 +51,7 @@ description: >-
 
 ## 后台概览引言
 
-*"<p class='kicker'>// admin</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏、新闻与读者评论。</p><p class='claim'><span><a href='/admin/posts'>文章 · 写作台</a></span> <span><a href='/admin/columns'>专栏 · 元数据</a></span> <span><a href='/admin/news'>新闻 · 快讯</a></span> <span><a href='/admin/comments'>评论 · 来信</a></span></p>"*
+*"<p class='kicker'>// admin</p><h1>后台管理</h1><p class='lede'>统一管理文章、专栏、新闻、读者评论与前台界面开关。</p><p class='claim'><span><a href='/admin/posts'>文章 · 写作台</a></span> <span><a href='/admin/columns'>专栏 · 元数据</a></span> <span><a href='/admin/news'>新闻 · 快讯</a></span> <span><a href='/admin/comments'>评论 · 来信</a></span> <span><a href='/admin/settings/1'>界面 · 开关</a></span></p>"*
 
 ## 文章管理引言
 
@@ -100,3 +100,7 @@ description: >-
 ## 删除评论引言
 
 *"<p class='kicker'>// letters</p><h1>删除评论</h1><p class='lede'>确认后不可恢复。<a href='/admin/comments/{id}'>返回编辑</a> · <a href='/admin/comments'>返回列表</a></p>"*
+
+## 界面开关引言
+
+*"<p class='kicker'>// ui</p><h1>界面开关</h1><p class='lede'>控制前台是否显示登录、注册与评论入口按钮。填 <code>1</code> 显示、<code>0</code> 隐藏；不影响实际路由与接口（直接访问 /login、/register 或已登录发评仍可用）。</p>"*

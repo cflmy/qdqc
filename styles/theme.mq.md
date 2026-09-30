@@ -657,6 +657,13 @@ import text:lib/text.mq.md
 | .comments-sep | color | var(--faint) |
 | body:not(:has(header.topnav a[href*="logout"])) #comment-form-mount | display | none |
 | body:has(header.topnav a[href*="logout"]) #comment-guest | display | none |
+| body.ui-hide-login header.topnav li:has(> a[href="/login"]) | display | none |
+| body.ui-hide-register header.topnav li:has(> a[href="/register"]) | display | none |
+| body.ui-hide-login #comment-guest a[href="/login"] | display | none |
+| body.ui-hide-register #comment-guest a[href="/register"] | display | none |
+| body.ui-hide-login.ui-hide-register #comment-guest .comments-sep | display | none |
+| body.ui-hide-comment #comment-guest | display | none |
+| body.ui-hide-comment #comment-form-mount | display | none |
 | .comment-compose, #comment-form-mount | margin-top | .25rem |
 | #comment-form-mount .site-form | max-width | 100% |
 | #comment-form-mount .site-form | margin | 0 |

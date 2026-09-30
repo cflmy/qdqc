@@ -28,6 +28,7 @@ description: 求道量子 · 自研后台壳（无侧栏，统一页脚）。由
 | 专栏 | /admin/columns | |
 | 新闻 | /admin/news | |
 | 评论 | /admin/comments | |
+| 界面 | /admin/settings/1 | |
 | 退出登录 | /admin/logout | |
 
 *`后台页脚`*

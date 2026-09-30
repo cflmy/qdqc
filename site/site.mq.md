@@ -475,6 +475,35 @@ Shared bind tables and forms for the journal site.
 
 *`comment_rules`*
 
+## ui_fields
+
+`ui_fields` =
+
+| 字段 | 标签 | 类型 | 必填 | 默认 |
+|------|------|------|------|------|
+| id | 编号 | hidden | true | |
+| show_login | 显示登录按钮（1/0） | text | true | 1 |
+| show_register | 显示注册按钮（1/0） | text | true | 1 |
+| show_comment | 显示评论入口（1/0） | text | true | 1 |
+
+*`ui_fields`*
+
+## ui_rules
+
+`ui_rules` =
+
+| 字段 | 规则 | 消息 |
+|------|------|------|
+| id | required | 缺少配置编号 |
+| show_login | required | 请填写登录按钮开关 |
+| show_login | in:0,1 | 登录按钮只能填 0 或 1 |
+| show_register | required | 请填写注册按钮开关 |
+| show_register | in:0,1 | 注册按钮只能填 0 或 1 |
+| show_comment | required | 请填写评论入口开关 |
+| show_comment | in:0,1 | 评论入口只能填 0 或 1 |
+
+*`ui_rules`*
+
 ## json_routes
 
 `json_routes` =
@@ -484,6 +513,7 @@ Shared bind tables and forms for the journal site.
 | api/posts | GET | posts | | "-pinned,-updated_at" | 500 |
 | api/columns | GET | columns | | sort_order | 50 |
 | api/news | GET | news | | "-published_at" | 40 |
+| api/ui | GET | site_ui | | | 1 |
 
 *`json_routes`*
 
@@ -556,6 +586,8 @@ Build all form handles used by pages and app.mount_form.
 **nr = > news_rules**
 **nef = > news_edit_fields**
 **ner = > news_edit_rules**
+**uf = > ui_fields**
+**ur = > ui_rules**
 
 **comment_form = > forms.form table="comments" action="insert"**
 **comment_form = > `comment_form`.fields fields=cf**
@@ -601,11 +633,16 @@ Build all form handles used by pages and app.mount_form.
 **news_edit_form = > `news_edit_form`.rules rules=ner**
 **news_edit_form = > `news_edit_form`.labels submit="保存快讯" cancel="返回列表" cancel_href="/admin/news"**
 
+**ui_form = > forms.form table="site_ui" action="update"**
+**ui_form = > `ui_form`.fields fields=uf**
+**ui_form = > `ui_form`.rules rules=ur**
+**ui_form = > `ui_form`.labels submit="保存开关" cancel="返回后台" cancel_href="/admin"**
+
 `out` =
 
-| comment_form | comment_edit_form | comment_delete_form | post_form | edit_form | column_form | column_edit_form | news_form | news_edit_form |
-|--------------|-------------------|---------------------|-----------|-----------|-------------|------------------|-----------|----------------|
-| `comment_form` | `comment_edit_form` | `comment_delete_form` | `post_form` | `edit_form` | `column_form` | `column_edit_form` | `news_form` | `news_edit_form` |
+| comment_form | comment_edit_form | comment_delete_form | post_form | edit_form | column_form | column_edit_form | news_form | news_edit_form | ui_form |
+|--------------|-------------------|---------------------|-----------|-----------|-------------|------------------|-----------|----------------|---------|
+| `comment_form` | `comment_edit_form` | `comment_delete_form` | `post_form` | `edit_form` | `column_form` | `column_edit_form` | `news_form` | `news_edit_form` | `ui_form` |
 
 *out*
 
@@ -894,4 +931,14 @@ Build all form handles used by pages and app.mount_form.
 **page = > desk_page title="删除评论" intro=`intro` css=`css` body_class="desk-admin desk-writing"**
 **page = > kit.bind_form page=`page` form=`comment_delete_form` id="comment-delete"**
 **page = > kit.form_load page=`page` tbl="comments"**
+*page*
+
+## admin_settings
+    + `css`
+    + `ui_form`
+
+**intro = > intros.界面开关引言**
+**page = > desk_page title="界面开关" intro=`intro` css=`css` body_class="desk-admin desk-writing"**
+**page = > kit.bind_form page=`page` form=`ui_form` id="ui"**
+**page = > kit.form_load page=`page` tbl="site_ui"**
 *page*

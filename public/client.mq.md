@@ -1,8 +1,9 @@
 ---
 title: qdqc client
-description: theme / drawer / reveal / progress — GFM + lib/browser, zero author JS
+description: theme / drawer / reveal / progress / ui flags — GFM + lib/browser, zero author JS
 import browser:lib/browser.mq.md
 import table:lib/table.mq.md
+import json:lib/json.mq.md
 ---
 
 # main
@@ -29,14 +30,61 @@ import table:lib/table.mq.md
 | 1 | intersect | ".article .article-body.md > h2, .article .article-body.md > h3, .article .article-body.md > blockquote, .article .article-body.md > pre" | reveal | | 0.12 | "0px 0px -8% 0px" | true | qd-in |
 
 **`load` = > browser.store_get key=theme_key then="apply_theme" scope="local"**
+**`ui` = > browser.fetch url="/api/ui" then="apply_ui"**
 **`ready` = > browser.add_class sel="body" class="is-ready"**
 **`mark` = > browser.add_class sel=".article .article-body.md > h2, .article .article-body.md > h3, .article .article-body.md > blockquote, .article .article-body.md > pre" class="qd-reveal"**
 **`obs` = > browser.observe specs=reveal_obs**
 **`w` = > table.put in=None at="wire" value=wire**
 **`boot` = > browser.merge a=w b=load**
+**`boot` = > browser.merge a=boot b=ui**
 **`boot` = > browser.merge a=boot b=ready**
 **`boot` = > browser.merge a=boot b=mark**
 *> browser.merge a=boot b=obs*
+
+## apply_ui
+    + `ok`=False
+    + `status`=0
+    + `body`=""
+
+1. ok
+    **`data` = > json.parse text=body**
+    **`rows` = [rows](data)**
+    **`n` = > len value=rows**
+    1. n > 0
+        **`row` = [0](rows)**
+        **`show_login` = [show_login](row)**
+        **`show_register` = [show_register](row)**
+        **`show_comment` = [show_comment](row)**
+        **`hide_login` = False**
+        **`hide_register` = False**
+        **`hide_comment` = False**
+        1. show_login == 0
+            **`hide_login` = True**
+        2. show_login == "0"
+            **`hide_login` = True**
+        1. show_register == 0
+            **`hide_register` = True**
+        2. show_register == "0"
+            **`hide_register` = True**
+        1. show_comment == 0
+            **`hide_comment` = True**
+        2. show_comment == "0"
+            **`hide_comment` = True**
+        **`ret` = > table.put in=None at="ok" value=True**
+        1. hide_login
+            **`h` = > browser.add_class sel="body" class="ui-hide-login"**
+            **`ret` = > browser.merge a=ret b=h**
+        1. hide_register
+            **`h` = > browser.add_class sel="body" class="ui-hide-register"**
+            **`ret` = > browser.merge a=ret b=h**
+        1. hide_comment
+            **`h` = > browser.add_class sel="body" class="ui-hide-comment"**
+            **`ret` = > browser.merge a=ret b=h**
+        *ret*
+    2. *
+        *None*
+2. *
+    *None*
 
 ## apply_theme
     + `value`=""

@@ -8,6 +8,7 @@
 description: >-
   首页 Document（ADR 0007）。运行时由 serve.mq.md 装配刊头壳、新闻轨与 WASM 客户端；
   本文件是文档与 EKC 投影，不是 listen 扫描入口。
+import serve:serve.mq.md
 ---
 
 # 求道量子
@@ -17,3 +18,5 @@ description: >-
 本站用 Marqdo Web Artifact：Document / Endpoint / Resource。入口是 `serve.mq.md`
 （`web.app` + 显式路由），页面袋由 `site/site.mq.md` + `site/kit.mq.md` 戳记，
 禁止 `compose_*` / `app.configure`。
+
+*> serve.main*

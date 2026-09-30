@@ -42,8 +42,9 @@ import db:db/index.mq.md
 **admin_comments = > site.admin_comments css=`desk_css`**
 **admin_comments_edit = > site.admin_comments_edit css=`desk_css` comment_edit_form=[comment_edit_form](forms)**
 **admin_comments_delete = > site.admin_comments_delete css=`desk_css` comment_delete_form=[comment_delete_form](forms)**
+**admin_settings = > site.admin_settings css=`desk_css` ui_form=[ui_form](forms)**
 
-**app = > web.app page=`page` db=`store` admin=False host="0.0.0.0" port=18085 shell_css="minimal" asset_version="20260928a"**
+**app = > web.app page=`page` db=`store` admin=False host="0.0.0.0" port=18085 shell_css="minimal" asset_version="20260930a"**
 **app = > web.route app=`app` path="/about" page=`about`**
 **app = > web.route app=`app` path="/post/{slug}" page=`post`**
 **app = > web.route app=`app` path="/tags" page=`tags`**
@@ -67,6 +68,7 @@ import db:db/index.mq.md
 **app = > web.route app=`app` path="/admin/comments" page=`admin_comments`**
 **app = > web.route app=`app` path="/admin/comments/delete/{id}" page=`admin_comments_delete`**
 **app = > web.route app=`app` path="/admin/comments/{id}" page=`admin_comments_edit`**
+**app = > web.route app=`app` path="/admin/settings/{id}" page=`admin_settings`**
 
 **app = > kit.redirect app=`app` from="/admin-publish" to="/admin/posts" permanent=True**
 **app = > kit.redirect app=`app` from="/admin-edit" to="/admin/posts" permanent=True**
@@ -77,6 +79,7 @@ import db:db/index.mq.md
 **app = > kit.redirect app=`app` from="/desk/news" to="/admin/news" permanent=True**
 **app = > kit.redirect app=`app` from="/_auth/login" to="/admin/login" permanent=True**
 **app = > kit.redirect app=`app` from="/_auth/logout" to="/admin/logout" permanent=True**
+**app = > kit.redirect app=`app` from="/admin/settings" to="/admin/settings/1" permanent=True**
 
 **app = > kit.mount_form app=`app` id="post-edit" form=[edit_form](forms)**
 **app = > kit.mount_form app=`app` id="column-edit" form=[column_edit_form](forms)**
@@ -87,6 +90,7 @@ import db:db/index.mq.md
 **app = > kit.mount_form app=`app` id="post" form=[post_form](forms)**
 **app = > kit.mount_form app=`app` id="column" form=[column_form](forms)**
 **app = > kit.mount_form app=`app` id="news" form=[news_form](forms)**
+**app = > kit.mount_form app=`app` id="ui" form=[ui_form](forms)**
 
 **api_routes = > site.json_routes**
 **app = > kit.json_api app=`app` routes=api_routes**
@@ -114,5 +118,6 @@ import db:db/index.mq.md
 **app = > `app`.gate path="/_form/comment" roles="" permissions="comments:create" match="exact" on_deny="redirect"**
 **app = > `app`.gate path="/_form/comment-edit" roles="" permissions="desk:access" match="exact" on_deny="redirect"**
 **app = > `app`.gate path="/_form/comment-delete" roles="" permissions="comments:delete" match="exact" on_deny="redirect"**
+**app = > `app`.gate path="/_form/ui" roles="" permissions="desk:access" match="exact" on_deny="redirect"**
 
 > `app`.listen
