@@ -534,8 +534,17 @@ import text:lib/text.mq.md
 | (max-width: 860px) | .site-form.editor-skin .actions | position | static |
 | (max-width: 860px) | .site-form.editor-skin .actions | background | transparent |
 | (min-width: 861px) | .md-btn.md-preview-toggle | display | none |
+| (max-width: 980px) | .admin-hub-grid | grid-template-columns | repeat(2, minmax(0, 1fr)) |
+| (max-width: 980px) | .admin-hub-card:nth-child(3n) | border-right | 1px solid var(--line) |
+| (max-width: 980px) | .admin-hub-card:nth-child(2n) | border-right | 0 |
 | (max-width: 860px) | .admin-hub-grid | grid-template-columns | 1fr |
+| (max-width: 860px) | .admin-hub-card | border-right | 0 |
+| (max-width: 860px) | .admin-hub-card:nth-child(2n), .admin-hub-card:nth-child(3n) | border-right | 0 |
+| (max-width: 860px) | .admin-hub-card | min-height | 0 |
+| (max-width: 860px) | .admin-nav | gap | .1rem |
+| (max-width: 860px) | .admin-nav a | padding | .4rem .55rem |
 | (max-width: 860px) | .admin-nav-logout | margin-left | 0 |
+| (max-width: 860px) | body.desk-admin main.main | max-width | none |
 | (prefers-reduced-motion: reduce) | .site-form.editor-skin .actions button:hover | transform | none |
 
 *`响应式`*
@@ -574,6 +583,8 @@ import text:lib/text.mq.md
 
 ## 后台
 
+写作台：刊头式模块导航 + 目录感入口卡，与前台杂志排版对齐（直角、发丝线、等宽标签）。
+
 `后台` =
 
 | 选择器 | 属性 | 值 |
@@ -581,54 +592,110 @@ import text:lib/text.mq.md
 | body.desk-list aside.side, body.desk-writing aside.side, body.desk-admin aside.side, body.desk-admin aside.side-rail | display | none |
 | body.desk-admin.has-rail, body.desk-admin.has-sidebar.has-rail | grid-template-columns | 1fr !important |
 | body.desk-admin.has-rail, body.desk-admin.has-sidebar.has-rail | grid-template-areas | "\"top\" \"main\" \"foot\" !important" |
+| body.desk-admin | background-image | linear-gradient(180deg, color-mix(in srgb, var(--card) 70%, transparent), transparent 14rem), linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px) |
+| body.desk-admin | background-size | auto, 48px 48px, 48px 48px |
+| body.desk-admin main.main | max-width | 72rem |
+| body.desk-admin .main-intro | margin-bottom | 1.35rem |
+| body.desk-admin .main-intro | padding-bottom | 0 |
+| body.desk-admin .main-intro | border-bottom | 0 |
+| body.desk-admin .main-intro .kicker | margin-top | .35rem |
+| body.desk-admin .main-intro h1 | border-left | 3px solid var(--mark) |
+| body.desk-admin .main-intro h1 | padding-left | .75rem |
+| body.desk-admin .main-intro h1 | letter-spacing | .06em |
+| body.desk-admin .main-intro p.lede | max-width | 36rem |
+| body.desk-admin .main-intro p.lede | color | var(--muted) |
 | .admin-nav | display | flex |
 | .admin-nav | flex-wrap | wrap |
 | .admin-nav | align-items | center |
-| .admin-nav | gap | .35rem 1rem |
-| .admin-nav | margin | 0 0 1rem |
-| .admin-nav | padding | 0 0 .85rem |
+| .admin-nav | gap | .15rem .15rem |
+| .admin-nav | margin | 0 0 1.35rem |
+| .admin-nav | padding | .35rem 0 .55rem |
 | .admin-nav | border-bottom | 1px solid var(--line) |
 | .admin-nav | font-family | var(--mono) |
-| .admin-nav | font-size | .72rem |
-| .admin-nav | letter-spacing | .12em |
+| .admin-nav | font-size | .68rem |
+| .admin-nav | letter-spacing | .14em |
 | .admin-nav | text-transform | uppercase |
 | .admin-nav a | color | var(--muted) |
 | .admin-nav a | text-decoration | none |
-| .admin-nav a | padding | .2rem 0 |
-| .admin-nav a:hover | color | var(--mark) |
+| .admin-nav a | padding | .45rem .7rem |
+| .admin-nav a | border | 1px solid transparent |
+| .admin-nav a | transition | color .18s ease, border-color .18s ease, background-color .18s ease |
+| .admin-nav a:hover | color | var(--ink) |
+| .admin-nav a:hover | border-color | var(--line) |
+| .admin-nav a:hover | background | color-mix(in srgb, var(--card) 80%, transparent) |
 | .admin-nav a[aria-current="page"] | color | var(--ink) |
-| .admin-nav a[aria-current="page"] | border-bottom | 2px solid var(--mark) |
+| .admin-nav a[aria-current="page"] | border-color | var(--ink) |
+| .admin-nav a[aria-current="page"] | background | transparent |
 | .admin-nav-logout | margin-left | auto |
+| .admin-nav-logout | color | var(--faint) |
+| .admin-back | margin-left | .55rem |
+| .admin-back | font-family | var(--mono) |
+| .admin-back | font-size | .72rem |
+| .admin-back | letter-spacing | .1em |
+| .admin-back | text-transform | uppercase |
+| .admin-back | color | var(--mark) |
+| .admin-back | text-decoration | none |
+| .admin-back:hover | color | var(--ink) |
+| .admin-danger | font-family | var(--mono) |
+| .admin-danger | font-size | .72rem |
+| .admin-danger | letter-spacing | .08em |
+| .admin-danger | text-transform | uppercase |
+| .admin-danger | color | var(--mark) |
+| .admin-hub | margin | 1.5rem 0 .5rem |
 | .admin-hub-grid | display | grid |
 | .admin-hub-grid | grid-template-columns | repeat(3, minmax(0, 1fr)) |
-| .admin-hub-grid | gap | 1rem |
-| .admin-hub-grid | margin | 1.25rem 0 1rem |
+| .admin-hub-grid | gap | 0 |
+| .admin-hub-grid | margin | 0 |
+| .admin-hub-grid | border-top | 1px solid var(--line) |
 | .admin-hub-card | display | grid |
-| .admin-hub-card | gap | .35rem |
-| .admin-hub-card | padding | 1rem 1.1rem |
-| .admin-hub-card | border | 1px solid var(--line) |
-| .admin-hub-card | border-radius | 10px |
-| .admin-hub-card | background | color-mix(in srgb, var(--card) 88%, transparent) |
+| .admin-hub-card | gap | .45rem |
+| .admin-hub-card | align-content | start |
+| .admin-hub-card | padding | 1.35rem 1.2rem 1.45rem |
+| .admin-hub-card | border | 0 |
+| .admin-hub-card | border-right | 1px solid var(--line) |
+| .admin-hub-card | border-bottom | 1px solid var(--line) |
+| .admin-hub-card | border-radius | 0 |
+| .admin-hub-card | background | transparent |
 | .admin-hub-card | text-decoration | none |
 | .admin-hub-card | color | inherit |
-| .admin-hub-card | transition | border-color .2s ease, transform .2s ease |
-| .admin-hub-card:hover | border-color | color-mix(in srgb, var(--mark) 45%, var(--line)) |
-| .admin-hub-card:hover | transform | translateY(-2px) |
+| .admin-hub-card | min-height | 9.5rem |
+| .admin-hub-card | transition | background-color .22s ease, color .22s ease |
+| .admin-hub-card:nth-child(3n) | border-right | 0 |
+| .admin-hub-card:hover | background | color-mix(in srgb, var(--mark) 6%, transparent) |
+| .admin-hub-card:hover | transform | none |
+| .admin-hub-card:hover .admin-hub-kicker | color | var(--mark) |
+| .admin-hub-card:hover strong | color | var(--accent-2) |
+| .admin-hub-card--mute | background | color-mix(in srgb, var(--bg-2) 45%, transparent) |
+| .admin-hub-card--mute:hover | background | color-mix(in srgb, var(--bg-2) 70%, transparent) |
 | .admin-hub-kicker | font-family | var(--mono) |
 | .admin-hub-kicker | font-size | .62rem |
 | .admin-hub-kicker | letter-spacing | .16em |
 | .admin-hub-kicker | text-transform | uppercase |
 | .admin-hub-kicker | color | var(--faint) |
+| .admin-hub-kicker | transition | color .18s ease |
 | .admin-hub-card strong | font-family | var(--serif) |
-| .admin-hub-card strong | font-size | 1.15rem |
-| .admin-hub-card span:last-child | font-size | .88rem |
-| .admin-hub-card span:last-child | color | var(--muted) |
-| .admin-hub-card span:last-child | line-height | 1.45 |
+| .admin-hub-card strong | font-size | 1.28rem |
+| .admin-hub-card strong | font-weight | 700 |
+| .admin-hub-card strong | letter-spacing | .04em |
+| .admin-hub-card strong | color | var(--ink) |
+| .admin-hub-card strong | transition | color .18s ease |
+| .admin-hub-card > span:last-child | font-size | .9rem |
+| .admin-hub-card > span:last-child | color | var(--muted) |
+| .admin-hub-card > span:last-child | line-height | 1.55 |
+| .admin-hub-card > span:last-child | max-width | 18rem |
+| body.desk-admin .pub-compose-bar | margin | .85rem 0 1.25rem |
+| body.desk-admin .pub-compose-bar | padding | 1rem 0 1.15rem |
+| body.desk-admin .pub-list-head | margin | 0 0 .35rem |
+| body.desk-admin .pub-list-head h2 | font-size | 1.05rem |
+| body.desk-admin .content.cards | border-top | 1px solid var(--line) |
+| body.desk-admin .content.cards .card | padding | 1.15rem 0 1.2rem |
+| body.desk-admin .content.cards .card:hover | background | color-mix(in srgb, var(--mark) 4%, transparent) |
 | .site-form.meta-form | max-width | 42rem |
-| .site-form.meta-form | padding | 1.25rem 1.35rem |
+| .site-form.meta-form | padding | 1.35rem 1.45rem 1.5rem |
 | .site-form.meta-form | border | 1px solid var(--line) |
-| .site-form.meta-form | border-radius | 12px |
-| .site-form.meta-form | background | color-mix(in srgb, var(--card) 90%, transparent) |
+| .site-form.meta-form | border-radius | 0 |
+| .site-form.meta-form | background | var(--card) |
+| .site-form.meta-form | box-shadow | none |
 
 *`后台`*
 

@@ -810,7 +810,7 @@ Build all form handles used by pages and app.mount_form.
     + `css`
 
 **intro = > intros.后台概览引言**
-*> desk_page title="后台管理" intro=`intro` css=`css` body_class="desk-admin"*
+*> desk_page title="后台管理" intro=`intro` css=`css` body_class="desk-admin admin-hub"*
 
 ## publish
     + `css`
