@@ -31,14 +31,14 @@ import json:lib/json.mq.md
 
 **`load` = > browser.store_get key=theme_key then="apply_theme" scope="local"**
 **`ui` = > browser.fetch url="/api/ui" then="apply_ui"**
-**`ready` = > browser.add_class sel="body" class="is-ready"**
-**`mark` = > browser.add_class sel=".article .article-body.md > h2, .article .article-body.md > h3, .article .article-body.md > blockquote, .article .article-body.md > pre" class="qd-reveal"**
 **`obs` = > browser.observe specs=reveal_obs**
 **`w` = > table.put in=None at="wire" value=wire**
+**`cls` = > table.put in=None at="body" value="is-ready"**
+**`cls` = > table.put in=cls at=".article .article-body.md > h2, .article .article-body.md > h3, .article .article-body.md > blockquote, .article .article-body.md > pre" value="qd-reveal"**
+**`dom` = > table.put in=None at="add_class" value=cls**
 **`boot` = > browser.merge a=w b=load**
 **`boot` = > browser.merge a=boot b=ui**
-**`boot` = > browser.merge a=boot b=ready**
-**`boot` = > browser.merge a=boot b=mark**
+**`boot` = > browser.merge a=boot b=dom**
 *> browser.merge a=boot b=obs*
 
 ## apply_ui
@@ -46,12 +46,12 @@ import json:lib/json.mq.md
     + `status`=0
     + `body`=""
 
-1. ok
+1. `ok`
     **`data` = > json.parse text=body**
     **`rows` = [rows](data)**
     **`n` = > len value=rows**
-    1. n > 0
-        **`row` = [0](rows)**
+    1. `n` > 0
+        **`row` = [1](rows)**
         **`show_login` = [show_login](row)**
         **`show_register` = [show_register](row)**
         **`show_comment` = [show_comment](row)**
@@ -62,44 +62,47 @@ import json:lib/json.mq.md
         **`hide_comment` = False**
         **`show_icp` = False**
         **`show_police` = False**
-        1. show_login == 0
+        1. `show_login` == 0
             **`hide_login` = True**
-        2. show_login == "0"
+        2. `show_login` == "0"
             **`hide_login` = True**
-        1. show_register == 0
+        1. `show_register` == 0
             **`hide_register` = True**
-        2. show_register == "0"
+        2. `show_register` == "0"
             **`hide_register` = True**
-        1. show_comment == 0
+        1. `show_comment` == 0
             **`hide_comment` = True**
-        2. show_comment == "0"
+        2. `show_comment` == "0"
             **`hide_comment` = True**
-        1. icp_beian != None
-          1. icp_beian != ""
+        1. `icp_beian` != None
+          1. `icp_beian` != ""
             **`show_icp` = True**
-        1. police_beian != None
-          1. police_beian != ""
+        1. `police_beian` != None
+          1. `police_beian` != ""
             **`show_police` = True**
-        **`ret` = > table.put in=None at="ok" value=True**
-        1. hide_login
-            **`h` = > browser.add_class sel="body" class="ui-hide-login"**
-            **`ret` = > browser.merge a=ret b=h**
-        1. hide_register
-            **`h` = > browser.add_class sel="body" class="ui-hide-register"**
-            **`ret` = > browser.merge a=ret b=h**
-        1. hide_comment
-            **`h` = > browser.add_class sel="body" class="ui-hide-comment"**
-            **`ret` = > browser.merge a=ret b=h**
-        1. show_icp
-            **`t` = > browser.set_text sel="li.foot-icp a" text=icp_beian**
-            **`ret` = > browser.merge a=ret b=t**
-            **`c` = > browser.remove_class sel="li.foot-icp" class="is-empty"**
-            **`ret` = > browser.merge a=ret b=c**
-        1. show_police
-            **`t` = > browser.set_text sel="li.foot-police a" text=police_beian**
-            **`ret` = > browser.merge a=ret b=t**
-            **`c` = > browser.remove_class sel="li.foot-police" class="is-empty"**
-            **`ret` = > browser.merge a=ret b=c**
+        **`body_cls` = ""**
+        1. `hide_login`
+            **`body_cls` = body_cls + "ui-hide-login "**
+        1. `hide_register`
+            **`body_cls` = body_cls + "ui-hide-register "**
+        1. `hide_comment`
+            **`body_cls` = body_cls + "ui-hide-comment "**
+        **`texts` = None**
+        **`rm` = None**
+        1. `show_icp`
+            **`texts` = > table.put in=texts at="li.foot-icp a" value=icp_beian**
+            **`rm` = > table.put in=rm at="li.foot-icp" value="is-empty"**
+        1. `show_police`
+            **`texts` = > table.put in=texts at="li.foot-police a" value=police_beian**
+            **`rm` = > table.put in=rm at="li.foot-police" value="is-empty"**
+        **`ret` = None**
+        1. `body_cls` != ""
+            **`cls_map` = > table.put in=None at="body" value=body_cls**
+            **`ret` = > table.put in=ret at="add_class" value=cls_map**
+        1. `texts` != None
+            **`ret` = > table.put in=ret at="set_text" value=texts**
+        1. `rm` != None
+            **`ret` = > table.put in=ret at="remove_class" value=rm**
         *ret*
     2. *
         *None*

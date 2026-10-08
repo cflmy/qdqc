@@ -44,7 +44,7 @@ import db:db/index.mq.md
 **admin_comments_delete = > site.admin_comments_delete css=`desk_css` comment_delete_form=[comment_delete_form](forms)**
 **admin_settings = > site.admin_settings css=`desk_css` ui_form=[ui_form](forms)**
 
-**app = > web.app page=`page` db=`store` admin=False host="0.0.0.0" port=18085 shell_css="minimal" asset_version="20260930b"**
+**app = > web.app page=`page` db=`store` admin=False host="0.0.0.0" port=18085 shell_css="minimal" asset_version="20261008a"**
 **app = > web.route app=`app` path="/about" page=`about`**
 **app = > web.route app=`app` path="/post/{slug}" page=`post`**
 **app = > web.route app=`app` path="/tags" page=`tags`**
