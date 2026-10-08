@@ -26,5 +26,7 @@ qdqc 数据库迁移
 | 16 | CREATE TABLE IF NOT EXISTS "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "post_slug" TEXT NOT NULL, "author" TEXT NOT NULL, "body" TEXT NOT NULL, "created_at" TEXT) |
 | 17 | CREATE TABLE IF NOT EXISTS "site_ui" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "show_login" INTEGER NOT NULL, "show_register" INTEGER NOT NULL, "show_comment" INTEGER NOT NULL) |
 | 18 | INSERT OR IGNORE INTO "site_ui" ("id", "show_login", "show_register", "show_comment") VALUES (1, 1, 1, 1) |
+| 19 | ALTER TABLE "site_ui" ADD COLUMN "icp_beian" TEXT |
+| 20 | ALTER TABLE "site_ui" ADD COLUMN "police_beian" TEXT |
 
 *steps*

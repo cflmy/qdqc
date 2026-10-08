@@ -790,6 +790,12 @@ import text:lib/text.mq.md
 | ul.foot-nav a | letter-spacing | .06em |
 | ul.foot-nav a:hover | color | var(--ink) |
 | ul.foot-nav li:first-child a | color | var(--muted) |
+| ul.foot-nav li.foot-icp.is-empty | display | none |
+| ul.foot-nav li.foot-police.is-empty | display | none |
+| ul.foot-nav li.foot-icp a | color | var(--faint) |
+| ul.foot-nav li.foot-police a | color | var(--faint) |
+| ul.foot-nav li.foot-icp a:hover | color | var(--ink) |
+| ul.foot-nav li.foot-police a:hover | color | var(--ink) |
 
 *`页脚`*
 

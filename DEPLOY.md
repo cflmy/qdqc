@@ -2,7 +2,14 @@
 
 生产站点：**https://qdqc.com**（已备案）。公开源码即本仓库。论文/Industry 证据说明见 [docs/PUBLIC-SITE.md](docs/PUBLIC-SITE.md)。
 
-本站基于 [Marqdo](https://github.com/cflmy/marqdo) **1.3.0** Web Artifact（ADR 0007：Document / Endpoint / Resource）。镜像在构建阶段下载官方 **Linux 预编译包**（CLI + `ext/` + `libweb.so`），无需本机 Rust/Cargo。默认优先从 CDN [`ext.marqdo.com`](https://ext.marqdo.com) 拉取（避免构建机直连 GitHub 失败），失败再回退 GitHub / `proxy.cflmy.top`。可用 build-arg `MARQDO_BUNDLE_URL` 覆盖。**不要**用当前 `ppa:cflmy/marqdo`（仅到 1.2.0）装 CLI，否则会降级。
+本站基于 [Marqdo](https://github.com/cflmy/marqdo) Web Artifact（ADR 0007：Document / Endpoint / Resource）。**CLI 与扩展包版本分开钉死**（勿混用同一 SemVer）：
+
+| Build-arg | 默认 | 含义 |
+|-----------|------|------|
+| `MARQDO_VERSION` | `1.3.0` | Linux CLI bundle（`marqdo` + `lib/`） |
+| `MARQDO_EXT_VERSION` | `1.3.1` | 官方 `ext/` + `native/libweb.so`（OIDC 路径回调等） |
+
+镜像构建先拉 CLI bundle，再从 CDN [`ext.marqdo.com`](https://ext.marqdo.com) 覆盖 `ext` pack / native zip（GitHub `ext-v*` 为回退）。可用 `MARQDO_BUNDLE_URL` 覆盖 CLI 包 URL。**不要**用当前 `ppa:cflmy/marqdo`（仅到 1.2.0）装 CLI。
 
 入口为 **`serve.mq.md`**（`web.app` + 显式 `web.route`），页面袋由 `site/kit.mq.md` 戳记；**禁止** `compose_*` / `app.configure`。页面 Document 在 `pages/` 与根 `index.mq.md`（文档与 EKC）；API 为 `api/*.mq.md` Endpoint。
 
@@ -30,10 +37,12 @@ QDQC_REDIS_URL=redis://:PASSWORD@127.0.0.1:6379/0
 QDQC_OIDC_ISSUER=https://id.cflmy.cn
 QDQC_OIDC_CLIENT_ID=app_…
 QDQC_OIDC_CLIENT_SECRET=…
-QDQC_OIDC_REDIRECT_URI=http://localhost:18085/oidc/callback
+# 路径模式：按请求 Host 拼绝对回调（需 Marqdo web 插件支持）
+QDQC_OIDC_REDIRECT_URI=/oidc/callback
+QDQC_OIDC_REDIRECT_ORIGINS=https://qdqc.com,https://www.qdqc.com,http://localhost:18085
 ```
 
-回调地址须与 IdP 后台登记完全一致。IdP 的 `is_admin` / `admin_role` 用户获得本站 `admin`（写作台）权限。
+路径模式下 IdP 须登记**每一条**会用到的绝对回调（如 `https://qdqc.com/oidc/callback` 与 `https://www.qdqc.com/oidc/callback`）。也可仍写死单一绝对 `QDQC_OIDC_REDIRECT_URI`。IdP 的 `is_admin` / `admin_role` 用户获得本站 `admin`（写作台）权限。
 
 从本地 SQLite 迁移：
 

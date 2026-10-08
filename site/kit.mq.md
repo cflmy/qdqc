@@ -253,8 +253,9 @@ Common public/desk shell: brand + client + optional chrome slots + CSS + intro.
     + `client_id`
     + `client_secret`
     + `redirect_uri`
+    + `redirect_origins`=None
 
-*> oidc.attach app=`app` issuer=`issuer` client_id=`client_id` client_secret=`client_secret` redirect_uri=`redirect_uri`*
+*> oidc.attach app=`app` issuer=`issuer` client_id=`client_id` client_secret=`client_secret` redirect_uri=`redirect_uri` redirect_origins=`redirect_origins`*
 
 ## json_api
     + `app`

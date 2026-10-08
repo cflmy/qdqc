@@ -105,8 +105,9 @@ import db:db/index.mq.md
 **oidc_client = > sys.env_get name="QDQC_OIDC_CLIENT_ID"**
 **oidc_secret = > sys.env_get name="QDQC_OIDC_CLIENT_SECRET"**
 **oidc_redirect = > sys.env_get name="QDQC_OIDC_REDIRECT_URI"**
+**oidc_origins = > sys.env_get name="QDQC_OIDC_REDIRECT_ORIGINS"**
 1. oidc_client
-  **app = > kit.attach_oidc app=`app` issuer=oidc_issuer client_id=oidc_client client_secret=oidc_secret redirect_uri=oidc_redirect**
+  **app = > kit.attach_oidc app=`app` issuer=oidc_issuer client_id=oidc_client client_secret=oidc_secret redirect_uri=oidc_redirect redirect_origins=oidc_origins**
 
 **app = > `app`.gate path="/admin" roles="" permissions="desk:access" match="prefix" on_deny="redirect" exclude="/admin/login,/login,/register,/oidc/callback,/oidc/login,/oidc/register"**
 **app = > `app`.gate path="/_form/post" roles="" permissions="posts:edit" match="exact" on_deny="redirect"**

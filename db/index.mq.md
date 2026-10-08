@@ -5,6 +5,7 @@ description: >-
   QDQC_REDIS_URL session store, init schema, migrate, idempotent seed.
 import data:ext/data/db.mq.md
 import sys:lib/sys.mq.md
+import text:lib/text.mq.md
 import schema:schema.mq.md
 import seed:seed.mq.md
 import migrate:migrate.mq.md
@@ -38,6 +39,10 @@ import migrate:migrate.mq.md
 **steps = > migrate.steps**
 1. url == "sqlite:data/qdqc.db"
     > `store`.migrate steps=`steps`
+**is_pg = > text.starts_with text=url prefix="postgres"**
+1. is_pg
+  > `store`.exec sql="ALTER TABLE site_ui ADD COLUMN IF NOT EXISTS icp_beian TEXT"
+  > `store`.exec sql="ALTER TABLE site_ui ADD COLUMN IF NOT EXISTS police_beian TEXT"
 **has_posts = > store.select table="posts" limit=1**
 **has_news = > store.select table="news" limit=1**
 **has_ui = > store.select table="site_ui" limit=1**

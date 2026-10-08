@@ -55,9 +55,13 @@ import json:lib/json.mq.md
         **`show_login` = [show_login](row)**
         **`show_register` = [show_register](row)**
         **`show_comment` = [show_comment](row)**
+        **`icp_beian` = [icp_beian](row)**
+        **`police_beian` = [police_beian](row)**
         **`hide_login` = False**
         **`hide_register` = False**
         **`hide_comment` = False**
+        **`show_icp` = False**
+        **`show_police` = False**
         1. show_login == 0
             **`hide_login` = True**
         2. show_login == "0"
@@ -70,6 +74,12 @@ import json:lib/json.mq.md
             **`hide_comment` = True**
         2. show_comment == "0"
             **`hide_comment` = True**
+        1. icp_beian != None
+          1. icp_beian != ""
+            **`show_icp` = True**
+        1. police_beian != None
+          1. police_beian != ""
+            **`show_police` = True**
         **`ret` = > table.put in=None at="ok" value=True**
         1. hide_login
             **`h` = > browser.add_class sel="body" class="ui-hide-login"**
@@ -80,6 +90,16 @@ import json:lib/json.mq.md
         1. hide_comment
             **`h` = > browser.add_class sel="body" class="ui-hide-comment"**
             **`ret` = > browser.merge a=ret b=h**
+        1. show_icp
+            **`t` = > browser.set_text sel="li.foot-icp a" text=icp_beian**
+            **`ret` = > browser.merge a=ret b=t**
+            **`c` = > browser.remove_class sel="li.foot-icp" class="is-empty"**
+            **`ret` = > browser.merge a=ret b=c**
+        1. show_police
+            **`t` = > browser.set_text sel="li.foot-police a" text=police_beian**
+            **`ret` = > browser.merge a=ret b=t**
+            **`c` = > browser.remove_class sel="li.foot-police" class="is-empty"**
+            **`ret` = > browser.merge a=ret b=c**
         *ret*
     2. *
         *None*

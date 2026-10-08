@@ -140,7 +140,8 @@ topics / replies 为历史表，界面已下线讨论区。
 
 ## site_ui
 
-前台界面开关（单行）。`1`=显示按钮入口，`0`=隐藏；不关闭 `/login`、`/register` 与评论接口。
+前台界面开关与备案文案（单行）。`1`=显示按钮入口，`0`=隐藏；不关闭 `/login`、`/register` 与评论接口。
+`icp_beian` / `police_beian`（text，可空）由迁移 ALTER 追加，留空则脚注不悬挂对应备案号。
 
 `site_ui` =
 
