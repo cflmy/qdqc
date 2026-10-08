@@ -16,5 +16,8 @@ _style*
 agent-transcripts
 **/__pycache__
 *.md.bak
+# 密钥只在运行时通过 compose env_file 注入，勿打进镜像
+.env
+.env.*
 # 本机 marqdo 缓存 / 转换中间物，勿打进镜像
 tools/__pycache__/

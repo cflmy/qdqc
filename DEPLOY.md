@@ -2,7 +2,7 @@
 
 生产站点：**https://qdqc.com**（已备案）。公开源码即本仓库。论文/Industry 证据说明见 [docs/PUBLIC-SITE.md](docs/PUBLIC-SITE.md)。
 
-本站基于 [Marqdo](https://github.com/cflmy/marqdo) **1.3.0** Web Artifact（ADR 0007：Document / Endpoint / Resource）。镜像在构建阶段下载官方 **Linux 预编译包**（CLI + `ext/` + `libweb.so`），无需本机 Rust/Cargo。
+本站基于 [Marqdo](https://github.com/cflmy/marqdo) **1.3.0** Web Artifact（ADR 0007：Document / Endpoint / Resource）。镜像在构建阶段下载官方 **Linux 预编译包**（CLI + `ext/` + `libweb.so`），无需本机 Rust/Cargo。默认优先从 CDN [`ext.marqdo.com`](https://ext.marqdo.com) 拉取（避免构建机直连 GitHub 失败），失败再回退 GitHub / `proxy.cflmy.top`。可用 build-arg `MARQDO_BUNDLE_URL` 覆盖。**不要**用当前 `ppa:cflmy/marqdo`（仅到 1.2.0）装 CLI，否则会降级。
 
 入口为 **`serve.mq.md`**（`web.app` + 显式 `web.route`），页面袋由 `site/kit.mq.md` 戳记；**禁止** `compose_*` / `app.configure`。页面 Document 在 `pages/` 与根 `index.mq.md`（文档与 EKC）；API 为 `api/*.mq.md` Endpoint。
 
@@ -45,21 +45,24 @@ python tools/migrate_sqlite_to_postgres.py
 
 ## 一键拉起
 
-在项目根目录：
+在项目根目录（需能访问 Docker，常见为 `sudo`）：
 
 ```bash
 docker compose up -d --build
 ```
 
+`.env` 经 Compose `env_file` 注入容器（不打进镜像）。Compose 使用 **`network_mode: host`**（与宿主机同网络栈）：`cflmy.de` 等仅有 IPv6 的库在 Docker bridge 上会 `network is unreachable`；本机 Redis `127.0.0.1` 也可直接用。监听端口以 `serve.mq.md` 为准（默认 **18085**）。
+
+排障：
+
+```bash
+./docker/diagnose.sh
+# 或：docker compose logs -f qdqc
+```
+
 浏览器打开：http://127.0.0.1:18085
 
 后台入口：**/login**（登录后进入 `/admin`）。
-
-换端口：
-
-```bash
-QDQC_PORT=8080 docker compose up -d --build
-```
 
 ## 常用命令
 
@@ -98,5 +101,5 @@ marqdo run serve.mq.md
 
 | 阶段 | 作用 |
 |------|------|
-| builder | 下载 Marqdo `v1.3.0` Linux bundle，校验 CLI 与 `libweb.so` |
+| builder | 从 CDN（首选）/ GitHub / proxy 下载 Marqdo `v1.3.0` Linux bundle，校验版本 ≥ 1.3.0 与 `libweb.so` |
 | runtime | Ubuntu 24.04 + 站点文件，入口 `marqdo run serve.mq.md` |

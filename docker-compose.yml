@@ -2,6 +2,9 @@
 # 用法：docker compose up -d --build
 # 访问：http://127.0.0.1:18085
 # 需 Marqdo 1.3.0+（Web Artifact ADR 0007；Document/Endpoint/Resource；禁止 compose_*）
+#
+# network_mode: host — Postgres 主机 cflmy.de 仅有 AAAA；Docker bridge 无出站 IPv6，
+# 会导致 postgres ping「network is unreachable」。host 网络与宿主机同栈（含 IPv6 / 本机 Redis）。
 
 services:
   qdqc:
@@ -12,10 +15,11 @@ services:
         MARQDO_VERSION: "1.3.0"
     image: qdqc:local
     container_name: qdqc
-    ports:
-      - "${QDQC_PORT:-18085}:18085"
+    env_file:
+      - .env
+    network_mode: host
     volumes:
-      # 持久化 SQLite（首次启动会按 db/seed 幂等建库）
+      # 持久化 SQLite（首次启动会按 db/seed 幂等建库；Postgres 模式下多为空卷）
       - qdqc-data:/app/data
     restart: unless-stopped
     healthcheck:

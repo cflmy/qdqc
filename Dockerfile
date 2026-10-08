@@ -1,12 +1,17 @@
-# Marqdo ≥1.3.0：Web Artifact（ADR 0007）+ EKC；网页插件为 Go libweb；
-# 官方 Release 提供 Linux 预编译包，构建阶段直接解压，无需本机 cargo。
+# Marqdo ≥1.3.0：Web Artifact（ADR 0007）+ EKC；网页插件为 Go libweb。
+# 构建优先从官方 CDN（ext.marqdo.com）拉 Linux bundle（CLI + lib/ + ext/ + .so），
+# 避免构建机直连 github.com 失败；GitHub / proxy 为回退。
+# 注意：ppa:cflmy/marqdo 当前仅发布到 1.2.0，不能用 apt 装 CLI（会降级）。
 # CI 在 Ubuntu 24.04 上构建，需 GLIBC ≥ 2.39 → 运行时用 ubuntu:24.04（勿用 bookworm）。
 # syntax=docker/dockerfile:1
 
 ARG MARQDO_VERSION=1.3.0
+# 可选：显式覆盖 bundle URL（跳过自动候选列表）
+ARG MARQDO_BUNDLE_URL=
 
 FROM ubuntu:24.04 AS builder
 ARG MARQDO_VERSION
+ARG MARQDO_BUNDLE_URL
 WORKDIR /build
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -15,20 +20,44 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # 官方 Linux bundle：CLI + lib/ + ext/ + 原生 .so
-RUN curl -fsSL \
-    "https://github.com/cflmy/marqdo/releases/download/v${MARQDO_VERSION}/marqdo-${MARQDO_VERSION}-x86_64-unknown-linux-gnu.zip" \
-    -o /tmp/marqdo.zip \
-  && mkdir -p /opt/marqdo \
-  && unzip -q /tmp/marqdo.zip -d /tmp/marqdo-dist \
-  && if [ -x /tmp/marqdo-dist/marqdo ]; then \
-       cp -a /tmp/marqdo-dist/. /opt/marqdo/; \
-     else \
-       sub="$(find /tmp/marqdo-dist -maxdepth 2 -type f -name marqdo | head -n1 | xargs dirname)"; \
-       cp -a "$sub"/. /opt/marqdo/; \
-     fi \
-  && test -x /opt/marqdo/marqdo \
-  && /opt/marqdo/marqdo version \
-  && rm -rf /tmp/marqdo.zip /tmp/marqdo-dist
+# 下载顺序：build-arg → CDN bundles → CDN 根路径 → GitHub → cflmy proxy
+RUN set -eu; \
+  file="marqdo-${MARQDO_VERSION}-x86_64-unknown-linux-gnu.zip"; \
+  urls=""; \
+  if [ -n "${MARQDO_BUNDLE_URL}" ]; then \
+    urls="${MARQDO_BUNDLE_URL}"; \
+  fi; \
+  urls="${urls} \
+    https://ext.marqdo.com/v${MARQDO_VERSION}/bundles/${file} \
+    https://ext.marqdo.com/bundles/${file} \
+    https://github.com/cflmy/marqdo/releases/download/v${MARQDO_VERSION}/${file} \
+    https://proxy.cflmy.top/github.com/cflmy/marqdo/releases/download/v${MARQDO_VERSION}/${file}"; \
+  ok=0; \
+  for url in ${urls}; do \
+    echo "marqdo bundle: trying ${url}"; \
+    if curl -fsSL --connect-timeout 20 --max-time 300 "${url}" -o /tmp/marqdo.zip; then \
+      ok=1; \
+      echo "marqdo bundle: fetched from ${url}"; \
+      break; \
+    fi; \
+  done; \
+  if [ "${ok}" != 1 ]; then \
+    echo "error: could not download Marqdo ${MARQDO_VERSION} Linux bundle from any mirror" >&2; \
+    exit 1; \
+  fi; \
+  mkdir -p /opt/marqdo; \
+  unzip -q /tmp/marqdo.zip -d /tmp/marqdo-dist; \
+  if [ -x /tmp/marqdo-dist/marqdo ]; then \
+    cp -a /tmp/marqdo-dist/. /opt/marqdo/; \
+  else \
+    sub="$(find /tmp/marqdo-dist -maxdepth 2 -type f -name marqdo | head -n1 | xargs dirname)"; \
+    cp -a "${sub}"/. /opt/marqdo/; \
+  fi; \
+  test -x /opt/marqdo/marqdo; \
+  /opt/marqdo/marqdo version; \
+  got="$(/opt/marqdo/marqdo version | awk '{print $NF}')"; \
+  dpkg --compare-versions "${got}" ge "${MARQDO_VERSION}"; \
+  rm -rf /tmp/marqdo.zip /tmp/marqdo-dist
 
 ENV MARQDO_EXT=/opt/marqdo/ext
 ENV PATH="/opt/marqdo:${PATH}"
