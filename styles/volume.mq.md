@@ -492,6 +492,12 @@ import text:lib/text.mq.md
 | body.has-sidebar.has-rail .article .article-body.md | max-width | none |
 | body.has-sidebar.has-rail .main-intro:has(> .post-comments) | max-width | none |
 | body.has-sidebar.has-rail .main-intro:has(> .post-comments) | width | 100% |
+| body.has-sidebar.has-rail .main-intro:has(> .about-doc) | max-width | none |
+| body.has-sidebar.has-rail .main-intro:has(> .about-doc) | width | 100% |
+| body.has-sidebar.has-rail .main-intro:has(> .about-doc) .about-doc | max-width | none |
+| body.has-sidebar.has-rail .main-intro:has(> .about-doc) .about-doc | width | 100% |
+| body.has-sidebar.has-rail .main-intro:has(> .about-doc) .about-doc > p | max-width | none |
+| body.has-sidebar.has-rail .main-intro:has(> .about-doc) .about-doc > p.lede | max-width | 36rem |
 | body.has-sidebar.has-rail .post-comments | max-width | none |
 | body.has-sidebar.has-rail .post-comments | width | 100% |
 | aside.side-rail | grid-area | rail |

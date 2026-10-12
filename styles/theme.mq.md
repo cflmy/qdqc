@@ -285,6 +285,48 @@ import text:lib/text.mq.md
 | .main-intro p.lede.slogan | max-width | 24rem |
 | .main-intro p | color | var(--muted) |
 | .main-intro p | max-width | 36rem |
+| .main-intro .about-doc | max-width | none |
+| .main-intro .about-doc | width | 100% |
+| .main-intro .about-doc > p | max-width | none |
+| .main-intro .about-doc > p.lede | max-width | 36rem |
+| .main-intro .about-doc p.about-lead | color | var(--ink-soft) |
+| .main-intro .about-doc p.about-lead | line-height | 1.8 |
+| .main-intro .about-doc p.about-lead | margin-top | 1.25rem |
+| .main-intro .about-doc h2 | font-family | var(--serif) |
+| .main-intro .about-doc h2 | font-size | clamp(1.25rem, 2vw, 1.45rem) |
+| .main-intro .about-doc h2 | font-weight | 700 |
+| .main-intro .about-doc h2 | letter-spacing | .06em |
+| .main-intro .about-doc h2 | color | var(--ink) |
+| .main-intro .about-doc h2 | margin | 1.85rem 0 .65rem |
+| .main-intro .about-doc h2 | padding-top | 1.1rem |
+| .main-intro .about-doc h2 | border-top | 1px solid var(--line) |
+| .main-intro .about-doc p | line-height | 1.8 |
+| .main-intro .about-doc p | color | var(--ink-soft) |
+| .main-intro .about-verse | list-style | none |
+| .main-intro .about-doc .about-verse | margin | .55rem 0 1rem |
+| .main-intro .about-doc .about-verse | padding | .15rem 0 .15rem 1rem |
+| .main-intro .about-doc .about-verse | border-left | 2px solid var(--mark) |
+| .main-intro .about-doc .about-verse li | margin | 0 0 .25rem |
+| .main-intro .about-doc .about-verse li | font-family | var(--serif) |
+| .main-intro .about-doc .about-verse li | color | var(--ink) |
+| .main-intro .about-doc .about-verse li | letter-spacing | .04em |
+| .main-intro .about-doc .about-volumes, .main-intro .about-doc .about-path | margin | .75rem 0 0 |
+| .main-intro .about-doc .about-volumes, .main-intro .about-doc .about-path | padding | 0 0 0 1.25rem |
+| .main-intro .about-doc .about-volumes, .main-intro .about-doc .about-path | max-width | none |
+| .main-intro .about-doc .about-volumes li, .main-intro .about-doc .about-path li | margin | 0 0 .75rem |
+| .main-intro .about-doc .about-volumes li, .main-intro .about-doc .about-path li | line-height | 1.75 |
+| .main-intro .about-doc .about-volumes li, .main-intro .about-doc .about-path li | color | var(--ink-soft) |
+| .main-intro .about-doc a | color | var(--ink) |
+| .main-intro .about-doc a:hover | color | var(--mark) |
+| .main-intro .about-doc p.about-sign | margin-top | 1.35rem |
+| .main-intro .about-doc p.about-sign | color | var(--faint) |
+| .main-intro .about-doc p.about-sign | font-family | var(--mono) |
+| .main-intro .about-doc p.about-sign | font-size | .78rem |
+| .main-intro .about-doc p.about-sign | letter-spacing | .04em |
+| .main-intro .about-doc p.about-more | margin-top | 1.25rem |
+| .main-intro .about-doc p.about-more | font-family | var(--mono) |
+| .main-intro .about-doc p.about-more | font-size | .78rem |
+| .main-intro .about-doc p.about-more | letter-spacing | .06em |
 | .column-gate | margin | 1.75rem 0 0 |
 | .column-gate | padding | 1.15rem 0 0 |
 | .column-gate | border-top | 1px solid var(--line) |
