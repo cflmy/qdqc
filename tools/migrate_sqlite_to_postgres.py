@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
-"""Merge data/qdqc.db (primary) + data/qdqc-new.db extras into remote Postgres."""
+"""Merge data/qdqc.db + data/qdqc-new.db into remote Postgres.
+
+Primary supplies schema-shaped rows (auth, migrations, short seed).
+Secondary supplies authored bodies. On natural-key collision, keep the row
+with longer content/body (and sane tag/created_at metadata).
+"""
 from __future__ import annotations
 
 import os
+import re
 import sqlite3
 import sys
 from pathlib import Path
@@ -28,8 +34,10 @@ if not PG_URL:
 if PG_URL.startswith("postgres://"):
     PG_URL = "postgresql://" + PG_URL[len("postgres://") :]
 
+KNOWN_TAGS = {"quantum", "algorithm", "hardware", "sci-pop", "marqdo"}
+DATE_OK = re.compile(r"^\d{4}-\d{2}-\d{2}")
 
-# Load primary wholesale; then add secondary rows missing by natural key.
+# Load primary wholesale; then merge secondary by natural key (prefer longer body).
 NATURAL_KEY = {
     "columns": "slug",
     "tags": "slug",
@@ -41,6 +49,14 @@ NATURAL_KEY = {
     "web_permissions": "code",
     "web_roles": "name",
     "_marqdo_migrations": "version",
+}
+
+# Tables where overlapping keys should prefer the longer text field.
+RICHER_FIELD = {
+    "posts": "content",
+    "topics": "content",
+    "comments": "body",
+    "news": "summary",
 }
 
 TABLE_ORDER = [
@@ -260,14 +276,70 @@ def main() -> int:
                         pass
                     continue
 
-                have = {row_key(cols, r, key) for r in prow}
+                have = {row_key(cols, r, key): r for r in prow}
                 extras = []
+                richer = RICHER_FIELD.get(table)
+                upgraded = 0
                 for r in srows:
                     k = row_key(cols, r, key)
-                    if k in have:
+                    if k not in have:
+                        have[k] = r
+                        extras.append(r)
                         continue
-                    have.add(k)
-                    extras.append(r)
+                    if not richer or richer not in cols:
+                        continue
+                    ri = cols.index(richer)
+                    old_r = have[k]
+                    new_txt = r[ri] or ""
+                    old_txt = old_r[ri] or ""
+                    if not (
+                        isinstance(new_txt, str)
+                        and isinstance(old_txt, str)
+                        and len(new_txt) > len(old_txt)
+                    ):
+                        continue
+                    merged = list(old_r)
+                    for c in (
+                        "title",
+                        "summary",
+                        "content",
+                        "body",
+                        "updated_at",
+                        "column_slug",
+                        "pinned",
+                        "name",
+                    ):
+                        if c not in cols:
+                            continue
+                        ci = cols.index(c)
+                        nv = r[ci]
+                        if nv is not None and nv != "":
+                            merged[ci] = nv
+                    merged[ri] = new_txt
+                    if "tag" in cols:
+                        ti = cols.index("tag")
+                        nv = r[ti]
+                        if isinstance(nv, str) and nv in KNOWN_TAGS:
+                            merged[ti] = nv
+                    if "created_at" in cols:
+                        ci = cols.index("created_at")
+                        nv = r[ci]
+                        if isinstance(nv, str) and DATE_OK.match(nv):
+                            merged[ci] = nv
+                    have[k] = tuple(merged)
+                    set_cols = [c for c in cols if c != "id"]
+                    assignments = ", ".join(f'"{c}"=%s' for c in set_cols)
+                    key_cols = key if isinstance(key, tuple) else (key,)
+                    where = " AND ".join(f'"{c}"=%s' for c in key_cols)
+                    vals = [merged[cols.index(c)] for c in set_cols]
+                    vals.extend(merged[cols.index(c)] for c in key_cols)
+                    cur.execute(
+                        f'UPDATE "{table}" SET {assignments} WHERE {where}',
+                        vals,
+                    )
+                    upgraded += 1
+                if upgraded:
+                    print(f"  ~{upgraded} richer rows from qdqc-new")
                 if not extras:
                     continue
                 # insert without old ids so identity assigns fresh ids
