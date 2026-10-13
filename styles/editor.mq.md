@@ -140,6 +140,19 @@ import text:lib/text.mq.md
 | .md-field > .mq-md-preview | overflow | auto |
 | .md-field > .mq-md-preview | padding | .85rem 1.2rem 1.4rem |
 | .md-field > .mq-md-preview | background | linear-gradient(165deg, var(--card), color-mix(in srgb, var(--card-2) 80%, var(--card))) |
+| .mq-md-preview .katex-display, .md-preview .katex-display | margin | 1.1rem 0 |
+| .mq-md-preview .katex-display, .md-preview .katex-display | overflow-x | auto |
+| .mq-md-preview .katex-display, .md-preview .katex-display | overflow-y | hidden |
+| .mq-md-preview .katex, .md-preview .katex | font-size | 1.05em |
+| .mq-md-preview h1, .mq-md-preview h2, .mq-md-preview h3 | font-family | var(--serif) |
+| .mq-md-preview h2 | font-size | 1.25rem |
+| .mq-md-preview h2 | border-left | 3px solid var(--accent) |
+| .mq-md-preview h2 | padding-left | .55rem |
+| .mq-md-preview p | margin | .55rem 0 |
+| .mq-md-preview blockquote | margin | 1rem 0 |
+| .mq-md-preview blockquote | padding | .6rem 1.05rem |
+| .mq-md-preview blockquote | border-left | 3px solid var(--accent) |
+| .mq-math-src | white-space | pre-wrap |
 | .mq-md-empty | color | var(--faint) |
 | .mq-md-empty | font-style | italic |
 | .md-editor | display | flex |

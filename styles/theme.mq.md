@@ -506,6 +506,8 @@ import text:lib/text.mq.md
 | .article .article-body.md > p.has-dropcap::first-letter | padding | .12rem .45rem .05rem 0 |
 | .article .article-body.md > p.has-dropcap::first-letter | color | var(--accent) |
 | .article .katex-display | margin | 1.25rem 0 |
+| .article .katex-display | overflow-x | auto |
+| .article .katex-display | overflow-y | hidden |
 | .article .katex | font-size | 1.08em |
 | .article h2 | margin | 2.4rem 0 .8rem |
 | .article h2 | font-family | var(--serif) |

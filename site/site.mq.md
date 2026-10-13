@@ -169,8 +169,10 @@ Shared bind tables and forms for the journal site.
 | 关系 | 地址 | 推迟 | 版本 |
 |------|------|------|------|
 | stylesheet | "/static/katex/katex.min.css" | | |
+| script | "/static/marked.min.js" | true | |
 | script | "/static/katex/katex.min.js" | true | |
 | script | "/static/katex/auto-render.min.js" | true | |
+| script | "/static/katex-boot.js" | true | |
 
 *`article_assets`*
 
@@ -831,19 +833,23 @@ Build all form handles used by pages and app.mount_form.
     + `css`
     + `post_form`
 
+**aa = > article_assets**
 **intro = > intros.撰写新稿引言**
 **page = > desk_page title="撰写新稿" intro=`intro` css=`css` body_class="desk-admin desk-writing"**
 **page = > kit.bind_form page=`page` form=`post_form` id="post"**
+**page = > kit.page_head page=`page` table=aa**
 *page*
 
 ## publish_edit
     + `css`
     + `edit_form`
 
+**aa = > article_assets**
 **intro = > intros.编辑文章引言**
 **page = > desk_page title="编辑文章" intro=`intro` css=`css` body_class="desk-admin desk-writing"**
 **page = > kit.bind_form page=`page` form=`edit_form` id="post-edit"**
 **page = > kit.form_load page=`page` tbl="posts"**
+**page = > kit.page_head page=`page` table=aa**
 *page*
 
 ## admin_columns
