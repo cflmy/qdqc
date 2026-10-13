@@ -6,7 +6,7 @@
 # syntax=docker/dockerfile:1
 
 ARG MARQDO_VERSION=1.3.0
-ARG MARQDO_EXT_VERSION=1.3.1
+ARG MARQDO_EXT_VERSION=1.3.2
 # 可选：显式覆盖 CLI bundle URL（跳过自动候选列表）
 ARG MARQDO_BUNDLE_URL=
 

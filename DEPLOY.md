@@ -7,7 +7,7 @@
 | Build-arg | 默认 | 含义 |
 |-----------|------|------|
 | `MARQDO_VERSION` | `1.3.0` | Linux CLI bundle（`marqdo` + `lib/`） |
-| `MARQDO_EXT_VERSION` | `1.3.1` | 官方 `ext/` + `native/libweb.so`（OIDC 路径回调等） |
+| `MARQDO_EXT_VERSION` | `1.3.2` | 官方 `ext/` + `native/libweb.so`（trailing slash 路由修复等） |
 
 镜像构建先拉 CLI bundle，再从 CDN [`ext.marqdo.com`](https://ext.marqdo.com) 覆盖 `ext` pack / native zip（GitHub `ext-v*` 为回退）。可用 `MARQDO_BUNDLE_URL` 覆盖 CLI 包 URL。**不要**用当前 `ppa:cflmy/marqdo`（仅到 1.2.0）装 CLI。
 
