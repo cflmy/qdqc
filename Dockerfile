@@ -82,14 +82,15 @@ RUN set -eu; \
       exit 1; \
     fi; \
   }; \
+  CACHE_BUST="?t=20261013v2"; \
   fetch ext \
-    "https://ext.marqdo.com/v${EXT_VER}/${ext_file}" \
-    "https://ext.marqdo.com/latest/${ext_file}" \
+    "https://ext.marqdo.com/v${EXT_VER}/${ext_file}${CACHE_BUST}" \
+    "https://ext.marqdo.com/latest/${ext_file}${CACHE_BUST}" \
     "https://github.com/cflmy/marqdo/releases/download/ext-v${EXT_VER}/${ext_file}" \
     "https://proxy.cflmy.top/github.com/cflmy/marqdo/releases/download/ext-v${EXT_VER}/${ext_file}"; \
   fetch native \
-    "https://ext.marqdo.com/v${EXT_VER}/${native_file}" \
-    "https://ext.marqdo.com/latest/${native_file}" \
+    "https://ext.marqdo.com/v${EXT_VER}/${native_file}${CACHE_BUST}" \
+    "https://ext.marqdo.com/latest/${native_file}${CACHE_BUST}" \
     "https://github.com/cflmy/marqdo/releases/download/ext-v${EXT_VER}/${native_file}" \
     "https://proxy.cflmy.top/github.com/cflmy/marqdo/releases/download/ext-v${EXT_VER}/${native_file}"; \
   rm -rf /tmp/ext-dist /tmp/native-dist; \
